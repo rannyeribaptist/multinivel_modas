@@ -1,0 +1,30 @@
+%p#notice= notice
+
+%p
+  %b Name:
+  = @user.name
+%p
+  %b Role:
+  = @user.role
+%p
+  %b Graduation:
+  = @user.graduation
+%p
+  %b Level:
+  = @user.level
+%p
+  %b Avatar:
+  = @user.avatar
+%p
+  %b Phone:
+  = @user.phone
+%p
+  %b Social security number:
+  = @user.social_security_number
+%p
+  %b Tax number:
+  = @user.tax_number
+
+= link_to 'Edit', edit_user_path(@user)
+\|
+= link_to 'Back', users_path

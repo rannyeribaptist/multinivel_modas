@@ -39,6 +39,7 @@ gem 'bootsnap', '>= 1.4.2', require: false
 
 gem 'devise'
 gem 'devise-i18n'
+gem 'devise_invitable'
 
 group :test do
   # for better unit tests
