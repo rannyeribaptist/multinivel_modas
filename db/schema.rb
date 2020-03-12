@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_11_234654) do
+ActiveRecord::Schema.define(version: 2020_03_12_164243) do
 
   create_table "addresses", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -48,6 +48,42 @@ ActiveRecord::Schema.define(version: 2020_03_11_234654) do
     t.index ["user_id"], name: "index_credit_informations_on_user_id"
   end
 
+  create_table "product_categories", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.string "name"
+    t.bigint "product_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["product_id"], name: "index_product_categories_on_product_id"
+  end
+
+  create_table "product_pictures", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.string "picture"
+    t.bigint "product_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["product_id"], name: "index_product_pictures_on_product_id"
+  end
+
+  create_table "product_sizes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.string "size"
+    t.bigint "product_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["product_id"], name: "index_product_sizes_on_product_id"
+  end
+
+  create_table "products", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "name"
+    t.string "description"
+    t.string "price"
+    t.boolean "hidden"
+    t.string "quantity"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_products_on_user_id"
+  end
+
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "name"
     t.string "role"
@@ -83,4 +119,8 @@ ActiveRecord::Schema.define(version: 2020_03_11_234654) do
   add_foreign_key "addresses", "users"
   add_foreign_key "bank_account_informations", "users"
   add_foreign_key "credit_informations", "users"
+  add_foreign_key "product_categories", "products"
+  add_foreign_key "product_pictures", "products"
+  add_foreign_key "product_sizes", "products"
+  add_foreign_key "products", "users"
 end
