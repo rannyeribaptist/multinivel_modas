@@ -15,6 +15,9 @@ class UsersController < ApplicationController
   # GET /users/new
   def new
     @user = User.new
+    @user.build_address
+    @user.build_credit_information
+    @user.build_bank_account_information
   end
 
   # GET /users/1/edit
@@ -69,6 +72,9 @@ class UsersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def user_params
-      params.require(:user).permit(:name, :role, :graduation, :level, :avatar, :phone, :social_security_number, :tax_number)
+      params.require(:user).permit(:name, :role, :graduation, :level, :avatar, :phone, :social_security_number, :tax_number,
+                                   :address_attributes => [:street, :neightbohood, :city, :state, :number, :complement, :cep],
+                                   :bank_account_information_attributes => [:account_number, :owner_name, :operation, :account_type, :agency_number],
+                                   :credit_information_attributes => [:number, :name, :security_digit, :date])
     end
 end
