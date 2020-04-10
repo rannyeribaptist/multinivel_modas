@@ -59,7 +59,7 @@ RSpec.describe User, type: :model do
     expect(user).not_to be_valid
   end
 
-  it "should not be and admin" do
+  it "should not be an admin" do
     user = User.new(name: "test", email: "test@test.com", graduation: "ouro", level: "2", password: "123123", password_confirmation: "123123", tax_number: "123123")
     user.build_address(street: "test", neightbohood: "test", city: "test", state: "test", number: "test", cep: "test")
     user.build_bank_account_information(account_type: "test", account_number: "test", owner_name: "test", operation: "test", agency_number: "test")

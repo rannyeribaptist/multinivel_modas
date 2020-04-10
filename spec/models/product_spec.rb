@@ -1,8 +1,21 @@
 require 'rails_helper'
 
 RSpec.describe Product, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  it { should validate_presence_of :name }
+  it { should validate_presence_of :description }
+  it { should validate_presence_of :price }
 
-  # validates presence and creation of sub models for it to be valid
-  # Also, need to find a good way to upload product images to the application
+  it "should have at least one size, picture and category" do
+    product = Product.new(name: "teste", description: "teste", price: "teste")
+    product.user = User.new
+
+    product.product_sizes.new(size: "teste")
+    expect(product).not_to be_valid
+
+    product.product_pictures.new(picture: "teste")
+    expect(product).not_to be_valid
+
+    product.product_categories.new(name: "teste")
+    expect(product).to be_valid
+  end
 end
