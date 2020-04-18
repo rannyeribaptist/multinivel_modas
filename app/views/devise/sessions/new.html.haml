@@ -1,0 +1,28 @@
+.section
+  .section__content.text-center
+    = image_tag("logo-horizontal.png", style: "width: 100%; height: auto; max-width: 250px; margin: 0 auto;")
+    %h1.title Login
+
+    = simple_form_for(resource, as: resource_name, url: session_path(resource_name), html: {class: "fancy-form"}) do |f|
+      .form-inputs
+        = f.input :email,                       |
+          required: false,                      |
+          autofocus: true,                      |
+          label: "E-mail",
+          input_html: { autocomplete: "email" }
+        = f.input :password,                               |
+          required: false,                                 |
+          label: "Senha",
+          input_html: { autocomplete: "current-password" }
+
+        %div{style: "display: flex; flex-direction: row; align-items: center"}
+          = f.input :remember_me, as: :boolean, label: false, input_html: {style: "width: auto"} if devise_mapping.rememberable?
+          %label{for: "user[remember_me]", style: "margin-left: 10px; margin-bottom: 2px;"} Lembrar meu login
+
+      %button{type: "submit", class: "button button--full-width button--green"} Entrar
+      %br
+
+    %br
+    = render "devise/shared/links"
+
+    = image_tag("baptist-software.png", style: "width: 100%; height: auto; max-width: 100px; margin: 0 auto;position: absolute; bottom: 0; left: 0; right: 0;margin-bottom: 10px;")

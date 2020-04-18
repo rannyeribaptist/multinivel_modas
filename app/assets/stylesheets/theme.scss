@@ -1,0 +1,47 @@
+// Color Variables, Breakpoints and utils
+@import "components/variables";
+@import "components/section";
+@import "components/split";
+@import "components/text";
+@import "components/button";
+@import "components/columns";
+@import "components/navbar";
+@import "components/testimonial";
+@import "components/color-box";
+@import "components/underline";
+@import "components/card";
+@import "components/footer";
+@import "components/fancy-form";
+@import "components/portfolio-card";
+@import "components/project";
+@import "components/flash";
+
+body {
+  margin: 0;
+  font-family: 'Gotham-Light', sans-serif;
+  line-height: 1.5;
+}
+
+a {
+  text-decoration: none;
+  color: $black;
+}
+
+.center { margin: 0 auto }
+.text-center { text-align: center }
+
+.image {
+  max-width: 100%;
+
+  @include breakpoint("small-up") { max-width: 70% }
+  @include breakpoint("medium") { max-width: 100% }
+}
+
+.field_with_errors {
+  padding: 5px;
+  border: 2px solid red;
+  border-radius: 5px;
+  margin: 5px 0;
+  background-color: white;
+  display: block;
+}

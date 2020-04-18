@@ -1,0 +1,36 @@
+@import "variables";
+
+.split {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  text-align: center;
+
+  @include breakpoint("medium") {
+    flex-direction: row;
+    text-align: left;
+  }
+
+  &--inverted {
+    flex-direction: column-reverse;
+
+    @include breakpoint("medium") { flex-direction: row; }    
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 20px 0;
+
+    @include breakpoint("medium") {
+      width: 50%;
+      padding: 0 50px;
+      margin: 0;
+    }
+
+    @include breakpoint("large") { padding: 0 100px }
+
+    @include colors("background-color");
+  }
+}

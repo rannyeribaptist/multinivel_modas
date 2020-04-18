@@ -1,0 +1,19 @@
+@import "variables";
+
+.button {
+  border: none;
+  border-radius: 10px;
+  padding: 7px 13px;
+  color: white;
+  font-size: 15px;
+  transition: padding 0.2s;
+  cursor: pointer;
+
+  &--full-width { width: 100% }
+
+  &--right {
+    @include breakpoint("small-up") { float: right }
+  }
+
+  @include colors("background-color");
+}

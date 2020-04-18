@@ -1,0 +1,21 @@
+@import "variables";
+
+.fancy-form {
+  text-align: left;
+
+  input, textarea {
+    display: block;
+    width: 93%;
+    height: 27px;
+    margin: 10px 0 15px 0;
+    padding: 5px 10px;
+    font-size: 1rem;
+    background-color: #efefef;
+    border-radius: 10px;
+    border: none;
+  }
+
+  textarea {
+    height: unset;
+  }
+}

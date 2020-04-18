@@ -1,0 +1,72 @@
+@import "variables";
+
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: white;
+  z-index: 999;
+
+  &--active {
+    margin-left: 352px;
+  }
+
+  &__mobile {
+    width: 100%;
+
+    #logo, #logo-project {
+      position: absolute;
+      left: 0;
+      right: 0;
+      margin: 0 auto;
+    }
+
+    @include breakpoint("medium") { display: none }
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0 20px;
+
+    @include breakpoint("touch") { justify-content: space-between }
+    @include breakpoint("limiter");
+  }
+
+  &__form {
+    display: none;
+
+    @include breakpoint("medium") {
+      display: block;
+      margin-left: 10%;
+      width: 50%;
+    }
+  }
+
+  .icon {
+    @include breakpoint("medium") { display: none }
+  }
+
+  &__menu-icon {
+    @include breakpoint("medium") { margin-right: 20px }
+  }
+}
+
+.menu {
+  display: none;
+  width: 300px;
+  padding: 25px;
+  border-right: 2px solid #c2c2c2;
+  height: 100vh;
+  background-color: #efefef;
+
+  &--active {
+    display: block;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+}

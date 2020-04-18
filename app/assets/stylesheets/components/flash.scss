@@ -1,0 +1,21 @@
+@import "variables";
+
+.flash {
+  padding: 10px;
+  position: absolute;
+  width: fit-content;
+  top: 0;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  margin-top: 10px;
+  border-radius: 5px;
+  background-color: white;
+
+  &--success { color: $green; border: 1px solid $green; }
+  &--warning { color: $yellow; border: 1px solid $yellow; }
+  &--danger { color: $red; border: 1px solid $red; }
+  &--alert { color: $red; border: 1px solid $red; }
+  &--notice { color: $blue; border: 1px solid $blue; }
+  &--info { color: $blue; border: 1px solid $blue; }
+}

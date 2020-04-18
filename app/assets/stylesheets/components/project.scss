@@ -1,0 +1,65 @@
+@import "variables";
+
+.project {
+  position: relative;
+  min-height: 90vh;
+
+  &__image {
+    background-color: #4a90e2;
+    text-align: center;
+    height: 400px;
+    overflow: hidden;
+
+    @include breakpoint("medium") {
+      background-color: transparent;
+      min-height: 600px;
+      width: 48%;
+      display: inline-block;
+      margin: 0 20px 0 0;
+    }
+
+    img {
+      height: 100%;
+      max-width: 100%;
+
+      @include breakpoint("medium") {
+        width: 100%;
+        height: auto;
+      }
+    }
+  }
+
+  &__content {
+    text-align: center;
+
+    @include breakpoint("medium") {
+      text-align: justify;
+      vertical-align: top;
+      display: inline-block;
+      width: 48%;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+
+      @include breakpoint("large") {
+        width: 44%;
+        max-width: 650px;
+        position: absolute;
+        left: 0;
+        right: 10%;
+        margin: 0 auto;
+        box-shadow: 0px 0px 10px grey;
+      }
+    }
+  }
+
+  &__floating-text {
+    @include breakpoint("large") {
+      width: 55%;
+      // padding: 0 40px;
+      float: right;
+    }
+  }
+}
