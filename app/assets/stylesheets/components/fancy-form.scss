@@ -3,7 +3,7 @@
 .fancy-form {
   text-align: left;
 
-  input, textarea {
+  input, textarea, select {
     display: block;
     width: 93%;
     height: 27px;
@@ -13,6 +13,11 @@
     background-color: #efefef;
     border-radius: 10px;
     border: none;
+  }
+
+  select {
+    width: 100%;
+    height: 35px;
   }
 
   textarea {

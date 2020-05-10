@@ -60,6 +60,7 @@ $yellow: #ffc406;
     &--pink { color: $pink };
     &--white { color: $white };
     &--green { color: $green };
+    &--yellow { color: $yellow };
   }
 
   @else if $attribute == background-color {
@@ -67,6 +68,7 @@ $yellow: #ffc406;
     &--black { background-color: $black };
     &--pink { background-color: $pink };
     &--green { background-color: $green };
+    &--yellow { background-color: $yellow };
   }
 
   @else if $attribute == border-color {
@@ -74,13 +76,8 @@ $yellow: #ffc406;
     &--black { border-color: $black };
     &--pink { border-color: $pink };
     &--green { border-color: $green };
+    &--yellow { border-color: $yellow };
   }
-}
-
-// Fonts
-@font-face {
-  font-family: "nexabold";
-  src: url("../fonts/Nexa-Bold.otf") format("opentype");
 }
 
 @font-face {

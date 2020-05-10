@@ -4,8 +4,10 @@
   position: fixed;
   top: 0;
   width: 100%;
-  background-color: white;
   z-index: 999;
+  background-position: -240% 70%;
+  background-repeat: no-repeat;
+  border-bottom: 1px solid #3B3B3B;
 
   &--active {
     margin-left: 352px;
@@ -28,7 +30,8 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    padding: 0 20px;
+    padding: 10px 20px;
+    height: 40px;
 
     @include breakpoint("touch") { justify-content: space-between }
     @include breakpoint("limiter");
@@ -69,4 +72,45 @@
     list-style: none;
     padding: 0;
   }
+}
+
+.sidebar {
+  height: 100vh;
+  position: fixed;
+  width: 100%;
+  z-index: 9999;
+  left: -100vw;
+  top: 0;
+  transition: all 0.1s ease-out 0s;
+  background-color: white;
+  overflow: hidden;
+
+  &--active {
+    left: 0;
+  }
+
+  &__content {
+    padding: 15px;
+    position: relative;
+    height: 100%;
+
+    .logo {
+      max-width: 150px;
+      position: absolute;
+      bottom: 8%;
+      margin: 0 auto;
+      left: 0;
+      right: 0;
+    }
+  }
+
+  ul { list-style: none }
+  li { margin: 15px 0; }
+
+  img { float: right }
+}
+
+.page-content {
+  position: relative;
+  margin-top: 61px;
 }

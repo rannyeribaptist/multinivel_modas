@@ -15,6 +15,7 @@
 @import "components/portfolio-card";
 @import "components/project";
 @import "components/flash";
+@import "components/slide";
 
 body {
   margin: 0;
@@ -44,4 +45,23 @@ a {
   margin: 5px 0;
   background-color: white;
   display: block;
+}
+
+.profile-card {
+  display: flex;
+  flex-direction: row;
+  margin: 10% 5%;
+
+  img { border-radius: 50%; margin-right: 20px; }
+
+  &__text {
+    text-align: left;
+    h3 { margin-bottom: 0 }
+  }
+}
+
+.pattern {
+  position: absolute;
+  bottom: -11%;
+  right: -18%;
 }

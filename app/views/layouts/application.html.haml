@@ -2,30 +2,59 @@
 %html
   %head
     %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
-    %title Multinivel Modas
     %meta{:content => "width=device-width, initial-scale=1", :name => "viewport"}/
+
+    %title Multinivel Modas
 
     = csrf_meta_tags
     = csp_meta_tag
 
-    -# jQuery CDN
-    %script{:crossorigin => "anonymous", :integrity => "sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=", :src => "https://code.jquery.com/jquery-3.4.1.min.js"}
-
     = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
 
-    -# Fonts from google fonts
-    %link{:href => "https://fonts.googleapis.com/css2?family=Pacifico&display=swap", :rel => "stylesheet"}/
     -# Css animations
     %link{:href => "https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css", :rel => "stylesheet"}/
+    -# jQuery (including this CDN because for some reason, the jQuery added with yarn on webpacker doesn't respond properly)
+    %script{:crossorigin => "anonymous", :integrity => "sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=", :src => "https://code.jquery.com/jquery-3.5.0.min.js"}
+
   %body
-    = show_flash_messages
-    = yield
+    .navbar{style: "background-image: url(#{asset_path('group_11.svg')})"}
+      .navbar__content
+        %img{src: "https://icongr.am/feather/menu.svg", onclick: "sidebar()"}
+        = image_tag("logo-horizontal.png", style: "max-width: 100px")
+        %img{src: "https://icongr.am/feather/briefcase.svg"}
+
+    .sidebar
+      .sidebar__content
+        %img{src: "https://icongr.am/feather/x.svg", onclick: "sidebar()"}
+
+        .profile-card
+          %img{src: "http://via.placeholder.com/90x90"}
+          .profile-card__text
+            %h3= current_user.name.present? ? current_user.name : "Bem vindo!"
+            %small Seu saldo: R$ 0,00
+
+        %ul
+          %li item
+          %li item
+          %li item
+          %li item
+
+        %img.pattern{src: "#{asset_path('group_11.svg')}"}
+        = image_tag("logo-horizontal.png", class: "logo")
+
+    .page-content
+      = show_flash_messages
+      = yield
 
     :javascript
-      setTimeout(function(){
-        $(".flash").removeClass("animated fadeInDown");
-        $(".flash").addClass("animated fadeOutUp");
-      }, 5000);
-      
+      function sidebar() {
+        var element = $('.sidebar');
+
+        if (element.hasClass('sidebar--active')) {
+          element.removeClass('sidebar--active');
+        } else {
+          element.addClass('sidebar--active');
+        }
+      }
     = yield(:javascript)

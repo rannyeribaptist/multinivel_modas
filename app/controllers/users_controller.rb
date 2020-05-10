@@ -15,9 +15,6 @@ class UsersController < ApplicationController
   # GET /users/new
   def new
     @user = User.new
-    @user.build_address
-    @user.build_credit_information
-    @user.build_bank_account_information
   end
 
   # GET /users/1/edit
@@ -62,6 +59,18 @@ class UsersController < ApplicationController
       format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  # complete the registration proccess
+  def finish_registration
+    @user = current_user
+    @user.build_address
+    @user.build_credit_information
+    @user.build_bank_account_information
+  end
+
+  def dashboard
+    @user = current_user
   end
 
   private

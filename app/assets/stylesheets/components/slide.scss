@@ -1,0 +1,7 @@
+@import "variables";
+
+.slide {
+  display: none;
+
+  &--active { display: block; }
+}

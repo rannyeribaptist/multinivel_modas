@@ -1,0 +1,62 @@
+.section.animated.fadeIn
+  .section__content.text-center
+    %h1.title Hora de concluir seu cadastro
+
+    = simple_form_for current_user, html: { class: "fancy-form" } do |f|
+      = f.error_notification
+      = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
+
+
+      .slide.slide--active.animated.fadeIn#1
+        %h2 Personal
+        = f.input :name, label: "Nome completo"
+        = f.input :role, label: "Eu sou:", as: :select, collection: [["Vendedor", "seller"], ["Consultor", "consultant"], ["Comprador", "client"], ["Franquiado", "franchise"]]
+        = f.input :graduation, input_html: { value: "sênior" }, as: :hidden
+        = f.input :phone, input_html: { 'data-mask': '(00) 00000-0000' }, label: "Telefone"
+        = f.input :social_security_number
+        = f.input :tax_number
+        = f.input :avatar
+
+        %button.button.button--full-width.button--blue.change-slide{type: "button", goTo: "2"} Próximo
+
+      .slide.fadeIn#2
+        %h2 Address
+        = f.simple_fields_for :address do |g|
+          = g.input :street
+          = g.input :neightbohood
+          = g.input :city
+          = g.input :state
+          = g.input :number
+          = g.input :cep
+
+        %button.button.button--full-width.button--blue.change-slide{type: "button", goTo: "3"} Próximo
+        %br
+        %br
+        %button.button.button--full-width.button--yellow.change-slide{type: "button", goTo: "1"} Voltar
+
+      .slide.fadeIn#3
+        %h2 Bank account
+        = f.simple_fields_for :bank_account_information do |h|
+          = h.input :account_number
+          = h.input :owner_name
+          = h.input :operation
+          = h.input :account_type
+          = h.input :agency_number
+
+        %button.button.button--full-width.button--blue.change-slide{type: "button", goTo: "4"} Próximo
+        %br
+        %br
+        %button.button.button--full-width.button--yellow.change-slide{type: "button", goTo: "2"} Voltar
+
+      .slide.fadeIn#4
+        %h2 Credit Card information
+        = f.simple_fields_for :credit_information do |j|
+          = j.input :number
+          = j.input :name
+          = j.input :security_digit
+          = j.input :date
+
+        %button.button.button--full-width.button--green.change-slide{type: "submit"} Concluir
+        %br
+        %br
+        %button.button.button--full-width.button--yellow.change-slide{type: "button", goTo: "3"} Voltar
