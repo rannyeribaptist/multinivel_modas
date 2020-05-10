@@ -1,30 +1,33 @@
-%p#notice= notice
+.section
+  .section__content.text-center
+    %img{src: "http://via.placeholder.com/150x150", style: "border-radius: 50%; width: fit-content; margin: 0 auto"}
+    %h3{style: "margin-bottom: 0"}= @user.name
+    %small= @user.role
 
-%p
-  %b Name:
-  = @user.name
-%p
-  %b Role:
-  = @user.role
-%p
-  %b Graduation:
-  = @user.graduation
-%p
-  %b Level:
-  = @user.level
-%p
-  %b Avatar:
-  = @user.avatar
-%p
-  %b Phone:
-  = @user.phone
-%p
-  %b Social security number:
-  = @user.social_security_number
-%p
-  %b Tax number:
-  = @user.tax_number
+    %div{style: "text-align: left"}
+      %p
+        %b Graduação:
+        = @user.graduation
+      %p
+        %b Telefone:
+        = @user.phone
+      - if @user.social_security_number.present?
+        %p
+          %b CPF:
+          = @user.social_security_number
+      - if @user.tax_number.present?
+        %p
+          %b Tax number:
+          = @user.tax_number
 
-= link_to 'Edit', edit_user_path(@user)
-\|
-= link_to 'Back', users_path
+      %hr
+
+      %h4 Endereço
+
+      NAN
+
+      %hr
+
+      %h4 Informações Bancárias
+
+      NAN
