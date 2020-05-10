@@ -8,26 +8,26 @@
 
 
       .slide.slide--active.animated.fadeIn#1
-        %h2 Personal
+        %h2 Pessoal
         = f.input :name, label: "Nome completo"
         = f.input :role, label: "Eu sou:", as: :select, collection: [["Vendedor", "seller"], ["Consultor", "consultant"], ["Comprador", "client"], ["Franquiado", "franchise"]]
         = f.input :graduation, input_html: { value: "sênior" }, as: :hidden
         = f.input :phone, input_html: { 'data-mask': '(00) 00000-0000' }, label: "Telefone"
-        = f.input :social_security_number
-        = f.input :tax_number
-        = f.input :avatar
+        = f.input :social_security_number, input_html: { 'data-mask': '000.000.000-00' }, label: "CPF (se for pessoa física)"
+        = f.input :tax_number, input_html: { 'data-mask': '00.000.000/0000-00' }, label: "CNPJ (se for pessoa jurídica)"
+        -# = f.input :avatar
 
         %button.button.button--full-width.button--blue.change-slide{type: "button", goTo: "2"} Próximo
 
       .slide.fadeIn#2
-        %h2 Address
+        %h2 Endereço
         = f.simple_fields_for :address do |g|
-          = g.input :street
-          = g.input :neightbohood
-          = g.input :city
-          = g.input :state
-          = g.input :number
-          = g.input :cep
+          = g.input :street, label: "Rua"
+          = g.input :neightbohood, label: "Bairro"
+          = g.input :city, label: "Cidade"
+          = g.input :state, label: "Estado"
+          = g.input :number, label: "Número"
+          = g.input :cep, input_html: { 'data-mask': '00000-00' }, label: "CEP"
 
         %button.button.button--full-width.button--blue.change-slide{type: "button", goTo: "3"} Próximo
         %br
@@ -35,20 +35,21 @@
         %button.button.button--full-width.button--yellow.change-slide{type: "button", goTo: "1"} Voltar
 
       .slide.fadeIn#3
-        %h2 Bank account
+        %h2 Dados Bancários
         = f.simple_fields_for :bank_account_information do |h|
-          = h.input :account_number
-          = h.input :owner_name
-          = h.input :operation
-          = h.input :account_type
-          = h.input :agency_number
+          = h.input :agency_number, label: "Agência"
+          = h.input :account_number, label: "Conta"
+          = h.input :owner_name, label: "Titular"
+          = h.input :operation, label: "Operação"
+          = h.input :account_type, label: "Tipo da conta (corrente / poupança / salário)"
 
-        %button.button.button--full-width.button--blue.change-slide{type: "button", goTo: "4"} Próximo
+        -# %button.button.button--full-width.button--blue.change-slide{type: "button", goTo: "4"} Próximo
+        %button.button.button--full-width.button--green.change-slide{type: "submit"} Concluir
         %br
         %br
         %button.button.button--full-width.button--yellow.change-slide{type: "button", goTo: "2"} Voltar
 
-      .slide.fadeIn#4
+      -# .slide.fadeIn#4
         %h2 Credit Card information
         = f.simple_fields_for :credit_information do |j|
           = j.input :number

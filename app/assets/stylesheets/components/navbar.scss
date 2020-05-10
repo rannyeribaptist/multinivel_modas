@@ -8,6 +8,7 @@
   background-position: -240% 70%;
   background-repeat: no-repeat;
   border-bottom: 1px solid #3B3B3B;
+  background-color: white;
 
   &--active {
     margin-left: 352px;
@@ -97,7 +98,7 @@
     .logo {
       max-width: 150px;
       position: absolute;
-      bottom: 8%;
+      bottom: 15%;
       margin: 0 auto;
       left: 0;
       right: 0;

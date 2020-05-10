@@ -9,7 +9,7 @@
   transition: padding 0.2s;
   cursor: pointer;
 
-  &--full-width { width: 100% }
+  &--full-width { width: 100%; padding: 10px }
 
   &--right {
     @include breakpoint("small-up") { float: right }
