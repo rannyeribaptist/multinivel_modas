@@ -9,6 +9,13 @@
 .column {
   display: inline-block;
 
+  &--1 { width: 99% }
+  &--2 { width: 49% }
+  &--3 { width: 32% }
+  &--4 { width: 24% }
+  &--5 { width: 19% }
+  &--6 { width: 15% }
+
   @include breakpoint("small-up") {
     &--sm-1 { width: 99% }
     &--sm-2 { width: 49% }

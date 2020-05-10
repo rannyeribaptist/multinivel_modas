@@ -16,7 +16,7 @@
     flex-direction: column;
     justify-content: center;
     height: 100%;
-    padding: 30px;
+    padding: 15px;
 
     @include breakpoint("limiter");
     @include breakpoint("small-height") { padding-top: 80px; }

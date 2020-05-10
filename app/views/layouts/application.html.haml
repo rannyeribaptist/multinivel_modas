@@ -18,33 +18,36 @@
     %script{:crossorigin => "anonymous", :integrity => "sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=", :src => "https://code.jquery.com/jquery-3.5.0.min.js"}
 
   %body
-    .navbar{style: "background-image: url(#{asset_path('group_11.svg')})"}
-      .navbar__content
-        %img{src: "https://icongr.am/feather/menu.svg", onclick: "sidebar()"}
-        = image_tag("logo-horizontal.png", style: "max-width: 100px")
-        %img{src: "https://icongr.am/feather/briefcase.svg"}
+    - if current_user.present?
+      .navbar{style: "background-image: url(#{asset_path('group_11.svg')})"}
+        .navbar__content
+          %img{src: "https://icongr.am/feather/menu.svg", onclick: "sidebar()"}
+          = image_tag("logo-horizontal.png", style: "max-width: 100px")
+          %img{src: "https://icongr.am/feather/briefcase.svg"}
 
-    .sidebar
-      .sidebar__content
-        %img{src: "https://icongr.am/feather/x.svg", onclick: "sidebar()"}
+      .sidebar
+        .sidebar__content
+          %img{src: "https://icongr.am/feather/x.svg", onclick: "sidebar()"}
 
-        .profile-card
-          %img{src: "http://via.placeholder.com/90x90"}
-          .profile-card__text
-            %h3= current_user.name.present? ? current_user.name : "Bem vindo!"
-            %small Seu saldo: R$ 0,00
+          .profile-card
+            %img{src: "http://via.placeholder.com/90x90"}
+            .profile-card__text
+              %h3= current_user.name.present? ? current_user.name : "Bem vindo!"
+              %small Seu saldo: R$ 0,00
 
-        %ul
-          %li item
-          %li item
-          %li item
-          %li item
+          %ul
+            %li item
+            %li item
+            %li item
+            %li item
 
-        %img.pattern{src: "#{asset_path('group_11.svg')}"}
-        = image_tag("logo-horizontal.png", class: "logo")
+          %img.pattern{src: "#{asset_path('group_11.svg')}"}
+          = image_tag("logo-horizontal.png", class: "logo")
 
-    .page-content
-      = show_flash_messages
+      .page-content
+        = show_flash_messages
+        = yield
+    - else
       = yield
 
     :javascript
