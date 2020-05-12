@@ -105,8 +105,26 @@
     }
   }
 
-  ul { list-style: none }
-  li { margin: 15px 0; }
+  &__list {
+    list-style: none;
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+
+    li {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
+
+    a {
+      font-weight: bold;
+      margin-left: 10px;
+    }
+    
+    img { float: left }
+  }
 
   img { float: right }
 }

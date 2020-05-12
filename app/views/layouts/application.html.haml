@@ -30,16 +30,33 @@
           %img{src: "https://icongr.am/feather/x.svg", onclick: "sidebar()"}
 
           .profile-card
-            %img{src: "http://via.placeholder.com/90x90"}
+            %img{src: "http://via.placeholder.com/90x90", width: "auto"}
             .profile-card__text
               %h3= current_user.name.present? ? current_user.name : "Bem vindo!"
               %small Seu saldo: R$ 0,00
 
-          %ul
-            %li item
-            %li item
-            %li item
-            %li item
+          %ul.sidebar__list
+            %li
+              %img{src: "https://icongr.am/jam/dashboard.svg"}
+              = link_to "Dashboard", user_dashboard_path
+            %li
+              %img{src: "https://icongr.am/jam/user-circle.svg"}
+              = link_to "Meu perfil", user_path(current_user)
+            - if current_user.role == "seller"
+              %li
+                %img{src: "https://icongr.am/feather/box.svg"}
+                = link_to "Meus produtos", user_path(current_user)
+            - if current_user.role == "consultant" or current_user.role == "client"
+              %li
+                %img{src: "https://icongr.am/feather/box.svg"}
+                = link_to "Meus pedidos", user_path(current_user)
+              %li
+                %img{src: "https://icongr.am/jam/shopping-cart.svg"}
+                = link_to "Comprar", user_path(current_user)
+            - if current_user.role == "consultant"
+              %li
+                %img{src: "https://icongr.am/jam/sitemap.svg"}
+                = link_to "Minha Rede", user_path(current_user)
 
           %img.pattern{src: "#{asset_path('group_11.svg')}"}
           = image_tag("logo-horizontal.png", class: "logo")
