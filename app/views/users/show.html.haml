@@ -25,10 +25,41 @@
 
       %h4 Endereço
 
-      NAN
+      %p
+        %b Rua:
+        = @user.address.street
+      %p
+        %b Bairro:
+        = @user.address.neightbohood
+      %p
+        %b Número:
+        = @user.address.number
+      %p
+        %b Cidade:
+        = @user.address.city
+      %p
+        %b Estado:
+        = @user.address.state
+      %p
+        %b CEP:
+        = @user.address.cep
 
       %hr
 
       %h4 Informações Bancárias
 
-      NAN
+      %p
+        %b Agência:
+        = @user.bank_account_information.agency_number
+      %p
+        %b Conta:
+        = @user.bank_account_information.account_number
+      %p
+        %b Tipo da Conta:
+        = @user.bank_account_information.account_type
+      %p
+        %b Operação:
+        = @user.bank_account_information.operation
+      %p
+        %b Titular da conta:
+        = @user.bank_account_information.owner_name

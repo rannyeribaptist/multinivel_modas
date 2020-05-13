@@ -45,7 +45,7 @@ class UsersController < ApplicationController
         format.html { redirect_to @user, notice: 'User was successfully updated.' }
         format.json { render :show, status: :ok, location: @user }
       else
-        format.html { render :edit }
+        format.html { render :edit, flash: { danger: 'Verifique todos os dados e tente novamente'} }
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
@@ -63,10 +63,14 @@ class UsersController < ApplicationController
 
   # complete the registration proccess
   def finish_registration
-    @user = current_user
-    @user.build_address
-    @user.build_credit_information
-    @user.build_bank_account_information
+    if current_user.address.present?
+      redirect_to user_dashboard_path
+    else
+      @user = current_user
+      @user.build_address
+      @user.build_credit_information
+      @user.build_bank_account_information
+    end
   end
 
   def dashboard
@@ -82,8 +86,8 @@ class UsersController < ApplicationController
     # Only allow a list of trusted parameters through.
     def user_params
       params.require(:user).permit(:name, :role, :graduation, :level, :avatar, :phone, :social_security_number, :tax_number,
-                                   :address_attributes => [:street, :neightbohood, :city, :state, :number, :complement, :cep],
-                                   :bank_account_information_attributes => [:account_number, :owner_name, :operation, :account_type, :agency_number],
-                                   :credit_information_attributes => [:number, :name, :security_digit, :date])
+                                   :address_attributes => [:id, :street, :neightbohood, :city, :state, :number, :complement, :cep],
+                                   :bank_account_information_attributes => [:id, :account_number, :owner_name, :operation, :account_type, :agency_number],
+                                   :credit_information_attributes => [:id, :number, :name, :security_digit, :date])
     end
 end
