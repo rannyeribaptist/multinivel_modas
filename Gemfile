@@ -42,6 +42,9 @@ gem 'devise'
 gem 'devise-i18n'
 gem 'devise_invitable'
 
+# User avatar uploader
+gem 'carrierwave', '~> 2.0'
+
 group :test do
   # for better unit tests
   gem 'shoulda-matchers', '4.0.0.rc1'

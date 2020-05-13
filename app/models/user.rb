@@ -8,6 +8,8 @@ class User < ApplicationRecord
   has_one :bank_account_information, dependent: :destroy
   has_one :credit_information, dependent: :destroy
 
+  mount_uploader :avatar, AvatarUploader
+
   # validates_presence_of :name
   # validates_presence_of :role
   # validates_presence_of :graduation

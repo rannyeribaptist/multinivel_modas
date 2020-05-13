@@ -1,6 +1,6 @@
 .section
   .section__content.text-center
-    %img{src: "http://via.placeholder.com/150x150", style: "border-radius: 50%; width: fit-content; margin: 0 auto"}
+    = image_tag(current_user.avatar.url, style: "border-radius: 50%; width: fit-content; margin: 0 auto; max-width: 100%")
     %h3{style: "margin-bottom: 0"}= @user.name
     %small= @user.role
 
@@ -20,6 +20,7 @@
           %b Tax number:
           = @user.tax_number
 
+      = link_to "Editar perfil", edit_user_path(current_user), class: "button button--blue"
       %hr
 
       %h4 Endereço

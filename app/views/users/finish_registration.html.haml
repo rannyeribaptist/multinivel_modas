@@ -15,7 +15,7 @@
         = f.input :phone, input_html: { 'data-mask': '(00) 00000-0000' }, label: "Telefone"
         = f.input :social_security_number, input_html: { 'data-mask': '000.000.000-00' }, label: "CPF (se for pessoa física)"
         = f.input :tax_number, input_html: { 'data-mask': '00.000.000/0000-00' }, label: "CNPJ (se for pessoa jurídica)"
-        -# = f.input :avatar
+        = f.input :avatar, label: "Foto de perfil"
 
         %button.button.button--full-width.button--blue.change-slide{type: "button", goTo: "2"} Próximo
 

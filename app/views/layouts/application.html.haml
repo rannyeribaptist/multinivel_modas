@@ -30,7 +30,7 @@
           %img{src: "https://icongr.am/feather/x.svg", onclick: "sidebar()"}
 
           .profile-card
-            %img{src: "http://via.placeholder.com/90x90", width: "auto"}
+            = image_tag(current_user.avatar.url)
             .profile-card__text
               %h3= current_user.name.present? ? current_user.name : "Bem vindo!"
               %small Seu saldo: R$ 0,00
