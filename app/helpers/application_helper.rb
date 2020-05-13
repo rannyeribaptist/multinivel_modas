@@ -6,4 +6,8 @@ module ApplicationHelper
       end
     end
   end
+
+  def define_admin
+    redirect_to user_dashboard_path if not current_user.role == "admin"
+  end
 end

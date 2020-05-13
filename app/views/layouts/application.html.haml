@@ -10,7 +10,7 @@
     = csp_meta_tag
 
     = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
-    = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
+    = javascript_pack_tag 'application'
 
     -# Css animations
     %link{:href => "https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css", :rel => "stylesheet"}/
@@ -22,10 +22,11 @@
       .navbar{style: "background-image: url(#{asset_path('group_11.svg')})"}
         .navbar__content
           %img{src: "https://icongr.am/feather/menu.svg", onclick: "sidebar()"}
-          = image_tag("logo-horizontal.png", style: "max-width: 100px")
+          %a{:href => "/", style: "margin-top: 10px"}
+            = image_tag("logo-horizontal.png", style: "max-width: 100px")
           %img{src: "https://icongr.am/feather/briefcase.svg"}
 
-      .sidebar
+      .sidebar#sidebar
         .sidebar__content
           %img{src: "https://icongr.am/feather/x.svg", onclick: "sidebar()"}
 
@@ -61,7 +62,7 @@
           %img.pattern{src: "#{asset_path('group_11.svg')}"}
           = image_tag("logo-horizontal.png", class: "logo")
 
-      .page-content
+      .page-content#content
         = show_flash_messages
         = yield
     - else
