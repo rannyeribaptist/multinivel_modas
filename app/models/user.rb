@@ -4,11 +4,15 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+  after_create :proccess_user_level
+
   has_one :address, dependent: :destroy
   has_one :bank_account_information, dependent: :destroy
   has_one :credit_information, dependent: :destroy
 
   mount_uploader :avatar, AvatarUploader
+
+  serialize :invited_ids, Array
 
   # validates_presence_of :name
   # validates_presence_of :role
@@ -17,6 +21,7 @@ class User < ApplicationRecord
 
   validates :role, acceptance: { accept: ["seller", "consultant", "admin", "client", "franchise"] }
   validates :graduation, acceptance: { accept: ["sênior", "bronze", "prata", "ouro", "diamante", "imperial"] }
+  validates_uniqueness_of :invitation_token
 
   # validate :social_id
   # validate :user_role
@@ -46,5 +51,24 @@ class User < ApplicationRecord
 
   def credit_information_presence(user)
     return false if not user.credit_information.present?
+  end
+
+  private
+
+  def proccess_user_level
+    require 'securerandom'
+
+    user = User.find_by(invitation_token: self.invited_by_token)
+    user.invited_ids += [self.id]
+
+    self.invited_by_id = user.id
+    self.invitation_token = nil
+
+    until self.valid?
+      self.invitation_token = SecureRandom.urlsafe_base64(5)
+    end
+
+    user.save
+    self.save
   end
 end
