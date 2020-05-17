@@ -10,9 +10,15 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
 
   # POST /resource
-  # def create
-  #   super
-  # end
+  def create
+    user = User.find_by(:invitation_token => params[:user][:invited_by_token])
+
+    if not user.present?
+      redirect_back(:fallback_location => "/", flash: {danger: "Verifique se o código digitado está correto e tente novamente"})
+    else
+      super
+    end
+  end
 
   # GET /resource/edit
   # def edit
@@ -42,7 +48,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # If you have extra params to permit, append them to the sanitizer.
   def configure_sign_up_params
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:invited_by_token])
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:invited_by_token, :invitation_token])
   end
 
   # If you have extra params to permit, append them to the sanitizer.
@@ -51,9 +57,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
 
   # The path used after sign up.
-  # def after_sign_up_path_for(resource)
-  #   super(resource)
-  # end
+  def after_sign_up_path_for(resource)
+    finish_registration_url
+  end
 
   # The path used after sign up for inactive accounts.
   # def after_inactive_sign_up_path_for(resource)

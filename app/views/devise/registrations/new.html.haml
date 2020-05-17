@@ -1,3 +1,4 @@
+= show_flash_messages
 .section
   .section__content.text-center
     = image_tag("logo-horizontal.png", style: "width: 100%; height: auto; max-width: 250px; margin: 0 auto;")
@@ -20,10 +21,12 @@
           required: true,                              |
           input_html: { autocomplete: "new-password" },
           label: "Confirmar sua Senha"
+        = f.input :invited_by_token, label: "Código de cadastro"
+        = f.input :invitation_token, as: :hidden, input_html: { value: "00asfd" }
       .form-actions
         %button{type: "submit", class: "button button--full-width button--green"} Cadastrar
 
     %br
     = render "devise/shared/links"
 
-    = image_tag("baptist-software.png", style: "width: 100%; height: auto; max-width: 100px; margin: 0 auto;position: absolute; bottom: 0; left: 0; right: 0;margin-bottom: 10px;")
+    -# = image_tag("baptist-software.png", style: "width: 100%; height: auto; max-width: 100px; margin: 0 auto;position: fixed; bottom: 0; left: 0; right: 0;margin-bottom: 10px;")
