@@ -4,8 +4,14 @@
     %h3{style: "margin-bottom: 0"}= @user.name
     %small= @user.role
     %br
-    	
-    = link_to "Editar perfil", edit_user_path(current_user), class: "button button--blue"
+
+    .columns
+      .column.column--2
+        = link_to edit_user_path(current_user) do
+          %button.button.button--blue Editar informações do perfil
+      .column.column--2
+        = link_to edit_user_registration_path do
+          %button.button.button--yellow Editar informações de login
 
     %div{style: "text-align: left"}
       %p
