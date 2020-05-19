@@ -4,11 +4,12 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  after_create :proccess_user_level
+  after_create :proccess_user_level, :generate_user_url
 
   has_one :address, dependent: :destroy
   has_one :bank_account_information, dependent: :destroy
   has_one :credit_information, dependent: :destroy
+  has_one :url_minifier, dependent: :destroy
 
   mount_uploader :avatar, AvatarUploader
 
@@ -23,8 +24,8 @@ class User < ApplicationRecord
   validates :graduation, acceptance: { accept: ["sênior", "bronze", "prata", "ouro", "diamante", "imperial"] }
 
   validates_uniqueness_of :invitation_token
-  validates_uniqueness_of :social_security_number, only: [:update], :unless => lambda { self.tax_number.present? }
-  validates_uniqueness_of :tax_number, only: [:update], :unless => lambda { self.social_security_number.present? }
+  validates_uniqueness_of :social_security_number, only: :update, :unless => lambda { self.tax_number.present? }
+  validates_uniqueness_of :tax_number, only: :update, :unless => lambda { self.social_security_number.present? }
 
   # validate :social_id
   # validate :user_role
@@ -73,5 +74,14 @@ class User < ApplicationRecord
 
     user.save
     self.save
+  end
+
+  def generate_user_url
+    url = UrlMinifier.new(user_id: self.id, code: self.invitation_token)
+
+    until url.valid?
+      url.number = rand(100000..999999)
+    end
+    url.save
   end
 end

@@ -14,4 +14,6 @@ Rails.application.routes.draw do
   devise_scope :user do
     root to: "devise/sessions#new"
   end
+
+  get "/link/:number", to: "url_minifiers#redirect_url", as: :share_registration_code
 end

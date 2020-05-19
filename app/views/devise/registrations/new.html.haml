@@ -21,6 +21,7 @@
           required: true,                              |
           input_html: { autocomplete: "new-password" },
           label: "Confirmar sua Senha"
+        = f.input :social_security_number, label: "CPF", input_html: { 'data-mask': '000.000.000-00' }
         = f.input :invited_by_token, label: "Código de cadastro"
         = f.input :invitation_token, as: :hidden, input_html: { value: "00asfd" }
       .form-actions
@@ -30,3 +31,8 @@
     = render "devise/shared/links"
 
     -# = image_tag("baptist-software.png", style: "width: 100%; height: auto; max-width: 100px; margin: 0 auto;position: fixed; bottom: 0; left: 0; right: 0;margin-bottom: 10px;")
+
+- content_for :javascript do
+  :javascript
+    let searchParams = new URLSearchParams(window.location.search)
+    $("#user_invited_by_token")[0].value = searchParams.get('token');

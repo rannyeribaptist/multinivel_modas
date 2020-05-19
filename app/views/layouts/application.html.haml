@@ -17,6 +17,7 @@
     -# jQuery (including this CDN because for some reason, the jQuery added with yarn on webpacker doesn't respond properly)
     %script{:crossorigin => "anonymous", :integrity => "sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=", :src => "https://code.jquery.com/jquery-3.5.0.min.js"}
 
+    = yield(:head)
   %body
     - if current_user.present?
       .navbar{style: "background-image: url(#{asset_path('group_11.svg')})"}

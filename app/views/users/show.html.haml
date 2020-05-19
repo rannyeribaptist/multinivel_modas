@@ -13,6 +13,15 @@
         = link_to edit_user_registration_path do
           %button.button.button--yellow Editar informações de login
 
+    .card{style: "color: black"}
+      .card__content
+        %small= "Seu código de convite é: " + @user.invitation_token
+        %br
+        %small Copie esse código e envie para alguém se cadastrar utilizando ele, ou clique no botão abaixo para compartilhar seu link com alguém
+        %br
+        %br
+        %a.button.button--pink{href: "whatsapp://send?text=http://localhost:3000/link/#{@user.url_minifier.number}", "data-action" => "share/whatsapp/share"} Enviar pelo Whatsapp
+
     %div{style: "text-align: left"}
       %p
         %b Graduação:
@@ -24,10 +33,10 @@
         %p
           %b CPF:
           = @user.social_security_number
-      - if @user.tax_number.present?
-        %p
-          %b Tax number:
-          = @user.tax_number
+      -# - if @user.tax_number.present?
+      -#   %p
+      -#     %b Tax number:
+      -#     = @user.tax_number
       %hr
 
       %h4 Endereço
