@@ -10,4 +10,21 @@ module ApplicationHelper
   def define_admin
     redirect_to user_dashboard_path if not current_user.role == "admin"
   end
+
+  def translate_role(role)
+    case role
+    when "seller"
+      return "Fornecedor"
+    when "consultant"
+      return "Consultor"
+    when "admin"
+      return "Administrador"
+    when "client"
+      return "Cliente"
+    when "franchise"
+      return "Franquiado"
+    else
+      return "Não entendi seu nível de permissão filhão..."
+    end
+  end
 end

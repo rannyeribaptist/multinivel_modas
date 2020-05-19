@@ -36,6 +36,8 @@
             .profile-card__text
               %h3= current_user.name.present? ? current_user.name : "Bem vindo!"
               %small Seu saldo: R$ 0,00
+              %br
+              %small= link_to "Sair", destroy_user_session_path, method: :delete, style: "color: tomato"
 
           %ul.sidebar__list
             %li
