@@ -1,0 +1,29 @@
+.section
+  .section__content.text-center
+    %h1.title Minha rede
+
+    %div{style: "text-align: left"}
+      = render partial: "linearity", locals: { resource: current_user }
+
+    -# .network
+    -#   .network__content
+    -#     .network__card
+    -#       = image_tag(current_user.avatar.url)
+    -#       %h3= current_user.name
+    -#       = current_user.graduation
+    -#
+    -#       - if current_user.invited_ids.length > 0
+    -#         %hr.network-vertical
+    -#
+    -#     - if current_user.invited_ids.length > 0
+    -#       .network-linearity
+    -#         .network-linearity__content
+    -#           %hr.network-horizontal
+    -#           - current_user.invited_ids.each do |id|
+    -#             .network__card
+    -#               = image_tag(User.find_by_id(id).avatar.url) if User.find_by_id(id).avatar.present?
+    -#               %h3= User.find_by_id(id).name
+    -#               = User.find_by_id(id).graduation
+    -#               = id
+    -#             - 6.times do |x|
+    -#               - if User.find_by_id(id).invited_ids.length > 0

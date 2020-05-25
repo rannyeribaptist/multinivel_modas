@@ -1,0 +1,23 @@
+- if resource.invited_ids.length > 0
+  - resource.invited_ids.each do |id|
+    .network-card.network-card--line.element{class: "#{number}"}
+      -# = id
+      = image_tag(User.find(id).avatar.thumb.url) if User.find(id).avatar.present?
+      - if not User.find(id).avatar.present?
+        %img{src: "http://via.placeholder.com/50x50"}
+      .network-card__content
+        %text= User.find(id).name.split(" ").first
+        %br
+        %small= User.find(id).graduation
+        - if User.find(id).invited_ids.length > 0
+          %a{onclick: "$('.#{id}').toggle()"} [+]
+      = render partial: "deepness", locals: { resource: User.find(id), number: id }
+      %br
+
+
+-# - if resource.invited_ids.length > 0
+-#   - resource.invited_ids.each do |id|
+-#     %div.element{class: "#{number}", style: "border-left: 2px solid; margin-left: 25px; padding-left: 5px"}
+-#       = id
+-#       = render partial: "linearity", locals: { resource: User.find(id) }
+-#       %br

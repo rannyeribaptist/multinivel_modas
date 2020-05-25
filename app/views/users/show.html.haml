@@ -62,20 +62,21 @@
 
       %hr
 
-      %h4 Informações Bancárias
+      - if @user.bank_account_information.present?
+        %h4 Informações Bancárias
 
-      %p
-        %b Agência:
-        = @user.bank_account_information.agency_number
-      %p
-        %b Conta:
-        = @user.bank_account_information.account_number
-      %p
-        %b Tipo da Conta:
-        = @user.bank_account_information.account_type
-      %p
-        %b Operação:
-        = @user.bank_account_information.operation
-      %p
-        %b Titular da conta:
-        = @user.bank_account_information.owner_name
+        %p
+          %b Agência:
+          = @user.bank_account_information.agency_number
+        %p
+          %b Conta:
+          = @user.bank_account_information.account_number
+        %p
+          %b Tipo da Conta:
+          = @user.bank_account_information.account_type
+        %p
+          %b Operação:
+          = @user.bank_account_information.operation
+        %p
+          %b Titular da conta:
+          = @user.bank_account_information.owner_name

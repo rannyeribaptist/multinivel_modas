@@ -2,6 +2,7 @@ class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
   before_action :define_admin, only: [:index, :new, :destroy]
   before_action :authenticate_user!
+  before_action :validate_registration_of_current_user, only: [:show, :edit, :dashboard, :user_levels]
 
   # GET /users
   # GET /users.json
@@ -77,6 +78,9 @@ class UsersController < ApplicationController
 
   def dashboard
     @user = current_user
+  end
+
+  def user_levels
   end
 
   private

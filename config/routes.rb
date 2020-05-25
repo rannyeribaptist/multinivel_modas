@@ -9,6 +9,8 @@ Rails.application.routes.draw do
 
     resources :products
     resources :users
+
+    get "meus_niveis", to: "users#user_levels", as: :user_levels
   end
 
   devise_scope :user do

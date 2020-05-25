@@ -60,7 +60,7 @@
             - if current_user.role == "consultant"
               %li
                 %img{src: "https://icongr.am/jam/sitemap.svg"}
-                = link_to "Minha Rede", user_path(current_user)
+                = link_to "Minha Rede", user_levels_path
 
           %img.pattern{src: "#{asset_path('group_11.svg')}"}
           = image_tag("logo-horizontal.png", class: "logo")
