@@ -11,10 +11,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # POST /resource
   def create
-    user = User.find_by(:invitation_token => params[:user][:invited_by_token])
-
-    if not user.present?
-      redirect_back(:fallback_location => "/", flash: {danger: "Verifique se o código digitado está correto e tente novamente"})
+    if not params[:user][:tax_number].present? and not params[:user][:social_security_number].present?
+      redirect_back(:fallback_location => "/", flash: {danger: "Você deixou de preencher alguns campos. preencha tudo corretamente e tente novamente"})
     else
       super
     end
@@ -48,7 +46,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # If you have extra params to permit, append them to the sanitizer.
   def configure_sign_up_params
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:invited_by_token, :invitation_token, :social_security_number])
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:invited_by_token, :invitation_token, :social_security_number, :tax_number])
   end
 
   # If you have extra params to permit, append them to the sanitizer.

@@ -21,7 +21,7 @@ class User < ApplicationRecord
   # validates_presence_of :level
 
   validates :role, acceptance: { accept: ["seller", "consultant", "admin", "client", "franchise"] }
-  validates :graduation, acceptance: { accept: ["sênior", "bronze", "prata", "ouro", "diamante", "imperial"] }
+  validates :graduation, acceptance: { accept: ["bronze", "prata", "ouro", "diamante", "imperial", "sênior"] }
 
   validates_uniqueness_of :invitation_token
   validates_uniqueness_of :social_security_number, only: :update, :unless => lambda { self.tax_number.present? }
@@ -62,17 +62,26 @@ class User < ApplicationRecord
   def proccess_user_level
     require 'securerandom'
 
-    user = User.find_by(invitation_token: self.invited_by_token)
-    user.invited_ids += [self.id]
+    if self.invited_by_token.present?
+      user = User.find_by(invitation_token: self.invited_by_token)
+      user.invited_ids += [self.id]
 
-    self.invited_by_id = user.id
-    self.invitation_token = nil
+      self.invited_by_id = user.id
+      self.invitation_token = nil
 
-    until self.valid?
-      self.invitation_token = SecureRandom.urlsafe_base64(5)
+      until self.valid?
+        self.invitation_token = SecureRandom.urlsafe_base64(5)
+      end
+
+      user.save
+    else
+      self.role = "seller"
+
+      until self.valid?
+        self.invitation_token = SecureRandom.urlsafe_base64(5)
+      end
     end
 
-    user.save
     self.save
   end
 

@@ -5,6 +5,7 @@ $pink: #F23D5E;
 $red: #F20505;
 $white: white;
 $grey: #4B4B4B;
+$light-grey: #efefef;
 $green: #35C1AE;
 $yellow: #ffc406;
 
@@ -61,6 +62,8 @@ $yellow: #ffc406;
     &--white { color: $white };
     &--green { color: $green };
     &--yellow { color: $yellow };
+    &--grey { color: $grey };
+    &--light-grey { color: $light-grey };
   }
 
   @else if $attribute == background-color {
@@ -69,6 +72,8 @@ $yellow: #ffc406;
     &--pink { background-color: $pink };
     &--green { background-color: $green };
     &--yellow { background-color: $yellow };
+    &--grey { background-color: $grey };
+    &--light-grey { background-color: $light-grey };
   }
 
   @else if $attribute == border-color {
@@ -77,6 +82,8 @@ $yellow: #ffc406;
     &--pink { border-color: $pink };
     &--green { border-color: $green };
     &--yellow { border-color: $yellow };
+    &--grey { border-color: $grey };
+    &--light-grey { border-color: $light-grey };
   }
 }
 

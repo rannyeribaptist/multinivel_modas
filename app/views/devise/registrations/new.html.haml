@@ -21,9 +21,24 @@
           required: true,                              |
           input_html: { autocomplete: "new-password" },
           label: "Confirmar sua Senha"
-        = f.input :social_security_number, label: "CPF", input_html: { 'data-mask': '000.000.000-00' }
-        = f.input :invited_by_token, label: "Código de cadastro"
-        = f.input :invitation_token, as: :hidden, input_html: { value: "00asfd" }
+        .select-buttons
+          .select-buttons__content
+            .select-buttons__button.select-buttons__button--active{onclick:"toggle_option($(this), 'social_security_number')"}
+              %text Quero usar CPF
+            .select-buttons__button{onclick:"toggle_option($(this), 'tax_number')"}
+              %text Quero usar CNPJ
+        %br
+
+        #social_security_number.option
+          = f.input :social_security_number, label: "CPF", input_html: { 'data-mask': '000.000.000-00' }
+        #tax_number.option{style: "display: none"}
+          = f.input :tax_number, label: "CNPJ", input_html: { 'data-mask': '00.000.000/0000-00' }
+
+        %br
+
+        = f.input :invited_by_token, label: "Código de cadastro (Apenas para consultores do multinível)"
+        %small Ao deixar o código de cadastro em branco, você será automaticamente cadastrado como Fornecedor
+        = f.input :invitation_token, as: :hidden, input_html: { value: "default" }
       .form-actions
         %button{type: "submit", class: "button button--full-width button--green"} Cadastrar
 
@@ -36,3 +51,13 @@
   :javascript
     let searchParams = new URLSearchParams(window.location.search)
     $("#user_invited_by_token")[0].value = searchParams.get('token');
+
+    function toggle_option(button, id) {
+      element = $('#' + id);
+
+      if (element[0].style.display == "none") {
+        $('.option').toggle();
+        $('.select-buttons__button').removeClass('select-buttons__button--active');
+        button.addClass('select-buttons__button--active');
+      }
+    }

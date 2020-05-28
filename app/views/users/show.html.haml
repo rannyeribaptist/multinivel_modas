@@ -2,7 +2,7 @@
   .section__content.text-center
     = image_tag(current_user.avatar.url, style: "border-radius: 50%; width: fit-content; margin: 0 auto; max-width: 100%; max-height: 300px")
     %h3{style: "margin-bottom: 0"}= @user.name
-    %small= translate_role(@user.role)
+    %small= translate_role(@user.role) if not @user.role == "seller"
     %br
 
     .columns
@@ -13,19 +13,21 @@
         = link_to edit_user_registration_path do
           %button.button.button--yellow Editar informações de login
 
-    .card{style: "color: black"}
-      .card__content
-        %small= "Seu código de convite é: " + @user.invitation_token
-        %br
-        %small Copie esse código e envie para alguém se cadastrar utilizando ele, ou clique no botão abaixo para compartilhar seu link com alguém
-        %br
-        %br
-        %a.button.button--pink{href: "whatsapp://send?text=http://localhost:3000/link/#{@user.url_minifier.number}", "data-action" => "share/whatsapp/share"} Enviar pelo Whatsapp
+    - if not @user.role == "seller"
+      .card{style: "color: black"}
+        .card__content
+          %small= "Seu código de convite é: " + @user.invitation_token
+          %br
+          %small Copie esse código e envie para alguém se cadastrar utilizando ele, ou clique no botão abaixo para compartilhar seu link com alguém
+          %br
+          %br
+          %a.button.button--pink{href: "whatsapp://send?text=http://localhost:3000/link/#{@user.url_minifier.number}", "data-action" => "share/whatsapp/share"} Enviar pelo Whatsapp
 
     %div{style: "text-align: left"}
-      %p
-        %b Graduação:
-        = @user.graduation
+      - if not @user.role == "seller"
+        %p
+          %b Graduação:
+          = @user.graduation
       %p
         %b Telefone:
         = @user.phone
@@ -33,10 +35,10 @@
         %p
           %b CPF:
           = @user.social_security_number
-      -# - if @user.tax_number.present?
-      -#   %p
-      -#     %b Tax number:
-      -#     = @user.tax_number
+      - if @user.tax_number.present?
+        %p
+          %b CNPJ:
+          = @user.tax_number
       %hr
 
       %h4 Endereço

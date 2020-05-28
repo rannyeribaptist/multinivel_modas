@@ -5,11 +5,11 @@
   .slide.slide--active.animated.fadeIn#1
     %h2 Pessoal
     = f.input :name, label: "Nome completo"
-    = f.input :role, label: "Eu sou:", as: :select, collection: [["Vendedor", "seller"], ["Consultor", "consultant"], ["Comprador", "client"], ["Franquiado", "franchise"]]
-    = f.input :graduation, input_html: { value: "sênior" }, as: :hidden
+    -# = f.input :role, label: "Eu sou:", as: :select, collection: [["Vendedor", "seller"], ["Consultor", "consultant"], ["Comprador", "client"], ["Franquiado", "franchise"]]
+    = f.input :graduation, input_html: { value: "bronze" }, as: :hidden
     = f.input :phone, input_html: { 'data-mask': '(00) 00000-0000' }, label: "Telefone"
-    = f.input :social_security_number, input_html: { 'data-mask': '000.000.000-00' }, label: "CPF"
-    -# = f.input :tax_number, input_html: { 'data-mask': '00.000.000/0000-00' }, label: "CNPJ (se for pessoa jurídica)"
+    = f.input :social_security_number, input_html: { 'data-mask': '000.000.000-00' }, label: "CPF" if @user.social_security_number.present?
+    = f.input :tax_number, input_html: { 'data-mask': '00.000.000/0000-00' }, label: "CNPJ" if @user.tax_number.present?
     = f.input :avatar, label: "Foto de perfil"
 
     %button.button.button--full-width.button--blue.change-slide{type: "button", goTo: "2"} Próximo
