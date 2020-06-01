@@ -2,11 +2,10 @@
   - resource.invited_ids.each do |id|
     .network-card.network-card--line.element{class: "#{number}"}
       -# = id
-      = image_tag(User.find(id).avatar.thumb.url) if User.find(id).avatar.present?
-      - if not User.find(id).avatar.present?
-        %img{src: "http://via.placeholder.com/50x50"}
+      = image_tag(User.find(id).avatar.thumb.url)
       .network-card__content
-        %text= User.find(id).name.split(" ").first
+        %text= User.find(id).name.split.first if User.find(id).name.present?
+        = id
         %br
         %small= User.find(id).graduation
         - if User.find(id).invited_ids.length > 0
