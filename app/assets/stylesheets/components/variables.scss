@@ -4,9 +4,10 @@ $black: #0D0D0D;
 $pink: #F23D5E;
 $red: #F20505;
 $white: white;
-$grey: #4B4B4B;
-$light-grey: #efefef;
+$gray: #4B4B4B;
+$light-gray: #efefef;
 $green: #35C1AE;
+$light-green: #2ad8a6;
 $yellow: #ffc406;
 
 // Breakpoints
@@ -62,8 +63,8 @@ $yellow: #ffc406;
     &--white { color: $white };
     &--green { color: $green };
     &--yellow { color: $yellow };
-    &--grey { color: $grey };
-    &--light-grey { color: $light-grey };
+    &--gray { color: $gray };
+    &--light-gray { color: $light-gray };
   }
 
   @else if $attribute == background-color {
@@ -71,9 +72,10 @@ $yellow: #ffc406;
     &--black { background-color: $black };
     &--pink { background-color: $pink };
     &--green { background-color: $green };
+    &--light-green { background-color: $light-green };
     &--yellow { background-color: $yellow };
-    &--grey { background-color: $grey };
-    &--light-grey { background-color: $light-grey };
+    &--gray { background-color: $gray };
+    &--light-gray { background-color: $light-gray };
   }
 
   @else if $attribute == border-color {
@@ -82,8 +84,8 @@ $yellow: #ffc406;
     &--pink { border-color: $pink };
     &--green { border-color: $green };
     &--yellow { border-color: $yellow };
-    &--grey { border-color: $grey };
-    &--light-grey { border-color: $light-grey };
+    &--gray { border-color: $gray };
+    &--light-gray { border-color: $light-gray };
   }
 }
 

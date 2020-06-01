@@ -1,5 +1,51 @@
-%h1 New product
+.section.section--light-green.animated.fadeIn{style: "min-height: 91vh; display: flex; align-items: center;"}
+  .section__content.text-center
+    %h1.title Adicionando produto
 
-= render 'form'
+    = simple_form_for(@product, html: { class: "fancy-form" }) do |f|
+      = f.error_notification
+      = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
 
-= link_to 'Back', products_path
+      .slide.slide--active.animated.fadeIn#1
+        = f.input :user, input_html: { value: current_user }, as: :hidden
+        = f.input :name, label: "Nome do produto"
+
+        %button.button.button--full-width.button--pink.change-slide{type: "button", goTo: "2"} Próximo
+
+      .slide.animated.fadeIn#2
+        = f.input :description, label: "descrição do produto", as: :text, input_html: {style: "min-height: 200px"}
+
+        %button.button.button--full-width.button--pink.change-slide{type: "button", goTo: "3"} Próximo
+        %br
+        %br
+        %button.button.button--full-width.button--yellow.change-slide{type: "button", goTo: "1"} Voltar
+
+      .slide.animated.fadeIn#3
+        = f.input :price, label: "Preço do produto", input_html: { 'data-mask': 'R$ 000,00' }
+
+        %button.button.button--full-width.button--pink.change-slide{type: "button", goTo: "4"} Próximo
+        %br
+        %br
+        %button.button.button--full-width.button--yellow.change-slide{type: "button", goTo: "2"} Voltar
+
+      .slide.animated.fadeIn#4
+        #pictures
+          = f.simple_fields_for :product_pictures do |picture|
+            = render 'product_picture_fields', f: picture
+          .links
+            = link_to_add_association ' + ', f, :product_pictures, class: "add-association-button"
+        %br
+
+        %button.button.button--full-width.button--pink.change-slide{type: "button", goTo: "5"} Próximo
+        %br
+        %br
+        %button.button.button--full-width.button--yellow.change-slide{type: "button", goTo: "3"} Voltar
+
+      .slide.animated.fadeIn#5
+        = f.input :hidden, as: :hidden
+        = f.input :quantity, label: "Quantidade disponível em estoque:"
+
+        %button.button.button--full-width.button--green.change-slide{type: "submit"} Concluir
+        %br
+        %br
+        %button.button.button--full-width.button--yellow.change-slide{type: "button", goTo: "4"} Voltar

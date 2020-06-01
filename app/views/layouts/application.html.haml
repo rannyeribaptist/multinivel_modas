@@ -49,7 +49,7 @@
             - if current_user.role == "seller"
               %li
                 %img{src: "https://icongr.am/feather/box.svg"}
-                = link_to "Meus produtos", user_path(current_user)
+                = link_to "Meus produtos", products_path
             - if current_user.role == "consultant" or current_user.role == "client"
               %li
                 %img{src: "https://icongr.am/feather/box.svg"}

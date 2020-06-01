@@ -44,6 +44,9 @@ gem 'devise-i18n'
 # User avatar uploader
 gem 'carrierwave', '~> 2.0'
 
+# Dynamic nested models management
+gem "cocoon"
+
 group :test do
   # for better unit tests
   gem 'shoulda-matchers', '4.0.0.rc1'
