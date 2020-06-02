@@ -265,3 +265,7 @@ $(document).ready(function () {
 
 })(jQuery);
 })
+
+$(document).ready(function() {
+  $('#money').mask("R$ ###,00");
+})
