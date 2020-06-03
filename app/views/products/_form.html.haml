@@ -1,15 +1,22 @@
--# frozen_string_literal: true
 = simple_form_for(@product, html: { class: "fancy-form" }) do |f|
   = f.error_notification
   = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
 
-  .form-inputs
-    = f.association :user
-    = f.input :name
-    = f.input :description
-    = f.input :price
-    = f.input :hidden
-    = f.input :quantity
+  = f.input :name, label: "Nome do produto"
+  = f.input :description, label: "descrição do produto", as: :text, input_html: {style: "min-height: 200px"}
+  = f.input :price, label: "Preço do produto", input_html: { id: "money" }
 
-  .form-actions
-    = f.button :submit
+  #pictures
+    = f.simple_fields_for :product_pictures do |picture|
+      = render 'product_picture_fields', f: picture
+    .links
+      = link_to_add_association ' + ', f, :product_pictures, class: "add-association-button"
+  %br
+
+  = f.input :categories, label: "Categorias do produto", as: :select, collection: ProductCategory.all, label_method: lambda { |category| "#{category.name}" }, input_html: { multiple: true, style: "min-height: 250px" }
+  = f.input :sizes, label: "Tamanhos disponíveis do produto", as: :select, collection: ProductSize.all, label_method: ProductSize.name, label_method: lambda { |size| "#{size.size}" }, input_html: { multiple: true, style: "min-height: 250px" }
+
+  = f.input :hidden, as: :hidden
+  = f.input :quantity, label: "Quantidade disponível em estoque:"
+
+  %button.button.button--green.button--full-width{type: "submit"} Salvar

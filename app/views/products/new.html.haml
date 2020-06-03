@@ -42,7 +42,7 @@
         %button.button.button--full-width.button--yellow.change-slide{type: "button", goTo: "3"} Voltar
 
       .slide.animated.fadeIn#5
-        = f.input :categories, label: "Categories do produto", as: :select, collection: ProductCategory.all, label_method: lambda { |category| "#{category.name}" }, input_html: { multiple: true, style: "min-height: 250px" }
+        = f.input :categories, label: "Categorias do produto", as: :select, collection: ProductCategory.all, label_method: lambda { |category| "#{category.name}" }, input_html: { multiple: true, style: "min-height: 250px" }
 
         %button.button.button--full-width.button--pink.change-slide{type: "button", goTo: "6"} Próximo
         %br
@@ -50,7 +50,7 @@
         %button.button.button--full-width.button--yellow.change-slide{type: "button", goTo: "4"} Voltar
 
       .slide.animated.fadeIn#6
-        = f.input :categories, label: "Tamanhos disponíveis do produto", as: :select, collection: ProductSize.all, label_method: ProductSize.name, label_method: lambda { |size| "#{size.size}" }, input_html: { multiple: true, style: "min-height: 250px" }
+        = f.input :sizes, label: "Tamanhos disponíveis do produto", as: :select, collection: ProductSize.all, label_method: ProductSize.name, label_method: lambda { |size| "#{size.size}" }, input_html: { multiple: true, style: "min-height: 250px" }
 
         %button.button.button--full-width.button--pink.change-slide{type: "button", goTo: "7"} Próximo
         %br

@@ -10,6 +10,7 @@ class User < ApplicationRecord
   has_one :bank_account_information, dependent: :destroy
   has_one :credit_information, dependent: :destroy
   has_one :url_minifier, dependent: :destroy
+  has_many :products
 
   mount_uploader :avatar, AvatarUploader
 

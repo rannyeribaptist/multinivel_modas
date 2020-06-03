@@ -1,31 +1,25 @@
-%h1 Listing products
+.section.text-center
+  .section__content
+    %h1.title Meus Produtos
 
-%table
-  %thead
-    %tr
-      %th User
-      %th Name
-      %th Description
-      %th Price
-      %th Hidden
-      %th Quantity
-      %th
-      %th
-      %th
+    - current_user.products.each do |product|
+      .product_card
+        .product_card__actions
+          = link_to product do
+            %img.see{src: "https://icongr.am/clarity/eye.svg?color=13B3F2"}
+          = link_to edit_product_url(product) do
+            %img.edit{src: "https://icongr.am/clarity/pencil.svg?color=ffc406"}
+          = link_to product, method: :delete, data: { confirm: 'Tem certeza que deseja excluir este produto?' } do
+            %img.destroy{src: "https://icongr.am/clarity/trash.svg?color=F20505"}
 
-  %tbody
-    - @products.each do |product|
-      %tr
-        %td= product.user
-        %td= product.name
-        %td= product.description
-        %td= product.price
-        %td= product.hidden
-        %td= product.quantity
-        %td= link_to 'Show', product
-        %td= link_to 'Edit', edit_product_path(product)
-        %td= link_to 'Destroy', product, method: :delete, data: { confirm: 'Are you sure?' }
+        = image_tag(product.product_pictures.first.picture.url, class: "product_card__picture")
 
-%br
+        .product_card__content
+          %h3{style: "margin-bottom: 0"}= product.name
+          = product.price
+          %br
+          = "Estoque: " + product.quantity + " Unidades"
 
-= link_to 'New Product', new_product_path
+      %br
+      %hr{style: "width: 100%;"}
+      %br

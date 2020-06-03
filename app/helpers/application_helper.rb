@@ -27,4 +27,12 @@ module ApplicationHelper
       return "Não entendi seu nível de permissão filhão..."
     end
   end
+
+  def translate_boolean(bool)
+    if bool.present?
+      bool == true ? "Sim" : "Não"
+    else
+      return "Sim"
+    end
+  end
 end
