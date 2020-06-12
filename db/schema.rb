@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_12_022751) do
+ActiveRecord::Schema.define(version: 2020_06_12_163232) do
 
   create_table "addresses", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -36,6 +36,15 @@ ActiveRecord::Schema.define(version: 2020_06_12_022751) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_bank_account_informations_on_user_id"
+  end
+
+  create_table "cats", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.bigint "product_id", null: false
+    t.bigint "product_category_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["product_category_id"], name: "index_cats_on_product_category_id"
+    t.index ["product_id"], name: "index_cats_on_product_id"
   end
 
   create_table "credit_informations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
@@ -119,6 +128,8 @@ ActiveRecord::Schema.define(version: 2020_06_12_022751) do
 
   add_foreign_key "addresses", "users"
   add_foreign_key "bank_account_informations", "users"
+  add_foreign_key "cats", "product_categories"
+  add_foreign_key "cats", "products"
   add_foreign_key "credit_informations", "users"
   add_foreign_key "product_pictures", "products"
   add_foreign_key "products", "users"

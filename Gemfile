@@ -47,6 +47,10 @@ gem 'carrierwave', '~> 2.0'
 # Dynamic nested models management
 gem "cocoon"
 
+# Filterrific is a Rails Engine plugin that makes it easy to filter, search, and sort your ActiveRecord lists.
+gem 'filterrific'
+gem 'will_paginate', '~> 3.1.0'
+
 group :test do
   # for better unit tests
   gem 'shoulda-matchers', '4.0.0.rc1'

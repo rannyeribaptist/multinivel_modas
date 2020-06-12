@@ -1,0 +1,32 @@
+#filterrific_results
+  - products.each do |product|
+    .product
+      .product__head
+        = image_tag(User.find(product.user_id).avatar.url)
+        %h3= Product.name
+        %img.more{src: "https://icongr.am/feather/more-vertical.svg"}
+        .product__more
+          💚
+          %a{:href => "#", style: "margin-left: 10px"} Favoritar
+          %br
+          %br
+          ❗
+          %a{:href => "#", style: "margin-left: 10px"} Denunciar
+      .product__pics
+        - product.product_pictures.each do |pic|
+          %img{src: "#{pic.picture.url}", style: "height: 360px"}
+      .product__footer
+        - product.sizes.each do |id|
+          - if id.length > 0
+            %input{type: "radio", name: "#{product.id}_size", id: "#{product.id}#{ProductSize.find(id).size}", style: "display: none"}
+            %button{class: "size-button sb#{product.id}",type: "radio", "data-toggle" => "#{product.id}#{ProductSize.find(id).size}", "product-id" => "#{product.id}"}= ProductSize.find(id).size
+        %br
+        %br
+        = product.price
+        %br
+        =product.description
+        %br
+        %br
+        %button.button.button--full-width.button--green Adicionar ao carrinho
+
+  = will_paginate products
