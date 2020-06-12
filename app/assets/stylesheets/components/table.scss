@@ -1,0 +1,32 @@
+@import "variables";
+
+.table {
+  width: 100%;
+
+  @media screen and (max-width: 720px) {
+    max-width: 100%;
+    overflow-x: scroll;
+  }
+
+  &--transparent {
+    tr { background-color: transparent }
+    tr:nth-child(even) { background-color: #ffffff57 }
+    th, td {border-bottom: none;}
+  }
+}
+
+table {
+	border-collapse: collapse;
+}
+
+th, td {
+	border-bottom: 1px solid #ddd;
+	padding: 10px;
+	text-align: left;
+}
+
+tr {
+  background-color: white;
+}
+
+tr:nth-child(even) {background-color: $light-gray}

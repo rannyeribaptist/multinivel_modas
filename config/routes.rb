@@ -9,9 +9,12 @@ Rails.application.routes.draw do
 
     resources :products
     resources :users
+    resources :product_sizes
+    resources :product_categories
 
     get "meus_niveis", to: "users#user_levels", as: :user_levels
     get "store", to: "products#store", as: :store
+    get "settings", to: "application#settings", as: :settings
   end
 
   devise_scope :user do

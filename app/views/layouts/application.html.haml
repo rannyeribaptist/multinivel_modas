@@ -46,7 +46,7 @@
             %li
               %img{src: "https://icongr.am/jam/user-circle.svg"}
               = link_to "Meu perfil", user_path(current_user)
-            - if current_user.role == "seller"
+            - if current_user.role == "seller" or current_user.role == "admin"
               %li
                 %img{src: "https://icongr.am/feather/box.svg"}
                 = link_to "Meus produtos", products_path
@@ -57,10 +57,20 @@
               %li
                 %img{src: "https://icongr.am/jam/shopping-cart.svg"}
                 = link_to "Comprar", user_path(current_user)
-            - if current_user.role == "consultant"
+            - if current_user.role == "consultant" or current_user.role == "admin"
               %li
                 %img{src: "https://icongr.am/jam/sitemap.svg"}
                 = link_to "Minha Rede", user_levels_path
+            - if current_user.role == "admin"
+              %li
+                %img{src: "https://icongr.am/jam/box.svg"}
+                = link_to "Produtos", products_path
+              %li
+                %img{src: "https://icongr.am/jam/user.svg"}
+                = link_to "Usuários", users_path
+              %li
+                %img{src: "https://icongr.am/jam/cog.svg"}
+                = link_to "Configurações", settings_path
 
           %img.pattern{src: "#{asset_path('group_11.svg')}"}
           = image_tag("logo-horizontal.png", class: "logo")
