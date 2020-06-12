@@ -1,0 +1,43 @@
+.categories
+  .categories__content
+    - ProductCategory.all.each do |category|
+      .category
+        %img{src: "http://via.placeholder.com/50x50"}
+        %br
+        = category.name
+
+- Product.all.each do |product|
+  .product
+    .product__head
+      = image_tag(User.find(product.user_id).avatar.url)
+      %h3{style: "margin-left: 15px"}= Product.name
+    .product__pics
+      - product.product_pictures.each do |pic|
+        %img{src: "#{pic.picture.url}", style: "height: 360px"}
+    .product__footer
+      - product.sizes.each do |id|
+        - if id.length > 0
+          %button.size-button= ProductSize.find(id).size
+      %br
+      %br
+      = product.price
+      %br
+      =product.description
+      %br
+      %br
+      %button.button.button--full-width.button--green Adicionar ao carrinho
+
+
+- content_for :head do
+  %link{:href => "https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css", :rel => "stylesheet", :type => "text/css"}/
+  %link{:href => "https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css", :rel => "stylesheet", :type => "text/css"}/
+
+- content_for :javascript do
+  %script{src: "https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js", type: "text/javascript"}
+
+  :javascript
+    $(document).ready(function(){
+      $('.product__pics').slick({
+        infinite: false
+      });
+    });

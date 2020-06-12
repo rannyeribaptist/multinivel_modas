@@ -5,6 +5,10 @@ class ProductsController < ApplicationController
   # GET /products
   # GET /products.json
   def index
+    @products = Product.where(:user => current_user)
+  end
+
+  def store
     @products = Product.all
   end
 

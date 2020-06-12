@@ -2,7 +2,7 @@
   .section__content
     %h1.title Meus Produtos
 
-    - current_user.products.each do |product|
+    - @products.each do |product|
       .product_card
         .product_card__actions
           = link_to product do

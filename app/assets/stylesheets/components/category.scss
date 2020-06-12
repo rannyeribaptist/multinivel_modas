@@ -1,0 +1,21 @@
+@import "variables";
+
+.categories {
+  height: 90px;
+  border-bottom: 1px solid $light-gray;
+  padding-bottom: 5px;
+
+  &__content {
+    white-space: nowrap;
+    overflow: scroll;
+    padding: 10px;
+  }
+}
+
+.category {
+  display: inline-block;
+  text-align: center;
+  width: 80px;
+
+  img { border-radius: 50%; padding: 2px; background: linear-gradient(45deg, $green, $blue) }
+}

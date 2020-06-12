@@ -11,6 +11,7 @@ Rails.application.routes.draw do
     resources :users
 
     get "meus_niveis", to: "users#user_levels", as: :user_levels
+    get "store", to: "products#store", as: :store
   end
 
   devise_scope :user do
