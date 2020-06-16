@@ -1,0 +1,32 @@
+.section
+  .section__content.text-center
+    - if @shopping_cart.shopping_cart_items.count > 0
+      %h1.title Carrinho de compras
+
+      .table
+        %table.table
+          %thead
+            %tr
+              %th #
+              %th Nome
+              %th Tam.
+              %th Quant.
+              %th
+          %tbody#results
+            = render(partial: "shopping_carts/list", locals: { shopping_cart: @shopping_cart })
+
+      %br
+
+      %button.button.button--green Finalizar compra
+      %br    
+      %button.button.button--pink.button--full-width{onclick: "$('.modal').toggle()"} Continuar Comprando
+
+    - else
+      %h1.title Seu carrinho está vazio, porquê não adiciona algo?
+
+      = image_tag("logo-vertical.png", style: "width: 100%; height: auto")
+
+      %br
+
+      = link_to :store do
+        %button.button.button--green.button--full-width Ir à loja

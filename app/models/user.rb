@@ -4,12 +4,13 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  after_create :proccess_user_level, :generate_user_url
+  after_create :proccess_user_level, :generate_user_url, :create_shopping_cart
 
   has_one :address, dependent: :destroy
   has_one :bank_account_information, dependent: :destroy
   has_one :credit_information, dependent: :destroy
   has_one :url_minifier, dependent: :destroy
+  has_one :shopping_cart, dependent: :destroy
   has_many :products
 
   mount_uploader :avatar, AvatarUploader
@@ -83,6 +84,11 @@ class User < ApplicationRecord
       end
     end
 
+    self.save
+  end
+
+  def create_shopping_cart
+    self.shopping_cart.build
     self.save
   end
 

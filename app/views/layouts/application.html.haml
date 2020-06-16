@@ -25,7 +25,7 @@
           %img{src: "https://icongr.am/feather/menu.svg", onclick: "sidebar()"}
           %a{:href => "/", style: "margin-top: 10px"}
             = image_tag("logo-horizontal.png", style: "max-width: 100px")
-          %img{src: "https://icongr.am/feather/briefcase.svg"}
+          %img{src: "https://icongr.am/feather/briefcase.svg", onclick: "$('.modal').toggle()"}
 
       .sidebar#sidebar
         .sidebar__content
@@ -80,6 +80,7 @@
         = yield
     - else
       = yield
+    = yield(:modal)
 
     :javascript
       function sidebar() {

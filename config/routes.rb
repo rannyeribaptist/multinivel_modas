@@ -11,10 +11,14 @@ Rails.application.routes.draw do
     resources :users
     resources :product_sizes
     resources :product_categories
+    resources :shopping_carts
 
     get "meus_niveis", to: "users#user_levels", as: :user_levels
     get "store", to: "products#store", as: :store
     get "settings", to: "application#settings", as: :settings
+
+    get "store/add_item/:product_id&:size", to: "shopping_carts#add_item", as: :add_item
+    get "store/remove_item/:item_id", to: "shopping_carts#remove_item", as: :remove_item
   end
 
   devise_scope :user do

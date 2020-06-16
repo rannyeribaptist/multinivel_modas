@@ -1,0 +1,14 @@
+- shopping_cart.shopping_cart_items.each do |item|
+  %tr
+    %td
+      = image_tag(Product.find(item.product_id).product_pictures.first.picture.thumb.url)
+    %td= item.product.name
+    %td= item.size
+    %td
+      = simple_form_for shopping_cart, html: { class: "fancy-form" }, remote: true, method: :patch do |f|
+        = f.simple_fields_for :shopping_cart_items, item do |g|
+          = g.input :quantity, label: false, input_html: { style: "max-width: 10px; border: 0.5px solid grey", "data-toggle" => "#{item.id}" }
+        = f.submit "submit", id: "submit_quantity_#{item.id}", style: "display: none"
+    %td
+      = link_to remove_item_path(:item_id => item.id), data: { confirm: 'Remover item?' }, remote: true do
+        %img.destroy{src: "https://icongr.am/clarity/trash.svg?color=F20505", style: "max-width: 20px"}

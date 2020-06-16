@@ -13,6 +13,12 @@
 
 = render(partial: 'products/list', locals: { products: @products })
 
+- content_for :modal do
+  .modal
+    %img.modal__close{src: "https://icongr.am/feather/x.svg", onclick: "$('.modal').toggle()"}
+    .modal__content
+      = render partial: "shopping_carts/show", shopping_cart: @shopping_cart
+
 - content_for :head do
   %link{:href => "https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css", :rel => "stylesheet", :type => "text/css"}/
   %link{:href => "https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css", :rel => "stylesheet", :type => "text/css"}/

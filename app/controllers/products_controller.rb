@@ -9,6 +9,7 @@ class ProductsController < ApplicationController
   end
 
   def store
+    @shopping_cart = current_user.shopping_cart
     @filterrific = initialize_filterrific(
       Product,
       params[:filterrific],

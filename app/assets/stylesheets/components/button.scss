@@ -15,6 +15,10 @@
     @include breakpoint("small-up") { float: right }
   }
 
+  &:disabled {
+    background-color: $light-gray !important;
+  }
+
   @include colors("background-color");
 }
 

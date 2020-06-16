@@ -253,11 +253,10 @@ $(document).ready(function () {
     }
   });
 
-
   $(document).on("ready page:load turbolinks:load", function() {
     $('.remove_fields.existing.destroyed').each(function(i, obj) {
       var $this = $(this),
-          wrapper_class = $this.data('wrapper-class') || 'nested-fields';
+      wrapper_class = $this.data('wrapper-class') || 'nested-fields';
 
       $this.closest('.' + wrapper_class).hide();
     });
@@ -269,3 +268,13 @@ $(document).ready(function () {
 $(document).ready(function() {
   $('#money').mask("R$ ###,00");
 })
+
+$(document).ready(function() {
+  $(".numeric").keypress(function() {
+    var id = $(this).attr("data-toggle");
+
+    setTimeout(function() {
+      $('#submit_quantity_' + id).click();
+    }, 1000);
+  });
+});

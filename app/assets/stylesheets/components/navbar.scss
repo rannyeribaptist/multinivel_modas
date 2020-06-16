@@ -4,7 +4,7 @@
   position: fixed;
   top: 0;
   width: 100%;
-  z-index: 999;
+  z-index: 9999;
   background-position: -240% 70%;
   background-repeat: no-repeat;
   border-bottom: 1px solid #3B3B3B;
@@ -108,7 +108,7 @@
   &__list {
     position: absolute;
     z-index: 999;
-    
+
     list-style: none;
     height: 50%;
     display: flex;
