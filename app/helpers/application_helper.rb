@@ -35,4 +35,18 @@ module ApplicationHelper
       return "Sim"
     end
   end
+
+  def sum_items(cart)
+    total = 0
+
+    cart.shopping_cart_items.each do |item|
+      total += item.product.price.to_f * item.quantity
+    end
+
+    return show_price(total)
+  end
+
+  def show_price(price)
+    return "R$ " + price.to_s.gsub(".", ",")
+  end
 end

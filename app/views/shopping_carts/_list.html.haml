@@ -5,10 +5,30 @@
     %td= item.product.name
     %td= item.size
     %td
-      = simple_form_for shopping_cart, html: { class: "fancy-form" }, remote: true, method: :patch do |f|
+      = simple_form_for shopping_cart, html: { class: "fancy-form", id: "edit_item_#{item.id}" }, remote: true, method: :patch do |f|
         = f.simple_fields_for :shopping_cart_items, item do |g|
-          = g.input :quantity, label: false, input_html: { style: "max-width: 10px; border: 0.5px solid grey", "data-toggle" => "#{item.id}" }
+          = g.input :quantity, label: false, input_html: { style: "max-width: 10px; border: 0.5px solid grey", "data-toggle" => "#{item.id}", id: "item_#{item.id}", onkeypress: "changeQuantity($(this))" }
         = f.submit "submit", id: "submit_quantity_#{item.id}", style: "display: none"
+    %td= show_price(item.product.price)
     %td
-      = link_to remove_item_path(:item_id => item.id), data: { confirm: 'Remover item?' }, remote: true do
+      = link_to remove_item_path(:item_id => item.id), data: { confirm: 'Remover item?' }, remote: true, input_html: { id: "remove_#{item.id}" } do
         %img.destroy{src: "https://icongr.am/clarity/trash.svg?color=F20505", style: "max-width: 20px"}
+%tr
+  %td
+  %td
+  %td
+  %td
+    %strong Total:
+  %td#total
+    = sum_items(@shopping_cart)
+  %td
+
+- content_for :javascript do
+  :javascript
+    function changeQuantity(element) {
+      var id = element.attr("data-toggle");
+
+      setTimeout(function() {
+        $('#submit_quantity_' + id).click();
+      }, 1000);
+    }

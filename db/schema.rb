@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_12_174013) do
+ActiveRecord::Schema.define(version: 2020_06_18_011944) do
 
   create_table "addresses", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -93,6 +93,17 @@ ActiveRecord::Schema.define(version: 2020_06_12_174013) do
     t.index ["user_id"], name: "index_products_on_user_id"
   end
 
+  create_table "purchases", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "payment_method"
+    t.string "value"
+    t.bigint "address_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["address_id"], name: "index_purchases_on_address_id"
+    t.index ["user_id"], name: "index_purchases_on_user_id"
+  end
+
   create_table "shopping_cart_items", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.bigint "shopping_cart_id", null: false
     t.bigint "product_id"
@@ -151,6 +162,8 @@ ActiveRecord::Schema.define(version: 2020_06_12_174013) do
   add_foreign_key "credit_informations", "users"
   add_foreign_key "product_pictures", "products"
   add_foreign_key "products", "users"
+  add_foreign_key "purchases", "addresses"
+  add_foreign_key "purchases", "users"
   add_foreign_key "shopping_cart_items", "shopping_carts"
   add_foreign_key "shopping_carts", "users"
   add_foreign_key "url_minifiers", "users"

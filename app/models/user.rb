@@ -11,7 +11,9 @@ class User < ApplicationRecord
   has_one :credit_information, dependent: :destroy
   has_one :url_minifier, dependent: :destroy
   has_one :shopping_cart, dependent: :destroy
+
   has_many :products
+  has_many :purchases, dependent: :destroy
 
   mount_uploader :avatar, AvatarUploader
 

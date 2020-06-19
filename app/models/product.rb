@@ -12,6 +12,7 @@ class Product < ApplicationRecord
   serialize :categories, Array
   serialize :sizes, Array
 
+  before_save :clean_product_value
   # after_save :set_product_value
 
   self.per_page = 10
@@ -47,6 +48,10 @@ class Product < ApplicationRecord
   end
 
   private
+
+  def clean_product_value
+    self.price = self.price[3..self.price.length].gsub(".", "").gsub(",", ".").to_f
+  end
 
   def product_pictures_presence
     if not self.product_pictures.any?

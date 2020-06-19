@@ -11,14 +11,15 @@
               %th Nome
               %th Tam.
               %th Quant.
+              %th{style: "min-width: 70px"} Preço un.
               %th
           %tbody#results
-            = render(partial: "shopping_carts/list", locals: { shopping_cart: @shopping_cart })
+            = render(partial: "shopping_carts/list", locals: { shopping_cart: @shopping_cart })            
 
       %br
 
       %button.button.button--green Finalizar compra
-      %br    
+      %br
       %button.button.button--pink.button--full-width{onclick: "$('.modal').toggle()"} Continuar Comprando
 
     - else

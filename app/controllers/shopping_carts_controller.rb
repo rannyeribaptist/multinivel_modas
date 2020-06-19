@@ -45,11 +45,7 @@ class ShoppingCartsController < ApplicationController
   def update
     respond_to do |format|
       if @shopping_cart.update(shopping_cart_params)
-        format.html { redirect_to @shopping_cart, notice: 'Shopping cart was successfully created.' }
-        format.json { render :show, status: :created, location: @shopping_cart }
-      else
-        format.html { render :new }
-        format.json { render json: @shopping_cart.errors, status: :unprocessable_entity }
+        format.js
       end
     end
   end

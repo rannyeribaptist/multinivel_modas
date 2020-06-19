@@ -263,18 +263,8 @@ $(document).ready(function () {
   });
 
 })(jQuery);
-})
+});
 
 $(document).ready(function() {
   $('#money').mask("R$ ###,00");
-})
-
-$(document).ready(function() {
-  $(".numeric").keypress(function() {
-    var id = $(this).attr("data-toggle");
-
-    setTimeout(function() {
-      $('#submit_quantity_' + id).click();
-    }, 1000);
-  });
 });

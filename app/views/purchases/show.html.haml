@@ -1,0 +1,18 @@
+%p#notice= notice
+
+%p
+  %b User:
+  = @purchase.user
+%p
+  %b Payment method:
+  = @purchase.payment_method
+%p
+  %b Value:
+  = @purchase.value
+%p
+  %b Address:
+  = @purchase.address
+
+= link_to 'Edit', edit_purchase_path(@purchase)
+\|
+= link_to 'Back', purchases_path
