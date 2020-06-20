@@ -266,5 +266,5 @@ $(document).ready(function () {
 });
 
 $(document).ready(function() {
-  $('#money').mask("R$ ###,00");
+  $('#money').mask("000.000,00", {reverse: true});
 });

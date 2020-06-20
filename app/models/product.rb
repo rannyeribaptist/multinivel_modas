@@ -50,7 +50,7 @@ class Product < ApplicationRecord
   private
 
   def clean_product_value
-    self.price = self.price[3..self.price.length].gsub(".", "").gsub(",", ".").to_f
+    self.price = self.price.gsub(".", "").gsub(",", ".").to_f
   end
 
   def product_pictures_presence

@@ -33,6 +33,12 @@
         - @product.categories.each do |id|
           = ProductCategory.find(id).name + " |" if id.present?
 
+    %div{style: "display: flex; justify-content: space-between"}
+      = link_to :back do
+        %button.button.button--yellow Voltar
+      = link_to edit_product_path(@product) do
+        %button.button.button--blue Editar
+
 - content_for :head do
   %link{:href => "https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css", :rel => "stylesheet", :type => "text/css"}/
   %link{:href => "https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css", :rel => "stylesheet", :type => "text/css"}/
