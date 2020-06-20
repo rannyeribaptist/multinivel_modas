@@ -53,5 +53,10 @@
 
     = simple_form_for ProductCategory.new, html: { class: "fancy-form" } do |f|
       = f.input :name, label: "Nome da categoria"
-      = f.input :icon, label: "Ícone"
+      = f.input :icon, label: "Ícone", input_html: { style: "margin-bottom: 0" }
+      %small Máximo 15mb
+
+      %br
+      %br
+
       %button.button.button--green{type: "submit"} Adicionar

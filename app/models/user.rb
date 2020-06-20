@@ -90,7 +90,7 @@ class User < ApplicationRecord
   end
 
   def create_shopping_cart
-    self.shopping_cart.build
+    self.build_shopping_cart
     self.save
   end
 
