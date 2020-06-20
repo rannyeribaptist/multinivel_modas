@@ -21,7 +21,7 @@
           %small Copie esse código e envie para alguém se cadastrar utilizando ele, ou clique no botão abaixo para compartilhar seu link com alguém
           %br
           %br
-          %a.button.button--pink{href: "whatsapp://send?text=http://localhost:3000/link/#{@user.url_minifier.number}", "data-action" => "share/whatsapp/share"} Enviar pelo Whatsapp
+          %a.button.button--pink{href: "whatsapp://send?text=https://multinivelmodas.baptistsoftware.com.br/link/#{@user.url_minifier.number}", "data-action" => "share/whatsapp/share"} Enviar pelo Whatsapp
 
     %div{style: "text-align: left"}
       - if not @user.role == "seller"
