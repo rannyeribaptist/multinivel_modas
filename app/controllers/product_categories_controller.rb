@@ -12,7 +12,7 @@ class ProductCategoriesController < ApplicationController
         format.html { redirect_back(fallback_location: settings_path, flash: { notice: "Sucesso" }) }
         format.json { render root_path, status: :created, location: @product_category }
       else
-        format.html { render :new }
+        format.html { redirect_back(fallback_location: settings_path, flash: { danger: "algo deu errado" }) }
         format.json { render json: @product_category.errors, status: :unprocessable_entity }
       end
     end

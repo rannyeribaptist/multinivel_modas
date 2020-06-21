@@ -1,0 +1,120 @@
+@font-face {
+  font-family: "gothamlight";
+  src: url("../fonts/Gotham-Light.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "gothamlightitalic";
+  src: url("../fonts/Gotham-Lightitalic.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "gothammedium";
+  src: url("../fonts/Gotham-Medium.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "gothamxlight";
+  src: url("../fonts/Gotham-XLight.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "gothamxlightitalic";
+  src: url("../fonts/Gotham-XLightita.otf") format("opentype");
+}
+
+@keyframes bgcolor {
+  0% {
+    opacity: 0%;
+  }
+  50% {
+    opacity: 100%;
+  }
+  100% {
+    opacity: 0%;
+  }
+}
+
+/* line 4, app/assets/stylesheets/theme.scss */
+body {
+  margin: 0;
+  font-family: 'Gotham-Light', sans-serif;
+  line-height: 1.5;
+}
+
+/* line 10, app/assets/stylesheets/theme.scss */
+a {
+  text-decoration: none;
+  color: #0D0D0D;
+}
+
+/* line 15, app/assets/stylesheets/theme.scss */
+.center {
+  margin: 0 auto;
+}
+
+/* line 16, app/assets/stylesheets/theme.scss */
+.text-center {
+  text-align: center;
+}
+
+/* line 18, app/assets/stylesheets/theme.scss */
+.image {
+  max-width: 100%;
+}
+
+@media (min-width: 425px) {
+  /* line 18, app/assets/stylesheets/theme.scss */
+  .image {
+    max-width: 70%;
+  }
+}
+
+@media (min-width: 768px) {
+  /* line 18, app/assets/stylesheets/theme.scss */
+  .image {
+    max-width: 100%;
+  }
+}
+
+/* line 25, app/assets/stylesheets/theme.scss */
+.field_with_errors {
+  padding: 5px;
+  border: 2px solid red;
+  border-radius: 5px;
+  margin: 5px 0;
+  background-color: white;
+  display: block;
+}
+
+/* line 34, app/assets/stylesheets/theme.scss */
+.profile-card {
+  display: flex;
+  flex-direction: row;
+  margin: 10% 5%;
+}
+
+/* line 39, app/assets/stylesheets/theme.scss */
+.profile-card img {
+  border-radius: 50%;
+  margin-right: 20px;
+  height: 100px;
+  width: 100px;
+}
+
+/* line 41, app/assets/stylesheets/theme.scss */
+.profile-card__text {
+  text-align: left;
+}
+
+/* line 43, app/assets/stylesheets/theme.scss */
+.profile-card__text h3 {
+  margin-bottom: 0;
+}
+
+/* line 47, app/assets/stylesheets/theme.scss */
+.pattern {
+  position: absolute;
+  bottom: -4%;
+  right: -18%;
+}
