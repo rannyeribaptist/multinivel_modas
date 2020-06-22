@@ -40,7 +40,7 @@ class AvatarUploader < CarrierWave::Uploader::Base
   end
 
   def size_range
-    1.megabytes..15.megabytes
+    0.01.megabytes..15.megabytes
   end
 
   # Override the filename of the uploaded files:
