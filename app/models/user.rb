@@ -96,8 +96,9 @@ class User < ApplicationRecord
 
   def generate_user_url
     url = UrlMinifier.new(user_id: self.id, code: self.invitation_token)
+    url.number = rand(100000..999999)
 
-    until url.valid?
+    while url.class.exists?(number: url.number)
       url.number = rand(100000..999999)
     end
     url.save
