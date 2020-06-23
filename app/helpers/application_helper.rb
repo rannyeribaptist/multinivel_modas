@@ -24,7 +24,7 @@ module ApplicationHelper
     when "franchise"
       return "Franquiado"
     else
-      return "Não entendi seu nível de permissão filhão..."
+      return "Permissão indefinida"
     end
   end
 
