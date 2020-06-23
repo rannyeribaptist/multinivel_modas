@@ -7,7 +7,7 @@
     %td
       = simple_form_for shopping_cart, html: { class: "fancy-form", id: "edit_item_#{item.id}" }, remote: true, method: :patch do |f|
         = f.simple_fields_for :shopping_cart_items, item do |g|
-          = g.input :quantity, label: false, input_html: { style: "max-width: 10px; border: 0.5px solid grey", "data-toggle" => "#{item.id}", id: "item_#{item.id}", onkeypress: "changeQuantity($(this))" }
+          = g.input :quantity, label: false, input_html: { style: "max-width: 10px; border: 0.5px solid grey", "data-toggle" => "#{item.id}", id: "item_#{item.id}", onkeypress: "changeQuantity($(this))", onchange: "changeQuantity($(this))" }
         = f.submit "submit", id: "submit_quantity_#{item.id}", style: "display: none"
     %td= show_price(item.product.price)
     %td
