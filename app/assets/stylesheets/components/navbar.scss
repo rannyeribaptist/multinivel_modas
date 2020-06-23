@@ -33,8 +33,8 @@
     align-items: center;
     padding: 10px 20px;
     height: 40px;
+    justify-content: space-between;
 
-    @include breakpoint("touch") { justify-content: space-between }
     @include breakpoint("limiter");
   }
 
@@ -130,6 +130,8 @@
   }
 
   img { float: right }
+
+  @include breakpoint("limiter");
 }
 
 .page-content {

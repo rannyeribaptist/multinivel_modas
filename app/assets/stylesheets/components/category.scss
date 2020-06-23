@@ -10,6 +10,8 @@
     overflow: scroll;
     padding: 10px;
   }
+
+  @include breakpoint("limiter");
 }
 
 .category {

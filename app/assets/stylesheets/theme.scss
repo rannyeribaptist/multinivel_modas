@@ -49,3 +49,7 @@ a {
   bottom: -4%;
   right: -18%;
 }
+
+.limiter {
+  @include breakpoint("limiter");
+}
