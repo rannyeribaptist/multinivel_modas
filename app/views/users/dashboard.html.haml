@@ -10,10 +10,12 @@
           .card__content
             %p Meus pedidos
       .column.column--2
-        .card.card--green{style: "background-image: url(https://icongr.am/feather/plus-square.svg?color=195a52);background-repeat: no-repeat;background-size: 70px;background-position-y: 140%;"}
-          .card__content
-            %p Comprar
+        = link_to store_path do
+          .card.card--green{style: "background-image: url(https://icongr.am/jam/shopping-cart.svg?color=195a52);background-repeat: no-repeat;background-size: 70px;background-position-y: 140%;"}
+            .card__content
+              %p Comprar
 
-    .card.card--yellow{style: "background-image: url(https://icongr.am/feather/layers.svg?color=866705);background-repeat: no-repeat;background-size: 70px;background-position-y: 140%;"}
-      .card__content
-        %p Minha Rede
+    = link_to user_levels_path do
+      .card.card--yellow{style: "background-image: url(https://icongr.am/feather/layers.svg?color=866705);background-repeat: no-repeat;background-size: 70px;background-position-y: 140%;"}
+        .card__content
+          %p Minha Rede
