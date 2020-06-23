@@ -58,3 +58,17 @@ a {
 .limiter {
   @include breakpoint("limiter");
 }
+
+.blob {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+	background: rgba(242, 5, 5, 1);
+  box-shadow: 0 0 0 0 rgba(242, 5, 5, 0.7);
+  transform: scale(1);
+
+	animation: pulsing 2s infinite;
+}

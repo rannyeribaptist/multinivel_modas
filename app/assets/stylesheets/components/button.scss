@@ -20,6 +20,10 @@
   }
 
   @include colors("background-color");
+
+  &--animated {
+    animation: button_pulsing 1s infinite;
+  }
 }
 
 .select-buttons {

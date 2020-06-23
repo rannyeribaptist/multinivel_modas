@@ -28,7 +28,7 @@
         %br
         %br
         = link_to add_item_path(product_id: product.id, size: product.sizes.first.size), remote: true do
-          %button.button.button--full-width.button--green{id: "add_#{product.id}", disabled: "disabled"} Adicionar ao carrinho
+          %button.button.button--full-width.button--green.add_to_cart{id: "add_#{product.id}", disabled: "disabled"} Adicionar ao carrinho
 
   = will_paginate products
 

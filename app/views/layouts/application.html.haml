@@ -25,11 +25,15 @@
           %img{src: "https://icongr.am/feather/menu.svg", onclick: "sidebar()"}
           %a{:href => "/", style: "margin-top: 10px"}
             = image_tag("logo-horizontal.png", style: "max-width: 100px")
-          - if ("products").include?(params[:controller])
-            %img{src: "https://icongr.am/feather/briefcase.svg", onclick: "$('.modal').toggle()"}
-          - else
-            = link_to shopping_cart_path(current_user.shopping_cart) do
+          #cart{style: "position: relative"}
+            - if current_user.shopping_cart.shopping_cart_items.any?
+              %span.blob
+            - if ("products").include?(params[:controller])
               %img{src: "https://icongr.am/feather/briefcase.svg", onclick: "$('.modal').toggle()"}
+            - else
+              = link_to shopping_cart_path(current_user.shopping_cart) do
+                %img{src: "https://icongr.am/feather/briefcase.svg"}
+
 
       .sidebar#sidebar
         .sidebar__content

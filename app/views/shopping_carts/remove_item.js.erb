@@ -3,3 +3,8 @@
   render(partial: 'shopping_carts/list', locals: { shopping_cart: @shopping_cart })
 ) %>
 $("#results").html("<%= js %>");
+
+<% blob = escape_javascript(
+  render(partial: 'layouts/shopping_cart')
+) %>
+$("#cart").html("<%= blob %>");
