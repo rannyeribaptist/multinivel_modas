@@ -17,6 +17,16 @@
     -# jQuery (including this CDN because for some reason, the jQuery added with yarn on webpacker doesn't respond properly)
     %script{:crossorigin => "anonymous", :integrity => "sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=", :src => "https://code.jquery.com/jquery-3.5.0.min.js"}
 
+    - if Rails.env.production?
+      / Global site tag (gtag.js) - Google Analytics
+      %script{:async => "", :src => "https://www.googletagmanager.com/gtag/js?id=UA-170796933-1"}
+      :javascript
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-170796933-1');
+
     = yield(:head)
   %body
     - if current_user.present?
