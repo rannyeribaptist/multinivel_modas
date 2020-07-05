@@ -37,12 +37,9 @@ setTimeout(function(){
 
 $(document).ready(function() {
   var wiper = new Swipe('#sidebar');
-  var content = new Swipe('#content');
 
   wiper.onLeft(function() { sidebar() });
-  content.onRight(function() { sidebar() });
   wiper.run();
-  content.run();
 })
 
 class Swipe {
