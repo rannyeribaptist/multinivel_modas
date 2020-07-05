@@ -31,7 +31,7 @@ class ShoppingCartsController < ApplicationController
 
     respond_to do |format|
       if @shopping_cart.save
-        format.html { redirect_to @shopping_cart, notice: 'Shopping cart was successfully created.' }
+        format.html { redirect_to @shopping_cart, notice: 'Sucesso' }
         format.json { render :show, status: :created, location: @shopping_cart }
       else
         format.html { render :new }

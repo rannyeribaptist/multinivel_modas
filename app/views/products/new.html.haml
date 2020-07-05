@@ -33,6 +33,7 @@
         %button.button.button--full-width.button--yellow.change-slide{type: "button", goTo: "2"} Voltar
 
       .slide.animated.fadeIn#4
+        %small Pelo menos uma foto do produto
         #pictures
           = f.simple_fields_for :product_pictures do |picture|
             = render 'product_picture_fields', f: picture
