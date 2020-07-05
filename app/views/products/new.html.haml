@@ -21,7 +21,11 @@
         %button.button.button--full-width.button--yellow.change-slide{type: "button", goTo: "1"} Voltar
 
       .slide.animated.fadeIn#3
-        = f.input :price, label: "Preço do produto", input_html: { id: "money" }
+        = f.input :original_price, label: "Preço do produto", input_html: { id: "money" }
+        = f.input :price, as: :hidden, input_html: { id: "price_input" }
+        %small
+          %em#price
+        %br
 
         %button.button.button--full-width.button--pink.change-slide{type: "button", goTo: "4"} Próximo
         %br
