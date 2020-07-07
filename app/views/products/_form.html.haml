@@ -4,7 +4,11 @@
 
   = f.input :name, label: "Nome do produto"
   = f.input :description, label: "descrição do produto", as: :text, input_html: {style: "min-height: 200px"}
-  = f.input :price, label: "Preço do produto", input_html: { id: "money" }
+  = f.input :original_price, label: "Preço do produto", input_html: { id: "money" }
+  = f.input :price, as: :hidden, input_html: { id: "price_input" }
+  %small
+    %em#price
+  %br
 
   #pictures
     = f.simple_fields_for :product_pictures do |picture|

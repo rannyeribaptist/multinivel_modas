@@ -1,7 +1,7 @@
 class Product < ApplicationRecord
   belongs_to :user
 
-  validates_presence_of :name, :description, :price
+  validates_presence_of :name, :description, :original_price
 
   has_many :product_pictures, dependent: :destroy
   has_many :cats, dependent: :destroy
@@ -12,7 +12,6 @@ class Product < ApplicationRecord
   serialize :categories, Array
   serialize :sizes, Array
 
-  before_save :clean_product_value
   # after_save :set_product_value
 
   self.per_page = 10
@@ -49,10 +48,6 @@ class Product < ApplicationRecord
 
   private
 
-  def clean_product_value
-    self.price = self.price.gsub(".", "").gsub(",", ".").to_f
-  end
-
   def product_pictures_presence
     if not self.product_pictures.any?
       errors.add(:product_picture, "O produto deve ter pelo menos uma imagem")
@@ -60,7 +55,9 @@ class Product < ApplicationRecord
   end
 
   def set_product_value
-    self.price = "R$ " + (self.price[2..self.price.length].to_i * 1.7).to_s
-    self.save
+    if not (self.original_price.to_f * 1.74 == self.price.to_f)
+      self.price = (self.original_price.to_f * 1.74).to_s
+      self.save
+    end
   end
 end

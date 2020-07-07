@@ -1,7 +1,7 @@
 @import "variables";
 
 .categories {
-  height: 90px;
+  height: auto;
   border-bottom: 1px solid $light-gray;
   padding-bottom: 5px;
 
@@ -20,6 +20,9 @@
   align-items: center;
   justify-content: center;
   width: 80px;
+  white-space: break-spaces;
+  text-align: center;
+  font-size: 12px;
 
   .img {
     background: linear-gradient(45deg, $green, $blue);

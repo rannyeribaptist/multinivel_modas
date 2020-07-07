@@ -1,5 +1,13 @@
 ---
 pt-BR:
+  simple_form:
+    "yes": 'Sim'
+    "no": 'Não'
+    required:
+      text: 'obrigatório'
+      mark: '*'
+    error_notification:
+      default_message: "Alguns erros foram encontrados, por favor verifique:"    
   activerecord:
     errors:
       messages:
@@ -109,6 +117,17 @@ pt-BR:
   errors:
     format: "%{attribute} %{message}"
     messages:
+      carrierwave_processing_error: falhou ao ser processado
+      carrierwave_integrity_error: não é um tipo de arquivo permitido
+      carrierwave_download_error: não pôde ser transferido
+      extension_whitelist_error: "Não é permitido o envio de arquivos com a extensão %{extension}, tipos de arquivo permitidos: %{allowed_types}"
+      extension_blacklist_error: "Não é permitido o envio de arquivos com a extensão %{extension}, tipos de arquivo proibidos: %{prohibited_types}"
+      content_type_whitelist_error: "Não é permitido o envio de arquivos com a extensão %{content_type}"
+      content_type_blacklist_error: "Não é permitido o envio de arquivos com a extensão %{content_type}"
+      rmagick_processing_error: "Ocorreu uma falha ao processar com rmagick, talvez o arquivo não seja uma imagem? Erro original: %{e}"
+      mini_magick_processing_error: "Ocorreu uma falha ao processar com MiniMagick, talvez o arquivo não seja uma imagem? Erro original: %{e}"
+      min_size_error: "O tamanho do arquivo deve ser maior do que %{min_size}"
+      max_size_error: "O tamanho do arquivo deve ser inferior a %{max_size}"
       accepted: deve ser aceito
       blank: não pode ficar em branco
       confirmation: não é igual a %{attribute}
