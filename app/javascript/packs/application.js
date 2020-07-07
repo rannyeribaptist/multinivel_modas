@@ -37,12 +37,9 @@ setTimeout(function(){
 
 $(document).ready(function() {
   var wiper = new Swipe('#sidebar');
-  var content = new Swipe('#content');
 
   wiper.onLeft(function() { sidebar() });
-  content.onRight(function() { sidebar() });
   wiper.run();
-  content.run();
 })
 
 class Swipe {
@@ -280,3 +277,21 @@ $(document).ready(function() {
     }, 1000);
   });
 });
+
+$(document).ready(function() {
+  $('#money').change(function() {
+    updatePrice($(this));
+  });
+
+  $('#money').on('input', function() {
+    var input = $(this);
+    window.setTimeout(function() {
+      updatePrice(input);
+    }, 500)
+  });
+
+  function updatePrice(element) {
+    $('#price').html("O valor do produto + 74% será R$ " + (element[0].value.replace(".", "").replace(",", ".") * 1.74).toFixed(2).toString());
+    $('#price_input')[0].value = (element[0].value.replace(".", "").replace(",", ".") * 1.74).toFixed(2).toString();
+  }
+})
