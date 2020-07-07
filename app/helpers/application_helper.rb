@@ -49,4 +49,17 @@ module ApplicationHelper
   def show_price(price)
     return "R$ " + price.to_s.gsub(".", ",")
   end
+
+  def atttribute_sales_volume(pruchase)
+    value = purchases.value
+    user_id = current_user.invited_by_id
+    amount = Config.sales_volume_percent * purchase.value
+    user = User.find_by_id(user_id)
+
+    while user.invited_by_id.present? do
+      user.sales_volume.to_f += amout
+      user_id = user.invited_by_id
+      user = User.find_by_id(user_id)
+    end
+  end
 end
