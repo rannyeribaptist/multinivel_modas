@@ -7,7 +7,8 @@
         %b Fotos:
         .image_carousel
           - @product.product_pictures.each do |pic|
-            %img{src: "#{pic.picture.url}" }
+            .product_image
+              %img{src: "#{pic.picture.url}"}
 
       %p
         %b Nome:

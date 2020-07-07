@@ -14,7 +14,10 @@
           %a{:href => "#", style: "margin-left: 10px"} Denunciar
       .product__pics
         - product.product_pictures.each do |pic|
-          %img{src: "#{pic.picture.url}", style: "height: 360px"}
+          .product_image
+            %img{src: "#{pic.picture.url}"}
+      - if product.product_pictures.count > 1
+        %small Arraste para o lado para ver mais imagens
       .product__footer
         - product.sizes.each do |id|
           - if id.length > 0
