@@ -10,10 +10,10 @@ class ProductCategoriesController < ApplicationController
     respond_to do |format|
       if @product_category.save
         format.html { redirect_back(fallback_location: settings_path, flash: { notice: "Sucesso" }) }
-        format.json { render root_path, status: :created, location: @product_category }
+        # format.json { render root_path, status: :created, location: @product_category }
       else
         format.html { redirect_back(fallback_location: settings_path, flash: { danger: "algo deu errado" }) }
-        format.json { render json: @product_category.errors, status: :unprocessable_entity }
+        # format.json { render json: @product_category.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -24,7 +24,7 @@ class ProductCategoriesController < ApplicationController
     @product_category.destroy
     respond_to do |format|
       format.html { redirect_back(fallback_location: settings_path, flash: { notice: "Sucesso" }) }
-      format.json { head :no_content }
+      # format.json { head :no_content }
     end
   end
 

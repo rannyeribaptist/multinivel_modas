@@ -28,11 +28,11 @@ class PurchasesController < ApplicationController
 
     respond_to do |format|
       if @purchase.save
-        format.html { redirect_to @purchase, notice: 'Sucesso' }
-        format.json { render :show, status: :created, location: @purchase }
+        format.html { redirect_to @purchase, notice: 'Purchase was successfully created.' }
+        # format.json { render :show, status: :created, location: @purchase }
       else
         format.html { render :new }
-        format.json { render json: @purchase.errors, status: :unprocessable_entity }
+        # format.json { render json: @purchase.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -42,11 +42,11 @@ class PurchasesController < ApplicationController
   def update
     respond_to do |format|
       if @purchase.update(purchase_params)
-        format.html { redirect_to @purchase, notice: 'Sucesso' }
-        format.json { render :show, status: :ok, location: @purchase }
+        format.html { redirect_to @purchase, notice: 'Purchase was successfully updated.' }
+        # format.json { render :show, status: :ok, location: @purchase }
       else
         format.html { render :edit }
-        format.json { render json: @purchase.errors, status: :unprocessable_entity }
+        # format.json { render json: @purchase.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -56,8 +56,8 @@ class PurchasesController < ApplicationController
   def destroy
     @purchase.destroy
     respond_to do |format|
-      format.html { redirect_to purchases_url, notice: 'Sucesso' }
-      format.json { head :no_content }
+      format.html { redirect_to purchases_url, notice: 'Purchase was successfully destroyed.' }
+      # format.json { head :no_content }
     end
   end
 
