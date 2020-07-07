@@ -39,7 +39,7 @@
     font-weight: bold;
     padding: 15px;
     background-color: white;
-    border: 1px solid black;
+    border: 0.5px solid #e2e2e2;
     position: absolute;
     right: 0;
     z-index: 999;
@@ -57,4 +57,16 @@
 .selected-size {
   background-color: $green;
   color: white;
+}
+
+.product_image {
+  width: 100%;
+  height: fit-content;
+  max-height: 600px;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: auto;
+  }
 }
