@@ -32,10 +32,10 @@ class ShoppingCartsController < ApplicationController
     respond_to do |format|
       if @shopping_cart.save
         format.html { redirect_to @shopping_cart, notice: 'Shopping cart was successfully created.' }
-        format.json { render :show, status: :created, location: @shopping_cart }
+        # format.json { render :show, status: :created, location: @shopping_cart }
       else
         format.html { render :new }
-        format.json { render json: @shopping_cart.errors, status: :unprocessable_entity }
+        # format.json { render json: @shopping_cart.errors, status: :unprocessable_entity }
       end
     end
   end

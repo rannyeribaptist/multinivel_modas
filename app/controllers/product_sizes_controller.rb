@@ -10,10 +10,10 @@ class ProductSizesController < ApplicationController
     respond_to do |format|
       if @product_size.save
         format.html { redirect_back(fallback_location: settings_path, flash: { notice: "Sucesso" }) }
-        format.json { render root_path, status: :created, location: @product_size }
+        # format.json { render root_path, status: :created, location: @product_size }
       else
         format.html { render :new }
-        format.json { render json: @product_size.errors, status: :unprocessable_entity }
+        # format.json { render json: @product_size.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -24,7 +24,7 @@ class ProductSizesController < ApplicationController
     @product_size.destroy
     respond_to do |format|
       format.html { redirect_back(fallback_location: settings_path, flash: { notice: "Sucesso" }) }
-      format.json { head :no_content }
+      # format.json { head :no_content }
     end
   end
 
