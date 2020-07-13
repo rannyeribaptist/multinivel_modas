@@ -38,7 +38,8 @@
 
 %br
 
-%button.button.button--green.button--full-width{style: "margin-bottom: 5px"} Finalizar compra
+= link_to new_purchase_path do
+  %button.button.button--green.button--full-width{style: "margin-bottom: 5px"} Finalizar compra
 %br
 %button.button.button--pink.button--full-width{onclick: "$('.modal').toggle()"} Continuar Comprando
 

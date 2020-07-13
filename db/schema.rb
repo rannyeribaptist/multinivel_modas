@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_06_013521) do
+ActiveRecord::Schema.define(version: 2020_07_13_081027) do
 
   create_table "addresses", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -94,6 +94,17 @@ ActiveRecord::Schema.define(version: 2020_07_06_013521) do
     t.index ["user_id"], name: "index_products_on_user_id"
   end
 
+  create_table "purchase_items", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.bigint "purchase_id", null: false
+    t.bigint "product_id", null: false
+    t.string "size"
+    t.integer "quantity"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["product_id"], name: "index_purchase_items_on_product_id"
+    t.index ["purchase_id"], name: "index_purchase_items_on_purchase_id"
+  end
+
   create_table "purchases", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "payment_method"
@@ -101,6 +112,8 @@ ActiveRecord::Schema.define(version: 2020_07_06_013521) do
     t.bigint "address_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "status"
+    t.string "comprovant"
     t.index ["address_id"], name: "index_purchases_on_address_id"
     t.index ["user_id"], name: "index_purchases_on_user_id"
   end
@@ -164,6 +177,8 @@ ActiveRecord::Schema.define(version: 2020_07_06_013521) do
   add_foreign_key "credit_informations", "users"
   add_foreign_key "product_pictures", "products"
   add_foreign_key "products", "users"
+  add_foreign_key "purchase_items", "products"
+  add_foreign_key "purchase_items", "purchases"
   add_foreign_key "purchases", "addresses"
   add_foreign_key "purchases", "users"
   add_foreign_key "shopping_cart_items", "shopping_carts"

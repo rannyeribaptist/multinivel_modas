@@ -40,7 +40,8 @@
               %td
         %br
 
-        %button.button.button--green.button--full-width{style: "margin-bottom: 5px"} Finalizar compra
+        = link_to new_purchase_path do
+          %button.button.button--green.button--full-width{style: "margin-bottom: 5px"} Finalizar compra
         %br
         = link_to store_path do
           %button.button.button--pink.button--full-width Continuar Comprando

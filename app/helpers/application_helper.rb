@@ -62,4 +62,11 @@ module ApplicationHelper
       user = User.find_by_id(user_id)
     end
   end
+
+  def clear_shopping_cart(cart, purchase)
+    cart.shopping_cart_items.each do |item|
+      purchase.purchase_items.create(size: item.size, quantity: item.quantity, product_id: item.product_id, purchase_id: purchase.id)
+      item.destroy
+    end
+  end
 end
