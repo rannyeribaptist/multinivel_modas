@@ -39,7 +39,7 @@ class PurchasesController < ApplicationController
       @purchase.save
       clear_shopping_cart(current_user.shopping_cart, @purchase)
       redirect_to @purchase, flash: {success: "Compra realizada com sucesso!"}
-    if ["in_mediation", "in_proccess", "pending", "authorized"].include? payment["response"]["status"]
+    elsif ["in_mediation", "in_proccess", "pending", "authorized"].include? payment["response"]["status"]
       @purchase = Purchase.new(user_id: current_user.id, address: current_user.address, payment_method: params[:purchase][:payment_method], value: sum_items(current_user.shopping_cart), status: "Pagament aguardando aprovação")
       @purchase.save
       clear_shopping_cart(current_user.shopping_cart, @purchase)
