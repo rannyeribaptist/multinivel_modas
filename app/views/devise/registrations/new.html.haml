@@ -38,7 +38,7 @@
 
         = f.input :invited_by_token, label: "Código de cadastro (Apenas para consultores do multinível)"
         %small Ao deixar o código de cadastro em branco, você será automaticamente cadastrado como Fornecedor
-        = f.input :invitation_token, as: :hidden, input_html: { value: "default" }
+        = f.input :invitation_token, as: :hidden, input_html: { value: "#{User.last.id + 1}" }
       .form-actions
         %button{type: "submit", class: "button button--full-width button--green"} Cadastrar
 
