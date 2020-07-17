@@ -54,6 +54,9 @@ gem "cocoon"
 gem 'filterrific'
 gem 'will_paginate', '~> 3.1.0'
 
+# Mercado Pago
+gem 'mercadopago-sdk', '~> 1.2'
+
 group :test do
   # for better unit tests
   gem 'shoulda-matchers', '4.0.0.rc1'

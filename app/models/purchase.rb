@@ -2,5 +2,9 @@ class Purchase < ApplicationRecord
   belongs_to :user
   belongs_to :address
 
-  validates_presence_of :payment, :address_id, :user_id, :value
+  has_many :purchase_items, dependent: :destroy
+
+  validates_presence_of :address_id, :user_id, :value, :payment_method
+
+  mount_uploader :comprovant, ComprovantUploader
 end

@@ -18,7 +18,7 @@
         = @product.description
       %p
         %b Preço:
-        = show_price(@product.price)
+        = format_price(@product.price)
       %p
         %b Disponível para vendas (visível)?:
         = translate_boolean(@product.hidden)

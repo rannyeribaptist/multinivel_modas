@@ -9,13 +9,16 @@
     = csrf_meta_tags
     = csp_meta_tag
 
-    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'false'
+    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_pack_tag 'application'
 
     -# Css animations
     %link{:href => "https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css", :rel => "stylesheet"}/
     -# jQuery (including this CDN because for some reason, the jQuery added with yarn on webpacker doesn't respond properly)
     %script{:crossorigin => "anonymous", :integrity => "sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=", :src => "https://code.jquery.com/jquery-3.5.0.min.js"}
+
+    -# Mercado Pago
+    %script{:src => "https://secure.mlstatic.com/sdk/javascript/v1/mercadopago.js"}
 
     - if Rails.env.production?
       / Global site tag (gtag.js) - Google Analytics
@@ -66,7 +69,8 @@
               = link_to "Meu perfil", user_path(current_user)
             %li
               %img{src: "https://icongr.am/jam/shopping-cart.svg"}
-              = link_to "Comprar", store_path
+              -# = link_to "Comprar", store_path
+              = link_to "Comprar", soon_path
             - if current_user.role == "seller" or current_user.role == "admin"
               %li
                 %img{src: "https://icongr.am/feather/box.svg"}
@@ -74,7 +78,8 @@
             - if current_user.role == "consultant" or current_user.role == "client"
               %li
                 %img{src: "https://icongr.am/feather/box.svg"}
-                = link_to "Meus pedidos", user_path(current_user)
+                -# = link_to "Meus pedidos", user_path(current_user)
+                = link_to "Meus pedidos", soon_path
             - if current_user.role == "consultant" or current_user.role == "admin"
               %li
                 %img{src: "https://icongr.am/jam/sitemap.svg"}

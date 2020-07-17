@@ -43,11 +43,16 @@ module ApplicationHelper
       total += item.product.price.to_f * item.quantity
     end
 
-    return show_price(total)
+    return total
   end
 
-  def show_price(price)
-    return "R$ " + price.to_s.gsub(".", ",")
+  def show_price(cart)
+    value = sum_items(cart)
+    return "R$ " + value.to_s.gsub(".", ",")
+  end
+
+  def format_price(value)
+    return "R$ " + value.to_s.gsub(".", ",")
   end
 
   def atttribute_sales_volume(pruchase)
@@ -60,6 +65,13 @@ module ApplicationHelper
       user.sales_volume.to_f += amout
       user_id = user.invited_by_id
       user = User.find_by_id(user_id)
+    end
+  end
+
+  def clear_shopping_cart(cart, purchase)
+    cart.shopping_cart_items.each do |item|
+      purchase.purchase_items.create(size: item.size, quantity: item.quantity, product_id: item.product_id, purchase_id: purchase.id)
+      item.destroy
     end
   end
 end

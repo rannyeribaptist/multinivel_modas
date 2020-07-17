@@ -17,6 +17,40 @@ class PurchasesController < ApplicationController
     @purchase = Purchase.new
   end
 
+  def proccess_payment
+    require 'mercadopago.rb'
+
+    mp = MercadoPago.new('TEST-3769858112953753-062819-ef1a98b54f75c032cb0fad84f25da429-226272139')
+
+    request = {
+        "token" => "#{params[:token]}",
+        "installments" => params[:installments].to_i,
+        "transaction_amount" => sum_items(current_user.shopping_cart),
+        "payment_method_id" => params[:payment_method_id],
+        "payer" => {
+            "email" => "#{current_user.email}"
+        }
+    }
+
+    payment = mp.post('/v1/payments', request)
+
+    if payment["response"]["status"] == "approved"
+      @purchase = Purchase.new(user_id: current_user.id, address: current_user.address, payment_method: params[:purchase][:payment_method], value: sum_items(current_user.shopping_cart), status: "Pagament aprovado")
+      @purchase.save
+      clear_shopping_cart(current_user.shopping_cart, @purchase)
+      redirect_to @purchase, flash: {success: "Compra realizada com sucesso!"}
+    if ["in_mediation", "in_proccess", "pending", "authorized"].include? payment["response"]["status"]
+      @purchase = Purchase.new(user_id: current_user.id, address: current_user.address, payment_method: params[:purchase][:payment_method], value: sum_items(current_user.shopping_cart), status: "Pagament aguardando aprovação")
+      @purchase.save
+      clear_shopping_cart(current_user.shopping_cart, @purchase)
+      redirect_to @purchase, flash: {warning: "Pedido realizado. Aguardando aprovação de pagamento."}
+    else
+      redirect_back(fallback_location: root_url, flash: { danger: "Pagamento não autorizado, motivo: " + payment["response"]["status_detail"].to_s })
+    end
+
+    @result = payment.to_json
+  end
+
   # GET /purchases/1/edit
   def edit
   end
@@ -29,6 +63,7 @@ class PurchasesController < ApplicationController
     respond_to do |format|
       if @purchase.save
         format.html { redirect_to @purchase, notice: 'Purchase was successfully created.' }
+        clear_shopping_cart(current_user.shopping_cart, @purchase)
         # format.json { render :show, status: :created, location: @purchase }
       else
         format.html { render :new }
@@ -69,6 +104,6 @@ class PurchasesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def purchase_params
-      params.require(:purchase).permit(:user_id, :payment_method, :value, :address_id)
+      params.require(:purchase).permit(:user_id, :payment_method, :value, :address_id, :status, :comprovant)
     end
 end

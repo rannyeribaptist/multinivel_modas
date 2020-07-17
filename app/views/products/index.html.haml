@@ -17,7 +17,7 @@
 
           .product_card__content
             %h3{style: "margin-bottom: 0"}= product.name
-            = show_price(product.price)
+            = format_price(product.price)
             %br
             = "Estoque: " + product.quantity + " Unidades"
 
