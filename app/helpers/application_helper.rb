@@ -43,11 +43,16 @@ module ApplicationHelper
       total += item.product.price.to_f * item.quantity
     end
 
-    return show_price(total)
+    return total
   end
 
-  def show_price(price)
-    return "R$ " + price.to_s.gsub(".", ",")
+  def show_price(cart)
+    value = sum_items(cart)
+    return "R$ " + value.to_s.gsub(".", ",")
+  end
+
+  def format_price(value)
+    return "R$ " + value.to_s.gsub(".", ",")
   end
 
   def atttribute_sales_volume(pruchase)

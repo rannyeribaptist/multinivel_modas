@@ -21,6 +21,8 @@ Rails.application.routes.draw do
     get "store/add_item/:product_id&:size", to: "shopping_carts#add_item", as: :add_item
     get "store/remove_item/:item_id", to: "shopping_carts#remove_item", as: :remove_item
     get "soon", to: "application#soon", as: :soon
+
+    post "/processar_pagamento", to: "purchases#proccess_payment", as: :proccess_payment
   end
 
   devise_scope :user do
