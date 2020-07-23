@@ -23,6 +23,9 @@ Rails.application.routes.draw do
     get "soon", to: "application#soon", as: :soon
 
     post "/processar_pagamento", to: "purchases#proccess_payment", as: :proccess_payment
+
+    get "approve_products", to: "products#approve_products", as: :approve_products
+    post "approve_product/:id", to: "products#approve_product", as: :approve_product
   end
 
   devise_scope :user do

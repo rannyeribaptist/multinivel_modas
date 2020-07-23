@@ -50,7 +50,6 @@ class User < ApplicationRecord
     return false if not user.credit_information.present?
   end
 
-
   # instead of deleting, indicate the user requested a delete & timestamp it
   def soft_delete
     update_attribute(:deleted_at, Time.current)

@@ -1,5 +1,5 @@
 class ProductsController < ApplicationController
-  before_action :set_product, only: [:show, :edit, :update, :destroy]
+  before_action :set_product, only: [:show, :edit, :update, :destroy, :approve_product]
   before_action :authenticate_user!
 
   # GET /products
@@ -27,6 +27,7 @@ class ProductsController < ApplicationController
     # chained with other scopes to further narrow down the scope of the list,
     # e.g., to apply permissions or to hard coded exclude certain types of records.
     @products = @filterrific.find.page(params[:page])
+    @products = @products.where(approved: true)
 
     # Respond to html for initial page load and to js for AJAX filter updates.
     respond_to do |format|
@@ -95,6 +96,18 @@ class ProductsController < ApplicationController
     @product.destroy
     respond_to do |format|
       format.html { redirect_to products_url, notice: 'Product was successfully destroyed.' }
+      # format.json { head :no_content }
+    end
+  end
+
+  def approve_products
+    @products = Product.where(approved: false).page(params[:page]) if current_user.role == "admin"
+  end
+
+  def approve_product
+    @product.update_attribute(:approved, true)
+    respond_to do |format|
+      format.html { redirect_to approve_products_url, flash: {success: 'Aprovado com sucesso.'} }
       # format.json { head :no_content }
     end
   end
