@@ -1,5 +1,5 @@
 class PurchasesController < ApplicationController
-  before_action :set_purchase, only: [:show, :edit, :update, :destroy]
+  before_action :set_purchase, only: [:show, :edit, :update, :destroy, :authorize_payment]
 
   # GET /purchases
   # GET /purchases.json
@@ -59,6 +59,9 @@ class PurchasesController < ApplicationController
   # POST /purchases.json
   def create
     @purchase = Purchase.new(purchase_params)
+    @purchase.user_id = current_user.id
+    @purchase.address = current_user.address
+    @purchase.value = sum_items(current_user.shopping_cart)
 
     respond_to do |format|
       if @purchase.save
@@ -92,6 +95,18 @@ class PurchasesController < ApplicationController
     @purchase.destroy
     respond_to do |format|
       format.html { redirect_to purchases_url, notice: 'Purchase was successfully destroyed.' }
+      # format.json { head :no_content }
+    end
+  end
+
+  def unauthorized_payments
+    @purchases = Purchase.where(status: "Aguardando confirmação de pagamento")
+  end
+
+  def authorize_payment
+    @purchase.update_attribute(:status, "Pagamento confirmado")
+    respond_to do |format|
+      format.html { redirect_to unauthorized_payments_url, flash: {success: 'Aprovado com sucesso.'} }
       # format.json { head :no_content }
     end
   end

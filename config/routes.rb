@@ -23,6 +23,9 @@ Rails.application.routes.draw do
     get "soon", to: "application#soon", as: :soon
 
     post "/processar_pagamento", to: "purchases#proccess_payment", as: :proccess_payment
+
+    get "/unauthorized_payments", to: "purchases#unauthorized_payments", as: :unauthorized_payments
+    post "/authorize_payment/:id", to: "purchases#authorize_payment", as: :authorize_payment
   end
 
   devise_scope :user do

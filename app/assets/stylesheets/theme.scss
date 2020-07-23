@@ -75,4 +75,13 @@ a {
 
 .method {
   border: 2px solid red;
+  background-color: $blue;
+}
+
+.payment_form {
+  display: none;
+}
+
+.active {
+  display: block;
 }
