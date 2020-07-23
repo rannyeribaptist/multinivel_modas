@@ -18,7 +18,7 @@
         %small Máximo 15mb
 
         %br
-        %br        	
+        %br
 
         %button.button.button--full-width.button--blue.change-slide{type: "button", goTo: "2"} Próximo
 
@@ -29,7 +29,7 @@
           = g.input :neightbohood, label: "Bairro"
           = g.input :city, label: "Cidade"
           = g.input :state, label: "Estado"
-          = g.input :number, label: "Número"
+          = g.input :number, label: "Número", input_html: {name: "address_number", type: "text"}
           = g.input :cep, input_html: { 'data-mask': '00000-00' }, label: "CEP"
 
         %button.button.button--full-width.button--blue.change-slide{type: "button", goTo: "3"} Próximo
