@@ -26,6 +26,9 @@ Rails.application.routes.draw do
 
     get "approve_products", to: "products#approve_products", as: :approve_products
     post "approve_product/:id", to: "products#approve_product", as: :approve_product
+
+    get "/unauthorized_payments", to: "purchases#unauthorized_payments", as: :unauthorized_payments
+    post "/authorize_payment/:id", to: "purchases#authorize_payment", as: :authorize_payment
   end
 
   devise_scope :user do
