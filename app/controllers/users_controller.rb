@@ -57,10 +57,18 @@ class UsersController < ApplicationController
   # DELETE /users/1
   # DELETE /users/1.json
   def destroy
-    @user.destroy
-    respond_to do |format|
-      format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
-      # format.json { head :no_content }
+    @user.soft_delete
+
+    if @user == current_user
+      Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name)
+      set_flash_message :notice, :destroyed
+      yield resource if block_given?
+      respond_with_navigational(resource){ redirect_to after_sign_out_path_for(resource_name) }
+    else
+      respond_to do |format|
+        format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
+        # format.json { head :no_content }
+      end
     end
   end
 

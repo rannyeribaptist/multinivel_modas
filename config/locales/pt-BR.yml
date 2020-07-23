@@ -1,5 +1,8 @@
 ---
 pt-BR:
+  devise:
+    failure:
+      deleted_account: "Sua conta foi deletada"
   simple_form:
     "yes": 'Sim'
     "no": 'Não'
@@ -7,7 +10,7 @@ pt-BR:
       text: 'obrigatório'
       mark: '*'
     error_notification:
-      default_message: "Alguns erros foram encontrados, por favor verifique:"    
+      default_message: "Alguns erros foram encontrados, por favor verifique:"
   activerecord:
     errors:
       messages:
