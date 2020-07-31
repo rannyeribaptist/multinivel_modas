@@ -1,0 +1,88 @@
+.section
+  .section__content.text-center
+    = image_tag(@user.avatar.url, style: "border-radius: 50%; width: 100%; height: auto")
+    %h3{style: "margin-bottom: 0"}= @user.name
+    %small= translate_role(@user.role) if not @user.role == "seller"
+    %br
+
+    -# TODO: Add the possibility to the admin edit other user information
+    - if @user == current_user
+      .columns
+        .column.column--2
+          = link_to edit_user_path(@user) do
+            %button.button.button--blue Editar informações do perfil
+        .column.column--2
+          = link_to edit_user_registration_path do
+            %button.button.button--yellow Editar informações de login
+
+    - if not @user.role == "seller"
+      .card{style: "color: black"}
+        .card__content
+          %small= "Seu código de convite é: " + @user.invitation_token
+          %br
+          %small Copie esse código e envie para alguém se cadastrar utilizando ele, ou clique no botão abaixo para compartilhar seu link com alguém
+          %br
+          %small Na hora de realizar o cadastro, a pessoa para qual você enviou este código só precisa inseri-lo no último campo do formulário "Código de cadastro"
+          %br
+          %br
+          %a.button.button--pink{href: "whatsapp://send?text=https://multinivelmodas.baptistsoftware.com.br/link/#{@user.url_minifier.number}", "data-action" => "share/whatsapp/share"} Enviar pelo Whatsapp
+
+    %div{style: "text-align: left"}
+      - if not @user.role == "seller"
+        %p
+          %b Graduação:
+          = @user.graduation
+      %p
+        %b Telefone:
+        = @user.phone
+      - if @user.social_security_number.present?
+        %p
+          %b CPF:
+          = @user.social_security_number
+      - if @user.tax_number.present?
+        %p
+          %b CNPJ:
+          = @user.tax_number
+      %hr
+
+      %h4 Endereço
+
+      %p
+        %b Rua:
+        = @user.address.street
+      %p
+        %b Bairro:
+        = @user.address.neightbohood
+      %p
+        %b Número:
+        = @user.address.number
+      %p
+        %b Cidade:
+        = @user.address.city
+      %p
+        %b Estado:
+        = @user.address.state
+      %p
+        %b CEP:
+        = @user.address.cep
+
+      %hr
+
+      - if @user.bank_account_information.present?
+        %h4 Informações Bancárias
+
+        %p
+          %b Agência:
+          = @user.bank_account_information.agency_number
+        %p
+          %b Conta:
+          = @user.bank_account_information.account_number
+        %p
+          %b Tipo da Conta:
+          = @user.bank_account_information.account_type
+        %p
+          %b Operação:
+          = @user.bank_account_information.operation
+        %p
+          %b Titular da conta:
+          = @user.bank_account_information.owner_name

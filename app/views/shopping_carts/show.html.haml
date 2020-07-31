@@ -1,0 +1,67 @@
+.section
+  .section__content.text-center
+    - if @shopping_cart.shopping_cart_items.count > 0
+      %h1.title Carrinho de compras
+
+      .table
+        %table.table
+          %thead
+            %tr
+              %th #
+              %th Nome
+              %th Tam.
+              %th Quant.
+              %th{style: "min-width: 70px"} Preço un.
+              %th
+          %tbody
+            - @shopping_cart.shopping_cart_items.each do |item|
+              %tr
+                %td
+                  = image_tag(Product.find(item.product_id).product_pictures.first.picture.thumb.url)
+                %td= item.product.name
+                %td= item.size
+                %td
+                  = simple_form_for @shopping_cart, html: { class: "fancy-form", id: "edit_item_#{item.id}" }, remote: true, method: :patch do |f|
+                    = f.simple_fields_for :shopping_cart_items, item do |g|
+                      = g.input :quantity, label: false, input_html: { style: "max-width: 10px; border: 0.5px solid grey", "data-toggle" => "#{item.id}", id: "item_#{item.id}", onkeypress: "changeQuantity($(this))", onchange: "changeQuantity($(this))" }
+                    = f.submit "submit", id: "submit_quantity_#{item.id}", style: "display: none"
+                %td= format_price(item.product.price)
+                %td
+                  = link_to remove_item_path(:item_id => item.id), data: { confirm: 'Remover item?' }, remote: true, input_html: { id: "remove_#{item.id}" } do
+                    %img.destroy{src: "https://icongr.am/clarity/trash.svg?color=F20505", style: "max-width: 20px"}
+            %tr
+              %td
+              %td
+              %td
+              %td
+                %strong Total:
+              %td#total
+                = show_price(@shopping_cart)
+              %td
+        %br
+
+        = link_to new_purchase_path do
+          %button.button.button--green.button--full-width{style: "margin-bottom: 5px"} Finalizar compra
+        %br
+        = link_to store_path do
+          %button.button.button--pink.button--full-width Continuar Comprando
+
+    - else
+      %h1.title Seu carrinho está vazio, porquê não adiciona algo?
+
+      = image_tag("logo-vertical.png", style: "width: 100%; height: auto")
+
+      %br
+
+      = link_to :store do
+        %button.button.button--green.button--full-width Ir à loja
+
+- content_for :javascript do
+  :javascript
+    function changeQuantity(element) {
+      var id = element.attr("data-toggle");
+
+      setTimeout(function() {
+        $('#submit_quantity_' + id).click();
+      }, 1000);
+    }

@@ -1,0 +1,135 @@
+!!!
+%html
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %meta{:content => "width=device-width, initial-scale=1", :name => "viewport"}/
+
+    %title Multinivel Modas
+
+    = csrf_meta_tags
+    = csp_meta_tag
+
+    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_pack_tag 'application'
+
+    -# Css animations
+    %link{:href => "https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css", :rel => "stylesheet"}/
+    -# jQuery (including this CDN because for some reason, the jQuery added with yarn on webpacker doesn't respond properly)
+    %script{:crossorigin => "anonymous", :integrity => "sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=", :src => "https://code.jquery.com/jquery-3.5.0.min.js"}
+
+    -# Mercado Pago
+    %script{:src => "https://secure.mlstatic.com/sdk/javascript/v1/mercadopago.js"}
+
+    - if Rails.env.production?
+      / Global site tag (gtag.js) - Google Analytics
+      %script{:async => "", :src => "https://www.googletagmanager.com/gtag/js?id=UA-170796933-1"}
+      :javascript
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-170796933-1');
+
+    / Hotjar Tracking Code for https://multiniveldamoda.baptistsoftware.com.br
+    :javascript
+      (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:1914691,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+      })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+
+    = yield(:head)
+  %body
+    - if current_user.present?
+      .navbar{style: "background-image: url(#{asset_path('group_11.svg')})"}
+        .navbar__content
+          %img{src: "https://icongr.am/feather/menu.svg", onclick: "sidebar()"}
+          %a{:href => "/", style: "margin-top: 10px"}
+            = image_tag("logo-horizontal.png", style: "max-width: 100px")
+          #cart{style: "position: relative"}
+            - if current_user.shopping_cart.shopping_cart_items.any?
+              %span.blob
+            - if ("products").include?(params[:controller])
+              %img{src: "https://icongr.am/feather/briefcase.svg", onclick: "$('.modal').toggle()"}
+            - else
+              = link_to shopping_cart_path(current_user.shopping_cart) do
+                %img{src: "https://icongr.am/feather/briefcase.svg"}
+
+
+      .sidebar#sidebar
+        .sidebar__content
+          %img{src: "https://icongr.am/feather/x.svg", onclick: "sidebar()"}
+
+          .profile-card
+            = image_tag(current_user.avatar.url)
+            .profile-card__text
+              %h3= current_user.name.present? ? current_user.name : "Bem vindo!"
+              %small Seu saldo: R$ 0,00
+              %br
+              %small= link_to "Sair", destroy_user_session_path, method: :delete, style: "color: tomato"
+
+          %ul.sidebar__list
+            %li
+              %img{src: "https://icongr.am/jam/dashboard.svg"}
+              = link_to "Dashboard", user_dashboard_path
+            %li
+              %img{src: "https://icongr.am/jam/user-circle.svg"}
+              = link_to "Meu perfil", user_path(current_user)
+            %li
+              %img{src: "https://icongr.am/jam/shopping-cart.svg"}
+              -# = link_to "Comprar", store_path
+              = link_to "Comprar", soon_path
+            - if current_user.role == "seller" or current_user.role == "admin"
+              %li
+                %img{src: "https://icongr.am/feather/box.svg"}
+                = link_to "Meus produtos", products_path
+            - if current_user.role == "consultant" or current_user.role == "client"
+              %li
+                %img{src: "https://icongr.am/feather/box.svg"}
+                -# = link_to "Meus pedidos", user_path(current_user)
+                = link_to "Meus pedidos", soon_path
+            - if current_user.role == "consultant" or current_user.role == "admin"
+              %li
+                %img{src: "https://icongr.am/jam/sitemap.svg"}
+                = link_to "Minha Rede", user_levels_path
+            - if current_user.role == "admin"
+              %li
+                %img{src: "https://icongr.am/jam/box.svg"}
+                = link_to "Produtos", products_path
+              %li
+                %img{src: "https://icongr.am/jam/check.svg"}
+                = link_to "Aprovar Produtos", approve_products_path
+              %li
+                %img{src: "https://icongr.am/jam/check.svg"}
+                = link_to "Aprovar Pedidos", unauthorized_payments_path
+              %li
+                %img{src: "https://icongr.am/jam/user.svg"}
+                = link_to "Usuários", users_path
+              %li
+                %img{src: "https://icongr.am/jam/cog.svg"}
+                = link_to "Configurações", settings_path
+
+          %img.pattern{src: "#{asset_path('group_11.svg')}"}
+          = image_tag("logo-horizontal.png", class: "logo")
+
+      .page-content
+        = show_flash_messages
+        = yield
+    - else
+      = yield
+    = yield(:modal)
+
+    :javascript
+      function sidebar() {
+        var element = $('.sidebar');
+
+        if (element.hasClass('sidebar--active')) {
+          element.removeClass('sidebar--active');
+        } else {
+          element.addClass('sidebar--active');
+        }
+      }
+    = yield(:javascript)

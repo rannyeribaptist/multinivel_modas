@@ -1,0 +1,159 @@
+// Colors
+$blue: #13B3F2;
+$black: #0D0D0D;
+$pink: #F23D5E;
+$red: #F20505;
+$white: white;
+$gray: #4B4B4B;
+$light-gray: #efefef;
+$green: #35C1AE;
+$light-green: #2ad8a6;
+$yellow: #ffc406;
+
+// Breakpoints
+@mixin breakpoint($value) {
+  @if $value == extra-small {
+    @media (max-width: 400px) { @content; }
+  }
+
+  @else if $value == small-height {
+    @media (max-height: 500px) { @content; }
+  }
+
+  @else if $value == small-only {
+    @media (max-width: 424px) { @content; }
+  }
+
+  @else if $value == small-up {
+    @media (min-width: 425px) { @content; }
+  }
+
+  @else if $value == touch {
+    @media (max-width: 899px) { @content; }
+  }
+
+  @else if $value == medium {
+    @media (min-width: 768px) { @content; }
+  }
+
+  @else if $value == medium-up {
+    @media (min-width: 900px) { @content; }
+  }
+
+  @else if $value == large {
+    @media (min-width: 1200px) { @content; }
+  }
+
+  @else if $value == extra-large {
+    @media (min-width: 1800px) { @content; }
+  }
+
+  @else if $value == limiter {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+}
+
+// Managing theme colors with a mixin
+@mixin colors($attribute) {
+  @if $attribute == color {
+    &--blue { color: $blue };
+    &--black { color: $black };
+    &--pink { color: $pink };
+    &--white { color: $white };
+    &--green { color: $green };
+    &--yellow { color: $yellow };
+    &--gray { color: $gray };
+    &--light-gray { color: $light-gray };
+  }
+
+  @else if $attribute == background-color {
+    &--blue { background-color: $blue };
+    &--black { background-color: $black };
+    &--pink { background-color: $pink };
+    &--green { background-color: $green };
+    &--light-green { background-color: $light-green };
+    &--yellow { background-color: $yellow };
+    &--gray { background-color: $gray };
+    &--light-gray { background-color: $light-gray };
+  }
+
+  @else if $attribute == border-color {
+    &--blue { border-color: $blue };
+    &--black { border-color: $black };
+    &--pink { border-color: $pink };
+    &--green { border-color: $green };
+    &--yellow { border-color: $yellow };
+    &--gray { border-color: $gray };
+    &--light-gray { border-color: $light-gray };
+  }
+}
+
+@font-face {
+  font-family: "gothamlight";
+  src: url("../fonts/Gotham-Light.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "gothamlightitalic";
+  src: url("../fonts/Gotham-Lightitalic.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "gothammedium";
+  src: url("../fonts/Gotham-Medium.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "gothamxlight";
+  src: url("../fonts/Gotham-XLight.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "gothamxlightitalic";
+  src: url("../fonts/Gotham-XLightita.otf") format("opentype");
+}
+
+// CSS animations
+@keyframes bgcolor {
+    0% {
+      opacity: 0%;
+    }
+
+    50% {
+      opacity: 100%;
+    }
+
+    100% {
+      opacity: 0%;
+    }
+}
+
+@keyframes pulsing {
+	0% {
+		transform: scale(0.9);
+		box-shadow: 0 0 0 0 rgba(242, 5, 5, 0.4);
+	}
+
+	70% {
+		transform: scale(1);
+		box-shadow: 0 0 0 5px rgba(242, 5, 5, 0);
+	}
+
+	100% {
+		transform: scale(0.9);
+	}
+}
+
+@keyframes button_pulsing {
+	0% {
+		box-shadow: 0 0 0 0 rgba(53, 193, 174, 1);
+	}
+
+	70% {
+		box-shadow: 0 0 0 20px rgba(53, 193, 174, 0);
+	}
+
+	100% {
+	}
+}

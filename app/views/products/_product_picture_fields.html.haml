@@ -1,0 +1,11 @@
+.nested-fields
+  = f.input :picture, label: "Foto", input_html: { style: "margin-bottom: 0" }
+  %small Máximo 15mb
+
+  %br
+  %br
+
+  = link_to_remove_association " - ", f, class: "remove-association-button"
+
+  %br
+  %br

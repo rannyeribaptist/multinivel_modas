@@ -1,0 +1,25 @@
+%h1 Listing assembles
+
+%table
+  %thead
+    %tr
+      %th Purchase
+      %th User
+      %th Status
+      %th
+      %th
+      %th
+
+  %tbody
+    - @assembles.each do |assemble|
+      %tr
+        %td= assemble.purchase
+        %td= assemble.user
+        %td= assemble.status
+        %td= link_to 'Show', assemble
+        %td= link_to 'Edit', edit_assemble_path(assemble)
+        %td= link_to 'Destroy', assemble, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Assemble', new_assemble_path

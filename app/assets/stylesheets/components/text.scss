@@ -1,0 +1,25 @@
+@import "variables";
+
+.text-logo {
+  font-family: 'Pacifico', cursive;
+  font-weight: lighter;
+}
+
+.title {
+  font-size: 30px;
+  font-family: 'nexabold', 'gothammedium';
+
+  @include breakpoint("medium") { font-size: 40px }
+}
+
+.subtitle {
+  @include breakpoint("large") { font-size: 20px }
+}
+
+.text {
+  &--bold { font-weight: bold }
+  &--small { font-size: 20px }
+  &--center { text-align: center }
+
+  @include colors("color");
+}

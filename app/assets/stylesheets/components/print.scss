@@ -1,0 +1,34 @@
+@media only print {
+  .header, .header-space,
+  .footer, .footer-space {
+    width: 100%;
+    background-size: 100%;
+    background-repeat: no-repeat;
+  }
+  .header {
+    position: fixed;
+    top: 0;
+    -webkit-print-color-adjust: exact;
+  }
+
+  .header-space, .header {
+    height: 180px;
+  }
+
+  .footer-space, .footer {
+    height: 97px;
+  }
+
+  .footer {
+    -webkit-print-color-adjust: exact;
+    position: fixed;
+    bottom: 0;
+  }
+
+  th, td {
+    border-bottom: 0;
+  }
+
+  .no-print { display: none }
+  .fancy-form__input { border: none }
+}

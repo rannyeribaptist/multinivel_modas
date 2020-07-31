@@ -1,0 +1,9 @@
+%p#notice= notice
+
+%p
+  %b Xml file:
+  = @order.xml_file
+
+= link_to 'Edit', edit_order_path(@order)
+\|
+= link_to 'Back', orders_path

@@ -1,0 +1,5 @@
+<%# app/views/shopping_carts/update.js.erb %>
+<% js = escape_javascript(
+  render(partial: 'shopping_carts/list', locals: { shopping_cart: @shopping_cart })
+) %>
+$("#results").html("<%= js %>");

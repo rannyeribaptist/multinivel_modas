@@ -1,0 +1,128 @@
+.section
+  .section__content
+    %h1.title Pagamento
+
+    .columns.columns--small
+      .column.column--3
+        .button.button--gray.method{"data-value" => "credit_card", onclick: "setPaymentMethod($(this))"} Cartão
+      .column.column--3
+        .button.button--gray{"data-value" => "billet", onclick: "setPaymentMethod($(this))", disabled: :disabled} Boleto
+      .column.column--3
+        .button.button--gray{"data-value" => "bank_transfer", onclick: "setPaymentMethod($(this))"} TED
+    %br
+
+    #credit_card.payment_form.active
+      = simple_form_for(@purchase, url: :proccess_payment, method: :post, html: { name: "pay", id: "pay", class: "fancy-form" }) do |f|
+        = f.input :payment_method, input_html: { value: "credit_card" }, as: :hidden
+        %fieldset
+          %input#description{:name => "description", :type => "text", :value => "Pedido Multinível da moda", disabled: :disabled, style: "display: none"}
+          %input#transaction_amount{:name => "transaction_amount", :value => "#{sum_items(current_user.shopping_cart)}", disabled: :disabled, style: "display: none"}
+          %p
+            %label{:for => "cardNumber"} Número do cartão
+            %input#cardNumber{:autocomplete => "off", "data-checkout" => "cardNumber", :oncopy => "return false", :oncut => "return false", :ondrag => "return false", :ondrop => "return false", :onpaste => "return false", :onselectstart => "return false", :type => "text", "data-mask" => "0000 0000 0000 0000"}/
+          %p
+            %label{:for => "cardholderName"} Nome escrito no cartão
+            %input#cardholderName{"data-checkout" => "cardholderName", :type => "text"}/
+          %p
+            %label{:for => "cardExpirationMonth"} Mês de vencimento
+            %input#cardExpirationMonth{:autocomplete => "off", "data-checkout" => "cardExpirationMonth", :oncopy => "return false", :oncut => "return false", :ondrag => "return false", :ondrop => "return false", :onpaste => "return false", :onselectstart => "return false", :type => "text"}/
+          %p
+            %label{:for => "cardExpirationYear"} Ano de vencimento
+            %input#cardExpirationYear{:autocomplete => "off", "data-checkout" => "cardExpirationYear", :oncopy => "return false", :oncut => "return false", :ondrag => "return false", :ondrop => "return false", :onpaste => "return false", :onselectstart => "return false", :type => "text"}/
+          %p
+            %label{:for => "securityCode"} Código de segurança
+            %input#securityCode{:autocomplete => "off", "data-checkout" => "securityCode", :oncopy => "return false", :oncut => "return false", :ondrag => "return false", :ondrop => "return false", :onpaste => "return false", :onselectstart => "return false", :type => "text"}/
+          %p
+            %label{:for => "installments"} Parcelas
+            %select#installments.form-control{:name => "installments"}
+
+          %select#docType{"data-checkout" => "docType", style: "display: none", value: "#{current_user.social_security_number.present? ? 'CPF' : 'CNPJ'}"}
+          %input#docNumber{"data-checkout" => "docNumber", :type => "text", style: "display: none", value: "#{current_user.social_security_number.present? ? current_user.social_security_number.gsub('.', '').gsub('-', '') : current_user.tax_number.gsub('.', '').gsub('-', '').gsub('/', '')}"}
+
+
+          %input#email{:name => "email", :type => "email", :value => "#{current_user.email}", style: "display: none"}
+
+          %input#payment_method_id{:name => "payment_method_id", :type => "hidden"}
+          %button.button.button--green.button--full-width{:type => "submit", :value => "Pagar"} Finalizar Pagamento
+
+    #billet.payment_form
+      %h2.title Em breve você poderá fazer os seus pedidos pagando no boleto bancário!
+
+
+    #bank_transfer.payment_form
+      %h2.title Você pode pagar através de Transferência ou depósito em uma das contas listadas abaixo:
+      %h3 Ao realizar o pagamento ou transferência, anexe o comprovante no campo no final desta página para que possamos verificar seu pagamento e autorizar o seu pedido
+
+      .box
+        %p
+          %strong Caixa Econômica
+        %p Agência: 0051 Conta: 220423-1 Tipo: poupança-013
+        %p Titular: Carter leiser da Silva 010.715.864-75
+        %p Transferência, DOC e depósito
+      .box
+        %p
+          %strong BRADESCO
+        %p Agência: 3211 Conta: 59582-9 Tipo: corrente
+        %p Titular: Carter Leiser da Silva 010.715.864-75
+      .box
+        %p
+          %strong BANCO DO BRASIL
+        %p Agência: 4380-X Conta: 25853-9 Tipo: 051-POUPANÇA
+        %p Titular: Elina de Alencar Rodrigues 43402831856
+      .box
+        %p
+          %strong ITAÚ
+        %p Agência: 0453 Conta: 23130-0 Tipo: CORRENTE
+        %p Titular: Elina de A. Rodrigues 26.391.872/0001-11
+      .box
+        %p
+          %strong Nubank
+        %p Agência: 260 - Nu pagamentos Conta: 44159358-4
+        %p Titular: Elina de Alencar Rodrigues
+      .box
+        %p
+          %strong CAIXA
+        %p Agência: 1958 Conta: 2353-8 Tipo: 003
+        %p Titular: Paulo Zito de Sousa 22.741.382/0001-47
+      .box
+        %p
+          %strong 323 Mercado Pago
+        %p Agência: 0001 Conta: 1641714604-7 Tipo: conta de pagamento
+        %p Titular: Carter Leiser da Silva 01071586475
+      .box
+        %p
+          %strong Banco Digio S.A.
+        %p Agência: 0001 Conta: 000216008-0 Tipo: corrente
+        %p Titular: Elina de Alencar Rodrigues 43402831856
+
+      %h3 Anexe o comprovante do seu pagamento abaixo e clique no botão "Solicitar confirmação"
+
+      = simple_form_for @purchase, html: { class: "fancy-form" } do |f|
+        = f.input :comprovant, label: "comprovante"
+        = f.input :status, as: :hidden, input_html: { value: "Aguardando confirmação de pagamento" }
+        = f.input :payment_method, as: :hidden, input_html: { value: "Depósito / Transferência" }
+        %button.button.button--green.button--full-width#authorize{:type => "submit", disabled: 'disabled'} Solicitar confirmação
+
+- content_for :head do
+  %meta{:content => "reload", :name => "turbolinks-visit-control"}/
+
+- content_for :javascript do
+  :javascript
+    $('#purchase_comprovant').change(function() {
+      if ($(this).get(0).files.length > 0) {
+        $('#authorize').attr('disabled', false);
+      } else {
+        $('#authorize').attr('disabled', 'disabled');
+      }
+    });
+
+    function setPaymentMethod(element) {
+      var method = element.attr("data-value");
+      $('.method').removeClass('method');
+      element.addClass('method');
+
+      $('.payment_form').removeClass('active');
+      $('#' + method).addClass('active')
+
+      $('#purchase_payment_method').attr("value", method);
+    }

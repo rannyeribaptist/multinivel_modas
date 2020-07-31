@@ -1,0 +1,62 @@
+.section
+  .section__content
+    %h3 Tamanhos dos produtos
+
+    .table
+      %table.table
+        %thead
+          %tr
+            %th Tamanho
+            %th
+
+        %tbody
+          - @sizes.each do |size|
+            %tr
+              %td= size.size
+              %td
+                = link_to size, method: :delete, data: { confirm: 'Tem certeza que deseja excluir este tamanho?' } do
+                  %img.destroy{src: "https://icongr.am/clarity/trash.svg?color=F20505", style: "max-width: 20px"}
+
+    %br
+
+    %strong Adicionar novo
+
+    = simple_form_for ProductSize.new, html: { class: "fancy-form" } do |f|
+      = f.input :size, label: "Tamanho"
+      %button.button.button--green{type: "submit"} Adicionar
+
+    %br
+    %hr{style: "width: 100%"}
+    %br
+
+    %h3 Categorias dos produtos
+
+    .table
+      %table.table
+        %thead
+          %tr
+            %th Ícone
+            %th Nome
+            %th
+
+        %tbody
+          - @categories.each do |category|
+            %tr
+              %td= image_tag(category.icon.thumb.url) if category.icon.present?
+              %td= category.name
+              %td
+                = link_to category, method: :delete, data: { confirm: 'Tem certeza que deseja excluir esta categoria?' } do
+                  %img.destroy{src: "https://icongr.am/clarity/trash.svg?color=F20505", style: "max-width: 20px"}
+    %br
+
+    %strong Adicionar novo
+
+    = simple_form_for ProductCategory.new, html: { class: "fancy-form" } do |f|
+      = f.input :name, label: "Nome da categoria"
+      = f.input :icon, label: "Ícone", input_html: { style: "margin-bottom: 0" }
+      %small Máximo 15mb
+
+      %br
+      %br
+
+      %button.button.button--green{type: "submit"} Adicionar

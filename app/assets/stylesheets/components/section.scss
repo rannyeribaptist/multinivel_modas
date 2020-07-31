@@ -1,0 +1,60 @@
+@import "variables";
+
+.section {
+  overflow: hidden;
+
+  @include breakpoint("medium") { min-height: 80vh }
+
+  &--fixed-size {
+    @include breakpoint("medium") { height: 80vh }
+    // For smaller screens or landscape mode
+    @include breakpoint("small-height") { min-height: 100vh; height: unset; }
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    padding: 15px;
+
+    @include breakpoint("limiter");
+    @include breakpoint("small-height") { padding-top: 80px; }
+  }
+
+  @include colors("background-color");
+
+  &--gradient {
+    background-image: linear-gradient(45deg, $pink, #c533f5);
+    color: white;
+    position: relative;
+    min-height: 800px;
+    max-height: 60vh;
+
+    &__content {
+      position: absolute;
+      z-index: 1;
+      left: 0;
+      right: 0;
+    }
+  }
+
+  &__background {
+    width: 100%;
+    height: -webkit-fill-available;
+    position: absolute;
+    background-image: linear-gradient(-45deg, $pink, #c533f5);
+    opacity: 0;
+    z-index: 0;
+
+    -webkit-animation: bgcolor 10s infinite;
+    animation: bgcolor 10s infinite;
+  }
+}
+
+footer {
+  padding-bottom: 5px;
+  text-align: center;
+
+  .fas, .fab, .fa { color: white; font-size: 20px }
+}

@@ -1,0 +1,12 @@
+-# frozen_string_literal: true
+= simple_form_for(@assemble_order) do |f|
+  = f.error_notification
+  = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
+
+  .form-inputs
+    = f.input :last_assembler
+    = f.input :next_assembler
+    = f.input :assembler_list
+
+  .form-actions
+    = f.button :submit

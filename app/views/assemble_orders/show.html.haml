@@ -1,0 +1,15 @@
+%p#notice= notice
+
+%p
+  %b Last assembler:
+  = @assemble_order.last_assembler
+%p
+  %b Next assembler:
+  = @assemble_order.next_assembler
+%p
+  %b Assembler list:
+  = @assemble_order.assembler_list
+
+= link_to 'Edit', edit_assemble_order_path(@assemble_order)
+\|
+= link_to 'Back', assemble_orders_path

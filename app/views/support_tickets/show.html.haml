@@ -1,0 +1,15 @@
+%p#notice= notice
+
+%p
+  %b Ticket:
+  = @support_ticket.ticket
+%p
+  %b Filled by:
+  = @support_ticket.filled_by
+%p
+  %b Purchase:
+  = @support_ticket.purchase
+
+= link_to 'Edit', edit_support_ticket_path(@support_ticket)
+\|
+= link_to 'Back', support_tickets_path

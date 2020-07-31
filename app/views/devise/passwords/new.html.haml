@@ -1,0 +1,21 @@
+.section
+  .section__content.text-center
+    = image_tag("logo-horizontal.png", style: "width: 100%; height: auto; max-width: 250px; margin: 0 auto;")
+    %h1.title Esqueci minha senha
+
+    = simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post, class: "fancy-form" }) do |f|
+      = f.error_notification
+      %p Digite seu e-mail e nós enviaremos instruções de recuperação da sua senha
+      .form-inputs
+        = f.input :email,                       |
+          required: true,                       |
+          autofocus: true,                      |
+          input_html: { autocomplete: "email" },
+          label: "E-mail"
+      .form-actions
+        %button{type: "submit", class: "button button--full-width button--green"} Enviar instruções
+
+    %br
+    = render "devise/shared/links"
+
+    = image_tag("baptist-software.png", style: "width: 100%; height: auto; max-width: 100px; margin: 0 auto;position: absolute; bottom: 0; left: 0; right: 0;margin-bottom: 10px;")

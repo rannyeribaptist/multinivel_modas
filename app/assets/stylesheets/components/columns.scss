@@ -1,0 +1,54 @@
+@import "variables";
+
+.columns {
+  text-align: center;
+
+  &--left { text-align: left }
+}
+
+.column {
+  display: inline-block;
+
+  &--1 { width: 99% }
+  &--2 { width: 49% }
+  &--3 { width: 32% }
+  &--4 { width: 24% }
+  &--5 { width: 19% }
+  &--6 { width: 15% }
+
+  @include breakpoint("small-up") {
+    &--sm-1 { width: 99% }
+    &--sm-2 { width: 49% }
+    &--sm-3 { width: 32% }
+    &--sm-4 { width: 24% }
+    &--sm-5 { width: 19% }
+    &--sm-6 { width: 15% }
+  }
+
+  @include breakpoint("medium") {
+    &--md-1 { width: 99% }
+    &--md-2 { width: 49% }
+    &--md-3 { width: 32% }
+    &--md-4 { width: 24% }
+    &--md-5 { width: 19% }
+    &--md-6 { width: 15% }
+  }
+
+  @include breakpoint("large") {
+    &--lg-1 { width: 99% }
+    &--lg-2 { width: 49% }
+    &--lg-3 { width: 32% }
+    &--lg-4 { width: 24% }
+    &--lg-5 { width: 19% }
+    &--lg-6 { width: 15% }
+  }
+
+  @include breakpoint("extra-large") {
+    &--xl-1 { width: 99% }
+    &--xl-2 { width: 49% }
+    &--xl-3 { width: 32% }
+    &--xl-4 { width: 24% }
+    &--xl-5 { width: 19% }
+    &--xl-6 { width: 15% }
+  }
+}

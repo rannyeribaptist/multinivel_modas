@@ -1,0 +1,32 @@
+.section
+  .section__content
+    - if not current_user.role == "seller"
+      .card.card--blue{style: "background-image: url(https://icongr.am/feather/dollar-sign.svg?color=0b5d7d);background-repeat: no-repeat;background-size: 70px;background-position-y: 140%;"}
+        .card__content
+          %p Seu saldo atual: R$ 0,00
+
+      .columns
+        .column.column--2
+          .card.card--pink{style: "background-image: url(https://icongr.am/feather/package.svg?color=791e2e);background-repeat: no-repeat;background-size: 70px;background-position-y: 140%;"}
+            .card__content
+              %p Meus pedidos
+        .column.column--2
+          = link_to store_path do
+            .card.card--green{style: "background-image: url(https://icongr.am/jam/shopping-cart.svg?color=195a52);background-repeat: no-repeat;background-size: 70px;background-position-y: 140%;"}
+              .card__content
+                %p Comprar
+
+      = link_to user_levels_path do
+        .card.card--yellow{style: "background-image: url(https://icongr.am/feather/layers.svg?color=866705);background-repeat: no-repeat;background-size: 70px;background-position-y: 140%;"}
+          .card__content
+            %p Minha Rede
+    - else
+      = link_to new_product_path do
+        .card.card--yellow{style: "background-image: url(https://icongr.am/feather/package.svg?color=866705);background-repeat: no-repeat;background-size: 70px;background-position-y: 140%;"}
+          .card__content
+            %p Cadastrar produto
+
+      = link_to products_path do
+        .card.card--yellow{style: "background-image: url(https://icongr.am/feather/layers.svg?color=866705);background-repeat: no-repeat;background-size: 70px;background-position-y: 140%;"}
+          .card__content
+            %p Meus produtos

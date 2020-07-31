@@ -1,0 +1,46 @@
+.categories
+  .categories__content
+    = form_for_filterrific @filterrific, remote: true, html: {style: 'display: none'} do |f|
+      = f.text_field(:with_category_id)
+    - ProductCategory.all.each do |category|
+      .category{onclick: "$('#filterrific_with_category_id')[0].value = #{category.id}; $('#filterrific_filter').submit()"}
+        .img
+          - if not category.icon.present?
+            %img{src: "http://via.placeholder.com/50x50"}
+          - else
+            = image_tag(category.icon.url)
+        %text= category.name.capitalize!
+
+= render(partial: 'products/list', locals: { products: @products })
+
+- content_for :modal do
+  .modal
+    %img.modal__close{src: "https://icongr.am/feather/x.svg", onclick: "$('.modal').toggle()"}
+    .modal__content
+      = render partial: "shopping_carts/show", shopping_cart: @shopping_cart
+
+- content_for :head do
+  %link{:href => "https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css", :rel => "stylesheet", :type => "text/css"}/
+  %link{:href => "https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css", :rel => "stylesheet", :type => "text/css"}/
+
+- content_for :javascript do
+  %script{src: "https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js", type: "text/javascript"}
+
+  :javascript
+    $(document).ready(function(){
+      $('.product__pics').slick({
+        infinite: false
+      });
+    });
+
+    $('.size-button').click(function() {
+      var button = $(this).attr('data-toggle');
+      var product = $(this).attr('product-id');
+      $('#' + button).prop('checked', true);
+      $(".sb" + product).removeClass("selected-size");
+      $(this).addClass("selected-size");
+    });
+
+    $('.more').click(function() {
+      $(this).closest('.product__head').find('.product__more').toggle();
+    });
