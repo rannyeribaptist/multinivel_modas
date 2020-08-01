@@ -1,0 +1,15 @@
+%p#notice= notice
+
+%p
+  %b Purchase:
+  = @assemble.purchase
+%p
+  %b User:
+  = @assemble.user
+%p
+  %b Status:
+  = @assemble.status
+
+= link_to 'Edit', edit_assemble_path(@assemble)
+\|
+= link_to 'Back', assembles_path

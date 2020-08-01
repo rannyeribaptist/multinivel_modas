@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_23_033219) do
+ActiveRecord::Schema.define(version: 2020_07_31_001741) do
 
   create_table "addresses", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -24,6 +24,24 @@ ActiveRecord::Schema.define(version: 2020_07_23_033219) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "cep"
     t.index ["user_id"], name: "index_addresses_on_user_id"
+  end
+
+  create_table "assemble_orders", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.integer "last_assembler"
+    t.integer "next_assembler"
+    t.string "assembler_list", default: "--- []\n"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "assembles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.bigint "purchase_id", null: false
+    t.bigint "user_id", null: false
+    t.string "status"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["purchase_id"], name: "index_assembles_on_purchase_id"
+    t.index ["user_id"], name: "index_assembles_on_user_id"
   end
 
   create_table "bank_account_informations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
@@ -56,6 +74,12 @@ ActiveRecord::Schema.define(version: 2020_07_23_033219) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_credit_informations_on_user_id"
+  end
+
+  create_table "orders", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.string "xml_file"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "product_categories", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
@@ -92,6 +116,7 @@ ActiveRecord::Schema.define(version: 2020_07_23_033219) do
     t.string "sizes", default: "--- []\n"
     t.string "original_price"
     t.boolean "approved", default: false
+    t.string "location"
     t.index ["user_id"], name: "index_products_on_user_id"
   end
 
@@ -102,8 +127,18 @@ ActiveRecord::Schema.define(version: 2020_07_23_033219) do
     t.integer "quantity"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "status"
     t.index ["product_id"], name: "index_purchase_items_on_product_id"
     t.index ["purchase_id"], name: "index_purchase_items_on_purchase_id"
+  end
+
+  create_table "purchase_orders", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.bigint "product_id", null: false
+    t.integer "quantity"
+    t.string "status"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["product_id"], name: "index_purchase_orders_on_product_id"
   end
 
   create_table "purchases", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
@@ -135,6 +170,15 @@ ActiveRecord::Schema.define(version: 2020_07_23_033219) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_shopping_carts_on_user_id"
+  end
+
+  create_table "support_tickets", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.string "ticket"
+    t.string "filled_by"
+    t.bigint "purchase_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["purchase_id"], name: "index_support_tickets_on_purchase_id"
   end
 
   create_table "url_minifiers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
@@ -173,6 +217,8 @@ ActiveRecord::Schema.define(version: 2020_07_23_033219) do
   end
 
   add_foreign_key "addresses", "users"
+  add_foreign_key "assembles", "purchases"
+  add_foreign_key "assembles", "users"
   add_foreign_key "bank_account_informations", "users"
   add_foreign_key "cats", "product_categories"
   add_foreign_key "cats", "products"
@@ -181,9 +227,11 @@ ActiveRecord::Schema.define(version: 2020_07_23_033219) do
   add_foreign_key "products", "users"
   add_foreign_key "purchase_items", "products"
   add_foreign_key "purchase_items", "purchases"
+  add_foreign_key "purchase_orders", "products"
   add_foreign_key "purchases", "addresses"
   add_foreign_key "purchases", "users"
   add_foreign_key "shopping_cart_items", "shopping_carts"
   add_foreign_key "shopping_carts", "users"
+  add_foreign_key "support_tickets", "purchases"
   add_foreign_key "url_minifiers", "users"
 end

@@ -1,0 +1,2 @@
+class AssembleOrder < ApplicationRecord
+end

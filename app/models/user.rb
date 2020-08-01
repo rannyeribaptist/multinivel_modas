@@ -11,6 +11,7 @@ class User < ApplicationRecord
   has_one :credit_information, dependent: :destroy
   has_one :url_minifier, dependent: :destroy
   has_one :shopping_cart, dependent: :destroy
+  has_one :assemble, dependent: :destroy
 
   has_many :products
   has_many :purchases, dependent: :destroy
@@ -19,7 +20,7 @@ class User < ApplicationRecord
 
   serialize :invited_ids, Array
 
-  validates :role, acceptance: { accept: ["seller", "consultant", "admin", "client", "franchise"] }
+  validates :role, acceptance: { accept: ["seller", "consultant", "admin", "client", "franchise", "assembler", "financial", "support", "aquisition"] }
   validates :graduation, acceptance: { accept: ["sênior", "bronze", "prata", "ouro", "diamante", "imperial"] }
 
   validates_uniqueness_of :invitation_token, only: :update

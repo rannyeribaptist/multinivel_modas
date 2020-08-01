@@ -1,10 +1,11 @@
 class Product < ApplicationRecord
   belongs_to :user
 
-  validates_presence_of :name, :description, :original_price
+  validates_presence_of :name, :description, :original_price, :location
 
   has_many :product_pictures, dependent: :destroy
   has_many :cats, dependent: :destroy
+  has_many :puchase_order, dependent: :destroy
   accepts_nested_attributes_for :product_pictures, allow_destroy: :true, reject_if: :all_blank
 
   validate :product_pictures_presence

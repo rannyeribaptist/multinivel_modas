@@ -1,0 +1,15 @@
+%p#notice= notice
+
+%p
+  %b Product:
+  = @purchase_order.product
+%p
+  %b Quantity:
+  = @purchase_order.quantity
+%p
+  %b Status:
+  = @purchase_order.status
+
+= link_to 'Edit', edit_purchase_order_path(@purchase_order)
+\|
+= link_to 'Back', purchase_orders_path
