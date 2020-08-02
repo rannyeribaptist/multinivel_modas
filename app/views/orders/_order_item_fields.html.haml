@@ -1,0 +1,9 @@
+.nested-fields
+  .columns.columns--small
+    .column.column--sm-3
+      = f.input :item_name, label: "Nome do produto"
+    .column.column--sm-3{style: "margin: 0 7px;"}
+      = f.input :item_option, label: "Opção"
+    .column.column--sm-3
+      = f.input :quantity, label: "Quantidade"
+  = link_to_remove_association "- Remover produto", f, class: "button button--red"
