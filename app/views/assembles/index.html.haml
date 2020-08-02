@@ -1,25 +1,24 @@
-%h1 Listing assembles
+.section
+  .section__content
+    %h1 Ordens de Montagem
 
-%table
-  %thead
-    %tr
-      %th Purchase
-      %th User
-      %th Status
-      %th
-      %th
-      %th
+    %table
+      %thead
+        %tr
+          %th #
+          %th Nº do Pedido
+          %th Status
+          %th
 
-  %tbody
-    - @assembles.each do |assemble|
-      %tr
-        %td= assemble.purchase
-        %td= assemble.user
-        %td= assemble.status
-        %td= link_to 'Show', assemble
-        %td= link_to 'Edit', edit_assemble_path(assemble)
-        %td= link_to 'Destroy', assemble, method: :delete, data: { confirm: 'Are you sure?' }
-
-%br
-
-= link_to 'New Assemble', new_assemble_path
+      %tbody
+        - @assembles.each do |assemble|
+          - if assemble.order.status != "Pendente pagamento"
+            %tr
+              %td= assemble.id
+              %td= assemble.order.order_identification
+              %td= assemble.status
+              %td
+                = link_to assemble do
+                  %img{src: "https://icongr.am/clarity/bundle.svg?color=31a39a", style: "max-width: 20px"}
+                  %text{style: "color: #31a39a"}
+                    Iniciar Montagem

@@ -43,12 +43,9 @@ class OrdersController < ApplicationController
         format.html { redirect_to @order, notice: 'Order was successfully created.' }
         format.json { render :show, status: :created, location: @order }
 
-        update_products_quantity(@order)
         create_assemble(@order)
         create_purchase_order(@order)
       else
-        puts "AAAAAAAAAAAAAAAAAAAAAA"
-        puts @order.errors.inspect
         format.html { render :new }
         format.json { render json: @order.errors, status: :unprocessable_entity }
       end
@@ -60,8 +57,13 @@ class OrdersController < ApplicationController
   def update
     respond_to do |format|
       if @order.update(order_params)
+        if params[:order][:order_items_attributes]["0"]["status"] == "Adicionado"
+          update_product_quantity(params[:order][:order_items_attributes]["0"][:id])
+        end
+
         format.html { redirect_to @order, notice: 'Order was successfully updated.' }
         format.json { render :show, status: :ok, location: @order }
+        format.js {}
       else
         format.html { render :edit }
         format.json { render json: @order.errors, status: :unprocessable_entity }

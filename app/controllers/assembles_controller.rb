@@ -4,7 +4,7 @@ class AssemblesController < ApplicationController
   # GET /assembles
   # GET /assembles.json
   def index
-    @assembles = Assemble.all
+    @assembles = Assemble.where(:status => "Pendente montagem")
   end
 
   # GET /assembles/1
@@ -42,7 +42,7 @@ class AssemblesController < ApplicationController
   def update
     respond_to do |format|
       if @assemble.update(assemble_params)
-        format.html { redirect_to @assemble, notice: 'Assemble was successfully updated.' }
+        format.html { redirect_to assembles_path, notice: 'Concluído' }
         format.json { render :show, status: :ok, location: @assemble }
       else
         format.html { render :edit }

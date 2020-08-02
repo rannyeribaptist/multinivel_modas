@@ -100,6 +100,14 @@ module ApplicationHelper
     end
   end
 
+  def update_product_quantity(item_id)
+    item OrderItem.find_by_id(item_id)
+    current_quantity = Product.find_by_location(item.product_reference).quantity
+    quantity = current_quantity.to_i - item.quantity.to_i
+    
+    Product.find_by_location(item.product_reference).update_attribute(:quantity, quantity)
+  end
+
   def set_assembler
     order = AssembleOrder.first
 
