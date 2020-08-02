@@ -15,7 +15,7 @@ class OrdersController < ApplicationController
   # GET /orders/new
   def new
     @order = Order.new
-    @order.build_address
+    @order.build_order_address
     @order.order_items.build
   end
 
@@ -28,21 +28,27 @@ class OrdersController < ApplicationController
   def create
     @order = Order.new(order_params)
 
-    if @order.xml_file.present?
-      require 'json'
-      require 'active_support/core_ext'
-
-      order_data = Hash.from_xml(@order.xml_file).to_json
-      puts "AAAAAAAAAAAAA"
-      puts order_data
-      puts "AAAAAAAAAAAAA"
-    end
+    # if @order.xml_file.present?
+    #   require 'json'
+    #   require 'active_support/core_ext'
+    #
+    #   order_data = Hash.from_xml(@order.xml_file).to_json
+    #   puts "AAAAAAAAAAAAA"
+    #   puts order_data
+    #   puts "AAAAAAAAAAAAA"
+    # end
 
     respond_to do |format|
       if @order.save
         format.html { redirect_to @order, notice: 'Order was successfully created.' }
         format.json { render :show, status: :created, location: @order }
+
+        update_products_quantity(@order)
+        create_assemble(@order)
+        create_purchase_order(@order)
       else
+        puts "AAAAAAAAAAAAAAAAAAAAAA"
+        puts @order.errors.inspect
         format.html { render :new }
         format.json { render json: @order.errors, status: :unprocessable_entity }
       end
@@ -82,7 +88,7 @@ class OrdersController < ApplicationController
     # Only allow a list of trusted parameters through.
     def order_params
       params.require(:order).permit(:xml_file, :order_identification, :client_name, :client_email, :client_id, :client_phone, :date, :status,
-                                    :order_items_attributes => [:item_name, :id, :_destroy, :item_option, :order_id, :quantity],
-                                    :address_attributes => [:id, :street, :neightbohood, :city, :state, :number, :complement, :cep])
+                                    :order_items_attributes => [:item_name, :id, :_destroy, :item_option, :order_id, :quantity, :status, :product_reference],
+                                    :order_address_attributes => [:id, :street, :neighbohood, :city, :state, :number, :complement, :cep])
     end
 end

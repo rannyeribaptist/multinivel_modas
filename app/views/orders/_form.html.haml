@@ -22,9 +22,9 @@
 
   %h3 Endereço
 
-  = f.simple_fields_for :address do |g|
+  = f.simple_fields_for :order_address do |g|
     = g.input :street, label: "Rua"
-    = g.input :neightbohood, label: "Bairro"
+    = g.input :neighbohood, label: "Bairro"
     = g.input :city, label: "Cidade"
     = g.input :state, label: "Estado"
     = g.input :number, label: "Número"

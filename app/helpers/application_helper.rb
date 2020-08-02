@@ -75,29 +75,38 @@ module ApplicationHelper
     end
   end
 
-  def create_purchase_order(purchase)
-    purchase.purchase_items.each do |item|
-      purchase_order.create(product_id: item.product_id, quantity: item.quantity, status: "Solicitação de compra")
+  def create_purchase_order(order)
+    order.order_items.each do |item|
+      product = Product.find_by_location(item.product_reference)
+      PurchaseOrder.create(product_id: item.order_id, quantity: item.quantity, status: "Pendente Pagamento") if product.present?
     end
   end
 
-  def create_assemble(purchase)
+  def create_assemble(order)
     assembler = set_assembler()
 
-    purchase.purchase_items.each do |item|
-      item.update_attribute(:status => "ok")
+    order.order_items.each do |item|
+      item.update_attribute(:status, "Em estoque")
     end
 
-    assemble = Assemble.create(purchase_id: purchase.id, user_id: assembler, status: "Pendente montagem")
+    assemble = Assemble.create(order_id: order.id, user_id: assembler, status: "Pendente montagem")
+  end
+
+  def update_products_quantity(order)
+    order.order_items.each do |item|
+      current_quantity = Product.find_by_location(item.product_reference).quantity
+      quantity = current_quantity.to_i - item.quantity.to_i
+      Product.find_by_location(item.product_reference).update_attribute(:quantity, quantity)
+    end
   end
 
   def set_assembler
     order = AssembleOrder.first
 
-    if (order.assemblers_list.find_index(order.next_assembler)) == (order.assemblers_list.length - 1)
-      next_assembler_index = order.assemblers_list.first
+    if (order.assembler_list.find_index(order.next_assembler)) == (order.assembler_list.length.to_i - 1)
+      next_assembler_index = order.assembler_list.first
     else
-      next_assembler_index = order.assemblers_list.find_index(order.next_assembler) + 1
+      next_assembler_index = order.assembler_list[find_index(order.next_assembler) + 1]
     end
 
     order.last_assembler = order.next_assembler

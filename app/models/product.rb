@@ -10,6 +10,8 @@ class Product < ApplicationRecord
 
   validate :product_pictures_presence
 
+  validates_uniqueness_of :location
+
   serialize :categories, Array
   serialize :sizes, Array
 

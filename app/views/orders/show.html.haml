@@ -1,9 +1,82 @@
-%p#notice= notice
+.section
+  .section__content
+    %h1.title Visualizando Pedido
 
-%p
-  %b Xml file:
-  = @order.xml_file
+    %h3 Informações do pedido
+    %p
+      %strong id:
+      = @order.order_identification
+    %p
+      %strong status
+      = @order.status
+    %p
+      %strong data
+      = @order.date
 
-= link_to 'Edit', edit_order_path(@order)
-\|
-= link_to 'Back', orders_path
+    %h3 Informações do cliente
+    %p
+      %strong Nome
+      = @order.client_name
+    %p
+      %strong CPF
+      = @order.client_id
+    %p
+      %strong E-mail
+      = @order.client_email
+    %p
+      %strong Telefone
+      = @order.client_phone
+
+    %h3 Informações de Endereço
+    %p
+      %strong Rua
+      = @order.order_address.street
+    %p
+      %strong Bairro
+      = @order.order_address.neighbohood
+    %p
+      %strong Cidade
+      = @order.order_address.city
+    %p
+      %strong Estado
+      = @order.order_address.state
+    %p
+      %strong CEP
+      = @order.order_address.cep
+    %p
+      %strong Número
+      = @order.order_address.number
+    %p
+      %strong Complemento
+      = @order.order_address.complement
+
+    %h3 Itens do pedido
+    - @order.order_items.each do |item|
+      - if Product.find_by_location(item.product_reference).present?
+        %p
+          %strong Nome do produto
+          = Product.find_by_location(item.product_reference).name
+        %p
+          %strong Foto do produto
+          = image_tag(Product.find_by_location(item.product_reference).product_pictures.first.picture.thumb.url)
+      - else
+        %p
+          %strong Nome do produto
+          = item.item_name
+      %p
+        %strong Quantidade
+        = item.quantity
+      %p
+        %strong Opção
+        = item.item_option
+      %p
+        %strong Referência/Localização
+        = item.product_reference
+      %p
+        %strong Status do item
+        = item.status
+
+
+    = link_to 'Edit', edit_order_path(@order)
+    \|
+    = link_to 'Back', orders_path
