@@ -18,7 +18,13 @@
               %td= assemble.order.order_identification
               %td= assemble.status
               %td
-                = link_to assemble do
-                  %img{src: "https://icongr.am/clarity/bundle.svg?color=31a39a", style: "max-width: 20px"}
-                  %text{style: "color: #31a39a"}
-                    Iniciar Montagem
+                - if assemble.status == "Pendente montagem"
+                  = link_to assemble do
+                    %img{src: "https://icongr.am/clarity/bundle.svg?color=31a39a", style: "max-width: 20px"}
+                    %text{style: "color: #31a39a"}
+                      Iniciar Montagem
+                - if assemble.status == "Pendente revisão"
+                  = link_to checkout_assemble_path(assemble) do
+                    %img{src: "https://icongr.am/clarity/bundle.svg?color=e63d61", style: "max-width: 20px"}
+                    %text{style: "color: #e63d61"}
+                      Revisar pedido

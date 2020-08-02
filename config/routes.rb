@@ -3,7 +3,6 @@ Rails.application.routes.draw do
   resources :assembles
   resources :assemble_orders
   resources :orders
-  resources :support_tickets
   resources :purchases
   devise_for :users, controllers: { sessions: 'users/sessions', registrations: 'users/registrations' }
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
@@ -34,6 +33,8 @@ Rails.application.routes.draw do
 
     get "/unauthorized_payments", to: "purchases#unauthorized_payments", as: :unauthorized_payments
     post "/authorize_payment/:id", to: "purchases#authorize_payment", as: :authorize_payment
+
+    get "checkout_assemble/:id", to: "assembles#checkout_assemble", as: :checkout_assemble
   end
 
   devise_scope :user do

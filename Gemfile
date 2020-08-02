@@ -1,7 +1,7 @@
-  source 'https://rubygems.org'
+source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '>=2.6.3'
+ruby '2.6.3'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 6.0.2', '>= 6.0.2.1'
@@ -58,7 +58,7 @@ gem 'will_paginate', '~> 3.1.0'
 gem 'mercadopago-sdk', '~> 1.2'
 
 # deal with json
-gem 'json'
+# gem 'json'
 
 group :test do
   # for better unit tests

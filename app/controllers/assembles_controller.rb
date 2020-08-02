@@ -1,10 +1,12 @@
 class AssemblesController < ApplicationController
-  before_action :set_assemble, only: [:show, :edit, :update, :destroy]
+  before_action :set_assemble, only: [:show, :edit, :update, :destroy, :checkout_assemble]
 
   # GET /assembles
   # GET /assembles.json
   def index
-    @assembles = Assemble.where(:status => "Pendente montagem")
+    @assembles = Assemble.where(:status => "Pendente montagem") if current_user.role == "assembler"
+    @assembles = Assemble.where(:status => "Pendente revisão") if current_user.role == "support"
+    @assembles = Assemble.where("status = 'Pendente revisão' OR status = 'Pendente montagem'") if current_user.role == "admin"
   end
 
   # GET /assembles/1
@@ -59,6 +61,9 @@ class AssemblesController < ApplicationController
       format.html { redirect_to assembles_url, notice: 'Assemble was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def checkout_assemble
   end
 
   private
