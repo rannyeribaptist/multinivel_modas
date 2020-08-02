@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_31_001741) do
+ActiveRecord::Schema.define(version: 2020_08_02_032507) do
 
   create_table "addresses", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -23,6 +23,8 @@ ActiveRecord::Schema.define(version: 2020_07_31_001741) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "cep"
+    t.bigint "order_id", null: false
+    t.index ["order_id"], name: "index_addresses_on_order_id"
     t.index ["user_id"], name: "index_addresses_on_user_id"
   end
 
@@ -76,10 +78,28 @@ ActiveRecord::Schema.define(version: 2020_07_31_001741) do
     t.index ["user_id"], name: "index_credit_informations_on_user_id"
   end
 
-  create_table "orders", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
-    t.string "xml_file"
+  create_table "order_items", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.string "item_name"
+    t.string "item_option"
+    t.bigint "order_id", null: false
+    t.string "quantity"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["order_id"], name: "index_order_items_on_order_id"
+  end
+
+  create_table "orders", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.text "xml_file"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "order_identification"
+    t.string "client_name"
+    t.string "client_email"
+    t.string "client_id"
+    t.string "client_phone"
+    t.string "date"
+    t.string "status"
+    t.text "data_converted"
   end
 
   create_table "product_categories", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
@@ -223,6 +243,7 @@ ActiveRecord::Schema.define(version: 2020_07_31_001741) do
   add_foreign_key "cats", "product_categories"
   add_foreign_key "cats", "products"
   add_foreign_key "credit_informations", "users"
+  add_foreign_key "order_items", "orders"
   add_foreign_key "product_pictures", "products"
   add_foreign_key "products", "users"
   add_foreign_key "purchase_items", "products"

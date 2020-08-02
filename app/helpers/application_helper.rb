@@ -74,4 +74,35 @@ module ApplicationHelper
       item.destroy
     end
   end
+
+  def create_purchase_order(purchase)
+    purchase.purchase_items.each do |item|
+      purchase_order.create(product_id: item.product_id, quantity: item.quantity, status: "Solicitação de compra")
+    end
+  end
+
+  def create_assemble(purchase)
+    assembler = set_assembler()
+
+    purchase.purchase_items.each do |item|
+      item.update_attribute(:status => "ok")
+    end
+
+    assemble = Assemble.create(purchase_id: purchase.id, user_id: assembler, status: "Pendente montagem")
+  end
+
+  def set_assembler
+    order = AssembleOrder.first
+
+    if (order.assemblers_list.find_index(order.next_assembler)) == (order.assemblers_list.length - 1)
+      next_assembler_index = order.assemblers_list.first
+    else
+      next_assembler_index = order.assemblers_list.find_index(order.next_assembler) + 1
+    end
+
+    order.last_assembler = order.next_assembler
+    order.next_assembler = next_assembler_index
+
+    return order.next_assembler
+  end
 end

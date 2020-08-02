@@ -76,6 +76,7 @@ $yellow: #ffc406;
     &--yellow { background-color: $yellow };
     &--gray { background-color: $gray };
     &--light-gray { background-color: $light-gray };
+    &--red { background-color: $red };
   }
 
   @else if $attribute == border-color {

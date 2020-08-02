@@ -15,6 +15,8 @@ class OrdersController < ApplicationController
   # GET /orders/new
   def new
     @order = Order.new
+    @order.build_address
+    @order.order_items.build
   end
 
   # GET /orders/1/edit
@@ -25,6 +27,16 @@ class OrdersController < ApplicationController
   # POST /orders.json
   def create
     @order = Order.new(order_params)
+
+    if @order.xml_file.present?
+      require 'json'
+      require 'active_support/core_ext'
+
+      order_data = Hash.from_xml(@order.xml_file).to_json
+      puts "AAAAAAAAAAAAA"
+      puts order_data
+      puts "AAAAAAAAAAAAA"
+    end
 
     respond_to do |format|
       if @order.save
@@ -69,6 +81,8 @@ class OrdersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def order_params
-      params.require(:order).permit(:xml_file)
+      params.require(:order).permit(:xml_file, :order_identification, :client_name, :client_email, :client_id, :client_phone, :date, :status,
+                                    :order_items_attributes => [:item_name, :id, :_destroy, :item_option, :order_id, :quantity],
+                                    :address_attributes => [:id, :street, :neightbohood, :city, :state, :number, :complement, :cep])
     end
 end

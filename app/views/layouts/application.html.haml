@@ -111,6 +111,16 @@
               %li
                 %img{src: "https://icongr.am/jam/cog.svg"}
                 = link_to "Configurações", settings_path
+            - if current_user.role == "assembler"
+              menu do assembler
+            - if current_user.role == "finances"
+              menu do finances
+            - if current_user.role == "aquisition"
+              menu do aquisition
+            - if current_user.role == "support"
+              menu do support
+            - else
+              unauthorized
 
           %img.pattern{src: "#{asset_path('group_11.svg')}"}
           = image_tag("logo-horizontal.png", class: "logo")
