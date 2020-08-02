@@ -29,7 +29,7 @@
       = image_tag("logo-vertical.png", style: "width: 100%; height: auto; max-width: 260px; margin: 0 auto;")
       %h1.title Você ainda não cadastrou nenhum produto
 
-    = link_to new_product_path do
+    = link_to new_product_path, "data-turbolinks" => "false" do
       %button.button.button--green Adicionar Produto
 
     = will_paginate @products

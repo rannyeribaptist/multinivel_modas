@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_02_055719) do
+ActiveRecord::Schema.define(version: 2020_08_02_143430) do
 
   create_table "addresses", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -101,6 +101,7 @@ ActiveRecord::Schema.define(version: 2020_08_02_055719) do
     t.string "item_name"
     t.string "status"
     t.string "product_reference"
+    t.string "value"
     t.index ["order_id"], name: "index_order_items_on_order_id"
   end
 
@@ -116,6 +117,7 @@ ActiveRecord::Schema.define(version: 2020_08_02_055719) do
     t.string "date"
     t.string "status"
     t.text "data_converted"
+    t.string "value"
   end
 
   create_table "product_categories", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
@@ -153,6 +155,7 @@ ActiveRecord::Schema.define(version: 2020_08_02_055719) do
     t.string "original_price"
     t.boolean "approved", default: false
     t.string "location"
+    t.string "referece"
     t.index ["user_id"], name: "index_products_on_user_id"
   end
 

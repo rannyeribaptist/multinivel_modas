@@ -4,6 +4,7 @@
     %h3= "Pedido número: " + @assemble.order.order_identification if @assemble.order.order_identification.present?
     %strong= "ID da Ordem de montagem: " + @assemble.id.to_s
     %strong= "Status: " + @assemble.status
+    %strong= "Valor do pedido: " + @assemble.order.value
 
     %br
 
@@ -76,10 +77,12 @@
               %text= "Quantidade: " + item.quantity
               %br
               %text= "Localização: " + item.product_reference
+              %br
+              %text= "Valor: " + item.value
             .column.column--sm-3{style: "text-align: center"}
-              - if item.status == "Adicionado"
+              -# - if item.status == "Adicionado"
                 %strong Item já adicionado!
-              - else
+              -# - else
                 = simple_form_for @assemble.order, remote: true do |f|
                   = f.simple_fields_for :order_items, item do |g|
                     = g.input :status, as: :hidden, input_html: { value: "Adicionado" }
@@ -92,4 +95,4 @@
 
     = simple_form_for @assemble do |f|
       = f.input :status, as: :hidden, input_html: { value: "Expedição" }
-      %button.button.button--full-width.button--large.button--green{type: "submit"} Finalizar Montagem
+      %button.button.button--full-width.button--large.button--green{type: "submit"} Gerar senha de acesso para o cliente

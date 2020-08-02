@@ -1,9 +1,13 @@
-.nested-fields
+.nested-fields{style: "border: 1px solid black; border-radius: 5px"}
   .columns.columns--small
-    .column.column--sm-3
+    .column.column--sm-2
       = f.input :product_reference, label: "Referência do produto"
-    .column.column--sm-3{style: "margin: 0 7px;"}
+    .column.column--sm-2
       = f.input :item_option, label: "Opção"
-    .column.column--sm-3
+    .column.column--sm-2
       = f.input :quantity, label: "Quantidade"
-  = link_to_remove_association "- Remover produto", f, class: "button button--red"
+    .column.column--2
+      = f.input :value, label: "Valor do item"
+  = link_to_remove_association "- Remover produto", f, class: "button button--full-width button--red", style: "margin-left: 5px;"
+  %br
+  %br

@@ -12,6 +12,7 @@
   = f.input :order_identification, label: "ID"
   = f.input :date, label: "Data"
   = f.input :status, label: "Status", as: :select, collection: ["Pendente pagamento", "Pago", "Montagem", "Expedição", "Enviado", "Pendente revisão"]
+  = f.input :value, label: "Valor total do pedido"
 
   %h3 Dados do cliente
 
