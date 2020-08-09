@@ -74,7 +74,7 @@ class UsersController < ApplicationController
 
   # complete the registration proccess
   def finish_registration
-    if current_user.address.present?
+    if current_user.address.present? and current_user.bank_account_information.present?
       redirect_to user_dashboard_path
     else
       @user = current_user

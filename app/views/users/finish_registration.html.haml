@@ -9,7 +9,8 @@
       .slide.slide--active.animated.fadeIn#1
         %h2 Pessoal
         = f.input :name, label: "Nome completo"
-        = f.input :role, label: "Eu sou:", as: :select, collection: [["Consultor", "consultant"], ["Comprador", "client"], ["Franquiado", "franchise"]] if not @user.role == "seller"
+        - if not current_user.role.present?
+          = f.input :role, label: "Eu sou:", as: :select, collection: [["Consultor", "consultant"], ["Comprador", "client"], ["Franquiado", "franchise"]] if not @user.role == "seller"
         = f.input :graduation, input_html: { value: "bronze" }, as: :hidden
         = f.input :phone, input_html: { 'data-mask': '(00) 00000-0000' }, label: "Telefone"
         = f.input :social_security_number, input_html: { 'data-mask': '000.000.000-00' }, label: "CPF" if @user.social_security_number.present?
@@ -29,7 +30,9 @@
           = g.input :neightbohood, label: "Bairro"
           = g.input :city, label: "Cidade"
           = g.input :state, label: "Estado"
-          = g.input :number, label: "Número", input_html: {name: "address_number", type: "text"}
+          = g.input :number, label: "Número", input_html: {type: "text"}
+          = g.input :complement, label: "complemento"
+          = g.input :user_id, as: :hidden, input_html: { value: current_user.id }
           = g.input :cep, input_html: { 'data-mask': '00000-00' }, label: "CEP"
 
         %button.button.button--full-width.button--blue.change-slide{type: "button", goTo: "3"} Próximo

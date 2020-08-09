@@ -5,7 +5,8 @@
   .slide.slide--active.animated.fadeIn#1
     %h2 Pessoal
     = f.input :name, label: "Nome completo"
-    -# = f.input :role, label: "Eu sou:", as: :select, collection: [["Vendedor", "seller"], ["Consultor", "consultant"], ["Comprador", "client"], ["Franquiado", "franchise"]]
+    - if not current_user.role.present?
+      = f.input :role, label: "Eu sou:", as: :select, collection: [["Vendedor", "seller"], ["Consultor", "consultant"], ["Comprador", "client"], ["Franquiado", "franchise"]]
     = f.input :graduation, input_html: { value: "bronze" }, as: :hidden
     = f.input :phone, input_html: { 'data-mask': '(00) 00000-0000' }, label: "Telefone"
     = f.input :social_security_number, input_html: { 'data-mask': '000.000.000-00' }, label: "CPF" if @user.social_security_number.present?
@@ -20,13 +21,26 @@
 
   .slide.fadeIn#2
     %h2 Endereço
-    = f.simple_fields_for :address do |g|
-      = g.input :street, label: "Rua"
-      = g.input :neightbohood, label: "Bairro"
-      = g.input :city, label: "Cidade"
-      = g.input :state, label: "Estado"
-      = g.input :number, label: "Número"
-      = g.input :cep, input_html: { 'data-mask': '00000-00' }, label: "CEP"
+
+    - if current_user.address.present?
+      = f.simple_fields_for :address do |g|
+        = g.input :street, label: "Rua"
+        = g.input :neightbohood, label: "Bairro"
+        = g.input :city, label: "Cidade"
+        = g.input :state, label: "Estado"
+        = g.input :number, label: "Número"
+        = g.input :complement, label: "complemento"
+        = g.input :cep, input_html: { 'data-mask': '00000-00' }, label: "CEP"
+    - else
+      = f.simple_fields_for :address, Address.new do |g|
+        = g.input :street, label: "Rua"
+        = g.input :neightbohood, label: "Bairro"
+        = g.input :city, label: "Cidade"
+        = g.input :state, label: "Estado"
+        = g.input :number, label: "Número"
+        = g.input :complement, label: "complemento"
+        = g.input :user_id, as: :hidden, input_html: { value: current_user.id }
+        = g.input :cep, input_html: { 'data-mask': '00000-00' }, label: "CEP"
 
     %button.button.button--full-width.button--blue.change-slide{type: "button", goTo: "3"} Próximo
     %br
@@ -35,12 +49,21 @@
 
   .slide.fadeIn#3
     %h2 Dados Bancários
-    = f.simple_fields_for :bank_account_information do |h|
-      = h.input :agency_number, label: "Agência"
-      = h.input :account_number, label: "Conta"
-      = h.input :owner_name, label: "Titular"
-      = h.input :operation, label: "Operação"
-      = h.input :account_type, label: "Tipo da conta (corrente / poupança / salário)"
+
+    - if current_user.bank_account_information.present?
+      = f.simple_fields_for :bank_account_information do |h|
+        = h.input :agency_number, label: "Agência"
+        = h.input :account_number, label: "Conta"
+        = h.input :owner_name, label: "Titular"
+        = h.input :operation, label: "Operação"
+        = h.input :account_type, label: "Tipo da conta (corrente / poupança / salário)"
+    - else
+      = f.simple_fields_for :bank_account_information, BankAccountInformation.new do |h|
+        = h.input :agency_number, label: "Agência"
+        = h.input :account_number, label: "Conta"
+        = h.input :owner_name, label: "Titular"
+        = h.input :operation, label: "Operação"
+        = h.input :account_type, label: "Tipo da conta (corrente / poupança / salário)"
 
     %button.button.button--full-width.button--green.change-slide{type: "submit"} Concluir
     %br
