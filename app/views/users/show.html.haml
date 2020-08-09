@@ -47,26 +47,27 @@
 
       %h4 Endereço
 
-      %p
-        %b Rua:
-        = @user.address.street
-      %p
-        %b Bairro:
-        = @user.address.neightbohood
-      %p
-        %b Número:
-        = @user.address.number
-      %p
-        %b Cidade:
-        = @user.address.city
-      %p
-        %b Estado:
-        = @user.address.state
-      %p
-        %b CEP:
-        = @user.address.cep
+      - if @user.address.present?
+        %p
+          %b Rua:
+          = @user.address.street
+        %p
+          %b Bairro:
+          = @user.address.neightbohood
+        %p
+          %b Número:
+          = @user.address.number
+        %p
+          %b Cidade:
+          = @user.address.city
+        %p
+          %b Estado:
+          = @user.address.state
+        %p
+          %b CEP:
+          = @user.address.cep
 
-      %hr
+        %hr
 
       - if @user.bank_account_information.present?
         %h4 Informações Bancárias
