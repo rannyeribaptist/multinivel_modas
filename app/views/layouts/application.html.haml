@@ -84,7 +84,7 @@
               %li
                 %img{src: "https://icongr.am/jam/shopping-cart.svg"}
                 -# = link_to "Comprar", store_path
-                = link_to "Comprar", soon_path
+                = link_to "Comprar", store_path
             - if current_user.role == "seller" or current_user.role == "admin"
               %li
                 %img{src: "https://icongr.am/feather/box.svg"}
@@ -93,7 +93,7 @@
               %li
                 %img{src: "https://icongr.am/feather/box.svg"}
                 -# = link_to "Meus pedidos", user_path(current_user)
-                = link_to "Meus pedidos", soon_path
+                = link_to "Meus pedidos", purchases_path
             - if current_user.role == "consultant" or current_user.role == "admin"
               %li
                 %img{src: "https://icongr.am/jam/sitemap.svg"}
