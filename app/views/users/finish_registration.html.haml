@@ -2,6 +2,8 @@
   .section__content.text-center
     %h1.title Hora de concluir seu cadastro
 
+    %small Todos os campos são obrigatórios, você não poderá continuar até preencher o formulário completo
+
     = simple_form_for @user, html: { class: "fancy-form" } do |f|
       = f.error_notification
       = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
@@ -10,7 +12,8 @@
         %h2 Pessoal
         = f.input :name, label: "Nome completo"
         - if not current_user.role.present?
-          = f.input :role, label: "Eu sou:", as: :select, collection: [["Consultor", "consultant"], ["Comprador", "client"], ["Franquiado", "franchise"]] if not @user.role == "seller"
+          = f.input :role, as: :hidden, input_html: { value: "consultant" } if not @user.role == "seller"
+        = f.input :plan, label: "Selecione uma opção de plano", as: :select, collection: ["consultor", "revendedor", "kit start"]
         = f.input :graduation, input_html: { value: "bronze" }, as: :hidden
         = f.input :phone, input_html: { 'data-mask': '(00) 00000-0000' }, label: "Telefone"
         = f.input :social_security_number, input_html: { 'data-mask': '000.000.000-00' }, label: "CPF" if @user.social_security_number.present?
@@ -25,15 +28,28 @@
 
       .slide.fadeIn#2
         %h2 Endereço
-        = f.simple_fields_for :address, Address.new do |g|
-          = g.input :street, label: "Rua"
-          = g.input :neightbohood, label: "Bairro"
-          = g.input :city, label: "Cidade"
-          = g.input :state, label: "Estado"
-          = g.input :number, label: "Número", input_html: {type: "text"}
-          = g.input :complement, label: "complemento"
-          = g.input :user_id, as: :hidden, input_html: { value: current_user.id }
-          = g.input :cep, input_html: { 'data-mask': '00000-00' }, label: "CEP"
+
+        %small todos os campos são obrigatórios
+
+        - if current_user.address.present?
+          = f.simple_fields_for :address do |g|
+            = g.input :street, label: "Rua"
+            = g.input :neightbohood, label: "Bairro"
+            = g.input :city, label: "Cidade"
+            = g.input :state, label: "Estado"
+            = g.input :number, label: "Número"
+            = g.input :complement, label: "complemento"
+            = g.input :cep, input_html: { 'data-mask': '00000-00' }, label: "CEP"
+        - else
+          = f.simple_fields_for :address, Address.new do |g|
+            = g.input :street, label: "Rua"
+            = g.input :neightbohood, label: "Bairro"
+            = g.input :city, label: "Cidade"
+            = g.input :state, label: "Estado"
+            = g.input :number, label: "Número"
+            = g.input :complement, label: "complemento"
+            = g.input :user_id, as: :hidden, input_html: { value: current_user.id }
+            = g.input :cep, input_html: { 'data-mask': '00000-00' }, label: "CEP"
 
         %button.button.button--full-width.button--blue.change-slide{type: "button", goTo: "3"} Próximo
         %br

@@ -22,6 +22,7 @@ class User < ApplicationRecord
 
   validates :role, acceptance: { accept: ["seller", "consultant", "admin", "client", "franchise", "assembler", "finances", "support", "aquisition"] }
   validates :graduation, acceptance: { accept: ["sênior", "bronze", "prata", "ouro", "diamante", "imperial"] }
+  validates :plan, acceptance: { accept: ["consultor", "revendedor", "kit start"] }
 
   validates_uniqueness_of :invitation_token, only: :update
   validates_uniqueness_of :social_security_number, only: :update, :unless => lambda { self.tax_number.present? }

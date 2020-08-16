@@ -104,7 +104,7 @@ module ApplicationHelper
     item OrderItem.find_by_id(item_id)
     current_quantity = Product.find_by_location(item.product_reference).quantity
     quantity = current_quantity.to_i - item.quantity.to_i
-    
+
     Product.find_by_location(item.product_reference).update_attribute(:quantity, quantity)
   end
 
@@ -121,5 +121,14 @@ module ApplicationHelper
     order.next_assembler = next_assembler_index
 
     return order.next_assembler
+  end
+
+  def set_plan_value(plan)
+    case plan
+    when "consultor"
+      return "10.00"
+    when "revendedor"
+      return "20.00"
+    end
   end
 end

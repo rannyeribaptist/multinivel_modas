@@ -3,6 +3,7 @@ class UsersController < ApplicationController
   before_action :define_admin, only: [:index, :new, :destroy]
   before_action :authenticate_user!
   before_action :validate_registration_of_current_user, only: [:show, :edit, :dashboard, :user_levels]
+  before_action :validate_activation_of_current_user, only: [:show, :edit, :dashboard, :user_levels]
 
   # GET /users
   # GET /users.json
@@ -45,6 +46,7 @@ class UsersController < ApplicationController
   def update
     respond_to do |format|
       if @user.update(user_params)
+        @user.update_attribute(:completed_registration, true) if current_user.address.present?
         format.html { redirect_to @user, notice: 'User was successfully updated.' }
         # format.json { render :show, status: :ok, location: @user }
       else
@@ -74,7 +76,7 @@ class UsersController < ApplicationController
 
   # complete the registration proccess
   def finish_registration
-    if current_user.address.present? and current_user.bank_account_information.present?
+    if current_user.completed_registration?
       redirect_to user_dashboard_path
     else
       @user = current_user
@@ -82,6 +84,10 @@ class UsersController < ApplicationController
       @user.build_credit_information
       @user.build_bank_account_information
     end
+  end
+
+  def validate_plan
+    @purchase = Purchase.new(kind: "account_validation")
   end
 
   def dashboard
@@ -99,7 +105,7 @@ class UsersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def user_params
-      params.require(:user).permit(:name, :role, :graduation, :level, :avatar, :phone,  :sales_volume, :social_security_number, :tax_number, :invitation_token, :invited_by_id, :invited_by_token, :invited_ids => [],
+      params.require(:user).permit(:name, :role, :graduation, :level, :avatar, :phone,  :sales_volume, :social_security_number, :tax_number, :invitation_token, :invited_by_id, :invited_by_token, :plan, :activated, :completed_registration, :invited_ids => [],
                                    :address_attributes => [:id, :street, :neightbohood, :city, :state, :number, :complement, :cep],
                                    :bank_account_information_attributes => [:id, :account_number, :owner_name, :operation, :account_type, :agency_number],
                                    :credit_information_attributes => [:id, :number, :name, :security_digit, :date])

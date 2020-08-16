@@ -1,0 +1,15 @@
+.section.animated.fadeIn
+  .section__content.text-center
+    %h1.title Validação da conta
+    %p Parabéns! Seu cadastro foi finalizado com sucesso. Para validar sua conta, é necessário realizar o pagamento do valor relativo ao seu plano.
+
+    - if current_user.plan == "kit start"
+      %p No seu caso, o plano Kit start oferece ativação mediante a compra de um dos kits disponíveis abaixo. Você deverá escolher uma opção do kit start e realizar a compra do mesmo.
+    %p Quando seu pagamento for efetivado, sua conta será automaticamente validada.
+
+    %p Se você quiser ativar sua conta através do saldo do seu patrocinador/indicador, basta enviar o seu ID para ele que ele poderá realizar sua ativação através do escritório virutal do mesmo.
+    %strong= "Seu ID é: " + current_user.id.to_s
+
+    %br    	
+
+    = render "purchases/payment_form"

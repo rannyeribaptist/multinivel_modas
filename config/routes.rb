@@ -11,6 +11,7 @@ Rails.application.routes.draw do
     root to: "users#dashboard", as: :user_dashboard
 
     get "concluir_cadastro", to: "users#finish_registration", as: :finish_registration
+    get "concluir_assinatura", to: "users#validate_plan", as: :validate_plan
 
     resources :products
     resources :users
