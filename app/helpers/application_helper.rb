@@ -129,6 +129,8 @@ module ApplicationHelper
       return "10.00"
     when "revendedor"
       return "20.00"
+    when "kit start"
+      return current_user.user_starter_pack.starter_pack.price
     end
   end
 end

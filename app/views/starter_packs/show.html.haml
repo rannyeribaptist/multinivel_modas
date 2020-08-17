@@ -1,0 +1,15 @@
+%p#notice= notice
+
+%p
+  %b Product:
+  = @starter_pack.product
+%p
+  %b User starter pack:
+  = @starter_pack.user_starter_pack
+%p
+  %b Price:
+  = @starter_pack.price
+
+= link_to 'Edit', edit_starter_pack_path(@starter_pack)
+\|
+= link_to 'Back', starter_packs_path

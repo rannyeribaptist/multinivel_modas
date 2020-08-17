@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :starter_packs
+  resources :user_starter_packs
   resources :purchase_orders
   resources :assembles
   resources :assemble_orders

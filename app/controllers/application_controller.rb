@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   def settings
     @categories = ProductCategory.all
     @sizes = ProductSize.all
+    @starter_packs = StarterPack.all
   end
 
   def validate_registration_of_current_user

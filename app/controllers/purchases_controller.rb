@@ -54,7 +54,9 @@ class PurchasesController < ApplicationController
 
     else
       if current_user.plan == "kit start"
-        # @purchase.value = "30.00"
+        @pack = current_user.user_starter_pack.starter_pack
+        @purchase.value = @pack.price
+        @purchase.purchase_items.new(product_id: @pack.product_id, size: "", quantity: "1", status: "")
       else
         @purchase.value = set_plan_value(current_user.plan)
       end
@@ -66,9 +68,7 @@ class PurchasesController < ApplicationController
     @purchase.save
     redirect_to @purchase #, flash: {success: "Compra realizada com sucesso!"}
 
-    @result = payment.to_json
-    puts "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-    puts @result.inspect
+    # @result = payment.to_json
   end
 
   # GET /purchases/1/edit

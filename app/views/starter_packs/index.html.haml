@@ -1,0 +1,25 @@
+%h1 Listing starter_packs
+
+%table
+  %thead
+    %tr
+      %th Product
+      %th User starter pack
+      %th Price
+      %th
+      %th
+      %th
+
+  %tbody
+    - @starter_packs.each do |starter_pack|
+      %tr
+        %td= starter_pack.product
+        %td= starter_pack.user_starter_pack
+        %td= starter_pack.price
+        %td= link_to 'Show', starter_pack
+        %td= link_to 'Edit', edit_starter_pack_path(starter_pack)
+        %td= link_to 'Destroy', starter_pack, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Starter pack', new_starter_pack_path

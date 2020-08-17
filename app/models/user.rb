@@ -12,6 +12,8 @@ class User < ApplicationRecord
   has_one :url_minifier, dependent: :destroy
   has_one :shopping_cart, dependent: :destroy
   has_one :assemble, dependent: :destroy
+  has_one :user_starter_pack, dependent: :destroy
+  has_one :starter_pack, through: :user_starter_pack
 
   has_many :products
   has_many :purchases, dependent: :destroy
@@ -31,6 +33,7 @@ class User < ApplicationRecord
   accepts_nested_attributes_for :address, allow_destroy: :false, reject_if: :all_blank
   accepts_nested_attributes_for :bank_account_information, allow_destroy: :false, reject_if: :all_blank
   accepts_nested_attributes_for :credit_information, allow_destroy: :false, reject_if: :all_blank
+  accepts_nested_attributes_for :user_starter_pack, allow_destroy: false, reject_if: :all_blank
 
   def social_id(user)
     return false if not user.social_security_number.present? and not user.tax_number.present?
