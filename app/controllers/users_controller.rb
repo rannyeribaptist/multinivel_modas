@@ -91,6 +91,10 @@ class UsersController < ApplicationController
   def validate_plan
     @purchase = Purchase.new(kind: "account_validation")
     @user = current_user
+
+    require 'mercadopago.rb'
+    mp = MercadoPago.new('APP_USR-3769858112953753-062819-8795743aed7216c004ddec60d8b1ae41-226272139')
+    @payment_methods = mp.get("/v1/payment_methods")
   end
 
   def dashboard
