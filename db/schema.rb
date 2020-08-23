@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_16_123527) do
+ActiveRecord::Schema.define(version: 2020_08_19_154255) do
 
   create_table "addresses", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -189,6 +189,9 @@ ActiveRecord::Schema.define(version: 2020_08_16_123527) do
     t.string "comprovant"
     t.string "kind"
     t.string "status_detail"
+    t.string "payment_id"
+    t.string "payment_method_reference_id"
+    t.text "external_resource_url"
     t.index ["address_id"], name: "index_purchases_on_address_id"
     t.index ["user_id"], name: "index_purchases_on_user_id"
   end

@@ -9,8 +9,8 @@
 
 #credit_card.payment_form.active
   = simple_form_for(@purchase, url: :proccess_payment, method: :post, html: { name: "pay", id: "pay", class: "fancy-form" }) do |f|
-    = f.input :payment_method, input_html: { value: "credit_card" }, as: :hidden
-    %fieldset
+    %fieldset{style: "border: none"}
+      = f.input :payment_method, input_html: { value: "credit_card" }, as: :hidden
       %input#description{:name => "description", :type => "text", :value => "Pedido Multinível da moda", disabled: :disabled, style: "display: none"}
       - if @purchase.kind == "account_validation"
         %input#transaction_amount{:name => "transaction_amount", :value => "#{set_plan_value(current_user.plan)}", disabled: :disabled, style: "display: none"}
@@ -45,7 +45,36 @@
       %button.button.button--green.button--full-width{:type => "submit", :value => "Pagar"} Finalizar Pagamento
 
 #billet.payment_form
-  %h2.title Em breve você poderá fazer os seus pedidos pagando no boleto bancário!
+  %h3 Pagamento via boleto bancário
+
+  .columns.columns--small
+    - @payment_methods["response"].each do |payment|
+      - if payment["payment_type_id"] == "ticket"
+        .column.column--sm-3
+          .starter_pack_card{onclick: "setPack('#{payment["id"]}', $(this))", style: "max-width: 100%"}
+            .starter_pack_card__content.text-center
+              = image_tag(payment["secure_thumbnail"], style: "width: auto")
+              %br
+              %strong= payment["name"]
+  %br
+  %br
+
+  = simple_form_for(@purchase, url: :proccess_payment, method: :post, html: { id: "ticket", class: "fancy-form" }) do |f|
+    %fieldset{style: "border: none"}
+      = f.input :payment_method, as: :hidden, input_html: { value: "ticket" }
+      %input#description{:name => "payment_description", :type => "text", :value => "Pedido Multinível da moda", style: "display: none"}
+      - if @purchase.kind == "account_validation"
+        %input#transaction_amount{:name => "transaction_amount", :value => "#{set_plan_value(current_user.plan)}", style: "display: none"}
+      - else
+        %input#transaction_amount{:name => "transaction_amount", :value => "#{sum_items(current_user.shopping_cart)}", style: "display: none"}
+
+      %input#docType{name: "docType", style: "display: none", value: "#{current_user.social_security_number.present? ? 'CPF' : 'CNPJ'}"}
+      %input#docNumber{name: "docNumber", style: "display: none", value: "#{current_user.social_security_number.present? ? current_user.social_security_number.gsub('.', '').gsub('-', '') : current_user.tax_number.gsub('.', '').gsub('-', '').gsub('/', '')}"}
+
+      %input#email{:name => "email", :type => "email", :value => "#{current_user.email}", style: "display: none"}
+
+      %input#payment_method_id_ticket{:name => "payment_method_id", :type => "text", style: "display: none"}
+      %button.button.button--green.button--full-width{:type => "submit", :value => "Pagar"} Finalizar Pagamento
 
 
 #bank_transfer.payment_form
@@ -124,4 +153,11 @@
       $('#' + method).addClass('active')
 
       $('#purchase_payment_method').attr("value", method);
+    }
+
+    function setPack(val, card) {
+      $('#payment_method_id_ticket')[0].value = val;
+      $('.starter_pack_card').removeClass('starter_pack_card--active');
+
+      card.addClass('starter_pack_card--active');
     }
