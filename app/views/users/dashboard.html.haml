@@ -21,7 +21,7 @@
           .card__content
             %p Minha Rede
     - else
-      = link_to new_product_path do
+      = link_to new_product_path, "data-turbolinks" => "false" do
         .card.card--yellow{style: "background-image: url(https://icongr.am/feather/package.svg?color=866705);background-repeat: no-repeat;background-size: 70px;background-position-y: 140%;"}
           .card__content
             %p Cadastrar produto

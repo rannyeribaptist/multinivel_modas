@@ -5,7 +5,7 @@ class Product < ApplicationRecord
 
   has_many :product_pictures, dependent: :destroy
   has_many :cats, dependent: :destroy
-  has_many :puchase_order, dependent: :destroy
+  has_many :puchase_orders, dependent: :destroy
   accepts_nested_attributes_for :product_pictures, allow_destroy: :true, reject_if: :all_blank
 
   validate :product_pictures_presence
