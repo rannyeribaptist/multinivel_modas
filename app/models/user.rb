@@ -89,6 +89,7 @@ class User < ApplicationRecord
       user.save
     else
       self.role = "seller"
+      self.activated = true
 
       until self.valid?
         self.invitation_token = SecureRandom.urlsafe_base64(5)

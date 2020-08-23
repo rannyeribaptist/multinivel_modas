@@ -13,7 +13,7 @@
         = f.input :name, label: "Nome completo"
         - if not current_user.role.present?
           = f.input :role, as: :hidden, input_html: { value: "consultant" } if not @user.role == "seller"
-        = f.input :plan, label: "Selecione uma opção de plano", as: :select, collection: ["consultor", "revendedor", "kit start"]
+          = f.input :plan, label: "Selecione uma opção de plano", as: :select, collection: ["consultor", "revendedor", "kit start"] if not @user.role == "seller"
         = f.input :graduation, input_html: { value: "bronze" }, as: :hidden
         = f.input :phone, input_html: { 'data-mask': '(00) 00000-0000' }, label: "Telefone"
         = f.input :social_security_number, input_html: { 'data-mask': '000.000.000-00' }, label: "CPF" if @user.social_security_number.present?
