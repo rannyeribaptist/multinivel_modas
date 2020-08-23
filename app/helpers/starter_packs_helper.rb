@@ -1,0 +1,2 @@
+module StarterPacksHelper
+end

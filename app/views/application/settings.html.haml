@@ -60,3 +60,40 @@
       %br
 
       %button.button.button--green{type: "submit"} Adicionar
+
+
+    %br
+    %hr{style: "width: 100%"}
+    %br
+
+    %h3 Kits start
+
+    %small Necessário adicionar o produto do kit previamente
+
+    %br
+
+    = link_to new_product_path do
+      %button.button.button--blue{type: "button"} Adicionar produto do kit start
+
+    .table
+      %table.table
+        %thead
+          %tr
+            %th
+            %th Produto
+            %th Preço
+            %th
+
+        %tbody
+          - @starter_packs.each do |starter_pack|
+            %tr
+              %td= image_tag(starter_pack.product.product_pictures.first.picture.thumb.url)
+              %td= starter_pack.product.name
+              %td= starter_pack.price
+              %td
+                = link_to starter_pack, method: :delete, data: { confirm: 'Tem certeza que deseja excluir este kit?' } do
+                  %img.destroy{src: "https://icongr.am/clarity/trash.svg?color=F20505", style: "max-width: 20px"}
+    %br
+
+    = link_to new_starter_pack_url do
+      %button.button.button--green{type: "button"} Criar kit start

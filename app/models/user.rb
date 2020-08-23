@@ -12,6 +12,8 @@ class User < ApplicationRecord
   has_one :url_minifier, dependent: :destroy
   has_one :shopping_cart, dependent: :destroy
   has_one :assemble, dependent: :destroy
+  has_one :user_starter_pack, dependent: :destroy
+  has_one :starter_pack, through: :user_starter_pack
 
   has_many :products
   has_many :purchases, dependent: :destroy
@@ -22,6 +24,7 @@ class User < ApplicationRecord
 
   validates :role, acceptance: { accept: ["seller", "consultant", "admin", "client", "franchise", "assembler", "finances", "support", "aquisition"] }
   validates :graduation, acceptance: { accept: ["sênior", "bronze", "prata", "ouro", "diamante", "imperial"] }
+  validates :plan, acceptance: { accept: ["consultor", "revendedor", "kit start"] }
 
   validates_uniqueness_of :invitation_token, only: :update
   validates_uniqueness_of :social_security_number, only: :update, :unless => lambda { self.tax_number.present? }
@@ -30,6 +33,7 @@ class User < ApplicationRecord
   accepts_nested_attributes_for :address, allow_destroy: :false, reject_if: :all_blank
   accepts_nested_attributes_for :bank_account_information, allow_destroy: :false, reject_if: :all_blank
   accepts_nested_attributes_for :credit_information, allow_destroy: :false, reject_if: :all_blank
+  accepts_nested_attributes_for :user_starter_pack, allow_destroy: false, reject_if: :all_blank
 
   def social_id(user)
     return false if not user.social_security_number.present? and not user.tax_number.present?

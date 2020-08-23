@@ -1,0 +1,11 @@
+-# frozen_string_literal: true
+= simple_form_for(@starter_pack, html: { class: "fancy-form" }) do |f|
+  = f.error_notification
+  = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
+
+  .form-inputs
+    = f.association :product, label: "Produto", as: :select, collection: Product.where("name SOUNDS LIKE ?", "Kit start")
+    = f.input :price, label: "Preço", input_html: { id: "money" }
+
+  .form-actions
+    %button.button.button--green{type: "submit"} Salvar

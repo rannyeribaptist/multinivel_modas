@@ -1,0 +1,2 @@
+class UserStarterPacksController < ApplicationController
+end

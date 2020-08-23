@@ -1,0 +1,12 @@
+@import "variables";
+
+.slider {
+  width: 100%;
+  overflow-x: scroll;
+  padding: 20px 0;
+
+  &__content {
+    width: fit-content;
+    display: flex;
+  }
+}

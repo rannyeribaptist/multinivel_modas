@@ -1,0 +1,40 @@
+.section.animated.fadeIn
+  .section__content.text-center
+    %h1.title Validação da conta
+    %p Parabéns! Seu cadastro foi finalizado com sucesso. Para validar sua conta, é necessário realizar o pagamento do valor relativo ao seu plano.
+
+    - if current_user.plan == "kit start"
+      %p No seu caso, o plano Kit start oferece ativação mediante a compra de um dos kits disponíveis abaixo. Você deverá escolher uma opção do kit start e realizar a compra do mesmo.
+    %p Quando seu pagamento for efetivado, sua conta será automaticamente validada.
+
+    %p Se você quiser ativar sua conta através do saldo do seu patrocinador/indicador, basta enviar o seu ID para ele que ele poderá realizar sua ativação através do escritório virutal do mesmo.
+    %strong= "Seu ID é: " + current_user.id.to_s
+
+    %br
+
+    - if current_user.plan == "kit start"
+      = simple_form_for @user, remote: true, format: :js do |f|
+        = f.simple_fields_for :user_starter_pack, current_user.build_user_starter_pack do |g|
+          = g.input :starter_pack_id, as: :hidden
+
+    .slider
+      .slider__content
+        - StarterPack.all.each do |pack|
+          .starter_pack_card{onclick: "setPack('#{pack.id}', $(this), '#{pack.price}')"}
+            = image_tag(pack.product.product_pictures.first.picture.url)
+            .starter_pack_card__content
+              %p= pack.product.name
+              %small= "R$ " + pack.price
+
+    = render "purchases/payment_form"
+
+
+- content_for :javascript do
+  :javascript
+    function setPack(pack, card, price) {
+      $('#user_user_starter_pack_attributes_starter_pack_id')[0].value = pack;
+      $('#transaction_amount')[0].value = price;
+      $('.starter_pack_card').removeClass('starter_pack_card--active');
+      card.addClass('starter_pack_card--active');
+      $('#edit_user_46').submit();
+    }

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_09_040656) do
+ActiveRecord::Schema.define(version: 2020_08_16_123527) do
 
   create_table "addresses", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -187,6 +187,8 @@ ActiveRecord::Schema.define(version: 2020_08_09_040656) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "status"
     t.string "comprovant"
+    t.string "kind"
+    t.string "status_detail"
     t.index ["address_id"], name: "index_purchases_on_address_id"
     t.index ["user_id"], name: "index_purchases_on_user_id"
   end
@@ -209,6 +211,14 @@ ActiveRecord::Schema.define(version: 2020_08_09_040656) do
     t.index ["user_id"], name: "index_shopping_carts_on_user_id"
   end
 
+  create_table "starter_packs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.bigint "product_id", null: false
+    t.string "price"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["product_id"], name: "index_starter_packs_on_product_id"
+  end
+
   create_table "support_tickets", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "ticket"
     t.string "filled_by"
@@ -225,6 +235,15 @@ ActiveRecord::Schema.define(version: 2020_08_09_040656) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_url_minifiers_on_user_id"
+  end
+
+  create_table "user_starter_packs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "starter_pack_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["starter_pack_id"], name: "index_user_starter_packs_on_starter_pack_id"
+    t.index ["user_id"], name: "index_user_starter_packs_on_user_id"
   end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
@@ -249,6 +268,9 @@ ActiveRecord::Schema.define(version: 2020_08_09_040656) do
     t.string "invited_ids", default: "--- []\n"
     t.string "sales_volume", default: "0,00"
     t.datetime "deleted_at"
+    t.string "plan"
+    t.boolean "activated", default: false
+    t.boolean "completed_registration", default: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
@@ -271,6 +293,9 @@ ActiveRecord::Schema.define(version: 2020_08_09_040656) do
   add_foreign_key "purchases", "users"
   add_foreign_key "shopping_cart_items", "shopping_carts"
   add_foreign_key "shopping_carts", "users"
+  add_foreign_key "starter_packs", "products"
   add_foreign_key "support_tickets", "purchases"
   add_foreign_key "url_minifiers", "users"
+  add_foreign_key "user_starter_packs", "starter_packs"
+  add_foreign_key "user_starter_packs", "users"
 end

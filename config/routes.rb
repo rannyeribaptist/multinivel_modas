@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :starter_packs
+  resources :user_starter_packs
   resources :purchase_orders
   resources :assembles
   resources :assemble_orders
@@ -11,6 +13,7 @@ Rails.application.routes.draw do
     root to: "users#dashboard", as: :user_dashboard
 
     get "concluir_cadastro", to: "users#finish_registration", as: :finish_registration
+    get "concluir_assinatura", to: "users#validate_plan", as: :validate_plan
 
     resources :products
     resources :users

@@ -22,33 +22,53 @@ class PurchasesController < ApplicationController
 
     mp = MercadoPago.new('TEST-3769858112953753-062819-ef1a98b54f75c032cb0fad84f25da429-226272139')
 
-    request = {
-        "token" => "#{params[:token]}",
-        "installments" => params[:installments].to_i,
-        "transaction_amount" => sum_items(current_user.shopping_cart),
-        "payment_method_id" => params[:payment_method_id],
-        "payer" => {
-            "email" => "#{current_user.email}"
-        }
-    }
+    if current_user.activated?
+      request = {
+          "token" => "#{params[:token]}",
+          "installments" => params[:installments].to_i,
+          "transaction_amount" => sum_items(current_user.shopping_cart),
+          "payment_method_id" => params[:payment_method_id],
+          "payer" => {
+              "email" => "#{current_user.email}"
+          }
+      }
+    else
+      request = {
+          "token" => "#{params[:token]}",
+          "installments" => params[:installments].to_i,
+          "transaction_amount" => set_plan_value(current_user.plan).to_f,
+          "payment_method_id" => params[:payment_method_id],
+          "payer" => {
+              "email" => "#{current_user.email}"
+          }
+      }
+    end
 
     payment = mp.post('/v1/payments', request)
 
-    if payment["response"]["status"] == "approved"
-      @purchase = Purchase.new(user_id: current_user.id, address: current_user.address, payment_method: params[:purchase][:payment_method], value: sum_items(current_user.shopping_cart), status: "Pagament aprovado")
-      @purchase.save
+    @purchase = Purchase.new(user_id: current_user.id, address: current_user.address, payment_method: params[:purchase][:payment_method], status: payment["response"]["status"], status_detail: payment["response"]["status_detail"])
+
+    if current_user.activated?
+      @purchase.value = sum_items(current_user.shopping_cart)
       clear_shopping_cart(current_user.shopping_cart, @purchase)
-      redirect_to @purchase, flash: {success: "Compra realizada com sucesso!"}
-    elsif ["in_mediation", "in_proccess", "pending", "authorized"].include? payment["response"]["status"]
-      @purchase = Purchase.new(user_id: current_user.id, address: current_user.address, payment_method: params[:purchase][:payment_method], value: sum_items(current_user.shopping_cart), status: "Pagament aguardando aprovação")
-      @purchase.save
-      clear_shopping_cart(current_user.shopping_cart, @purchase)
-      redirect_to @purchase, flash: {warning: "Pedido realizado. Aguardando aprovação de pagamento."}
+
     else
-      redirect_back(fallback_location: root_url, flash: { danger: "Pagamento não autorizado, motivo: " + payment["response"]["status_detail"].to_s })
+      if current_user.plan == "kit start"
+        @pack = current_user.user_starter_pack.starter_pack
+        @purchase.value = @pack.price
+        @purchase.purchase_items.new(product_id: @pack.product_id, size: "", quantity: "1", status: "")
+      else
+        @purchase.value = set_plan_value(current_user.plan)
+      end
+
+      @purchase.kind = "account_validation"
+      current_user.update_attribute(:activated, true) if payment["response"]["status"] == "approved"
     end
 
-    @result = payment.to_json
+    @purchase.save
+    redirect_to @purchase #, flash: {success: "Compra realizada com sucesso!"}
+
+    # @result = payment.to_json
   end
 
   # GET /purchases/1/edit
@@ -121,6 +141,6 @@ class PurchasesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def purchase_params
-      params.require(:purchase).permit(:user_id, :payment_method, :value, :address_id, :status, :comprovant)
+      params.require(:purchase).permit(:user_id, :payment_method, :value, :address_id, :status, :comprovant, :kind, :status_detail)
     end
 end
