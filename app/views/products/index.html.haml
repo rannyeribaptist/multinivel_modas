@@ -8,7 +8,7 @@
           .product_card__actions
             = link_to product do
               %img.see{src: "https://icongr.am/clarity/eye.svg?color=13B3F2"}
-            = link_to edit_product_url(product) do
+            = link_to edit_product_url(product), "data-turbolinks" => "false" do
               %img.edit{src: "https://icongr.am/clarity/pencil.svg?color=ffc406"}
             = link_to product, method: :delete, data: { confirm: 'Tem certeza que deseja excluir este produto?' } do
               %img.destroy{src: "https://icongr.am/clarity/trash.svg?color=F20505"}

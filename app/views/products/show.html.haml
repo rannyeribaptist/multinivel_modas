@@ -37,7 +37,7 @@
     %div{style: "display: flex; justify-content: space-between"}
       = link_to :back do
         %button.button.button--yellow Voltar
-      = link_to edit_product_path(@product) do
+      = link_to edit_product_path(@product), "data-turbolinks" => "false" do
         %button.button.button--blue Editar
 
 - content_for :head do
