@@ -1,0 +1,2 @@
+class MercadoPagoGet < ApplicationRecord
+end

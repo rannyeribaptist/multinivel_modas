@@ -70,7 +70,7 @@ module ApplicationHelper
 
   def clear_shopping_cart(cart, purchase)
     cart.shopping_cart_items.each do |item|
-      purchase.purchase_items.create(size: item.size, quantity: item.quantity, product_id: item.product_id, purchase_id: purchase.id)
+      purchase.purchase_items.new(size: item.size, quantity: item.quantity, product_id: item.product_id, purchase_id: purchase.id)
       item.destroy
     end
   end
@@ -131,6 +131,120 @@ module ApplicationHelper
       return "20.00"
     when "kit start"
       return current_user.user_starter_pack.starter_pack.price
+    end
+  end
+
+  def verify_payment_status(payment)
+    case payment["response"]["status"]
+    when "400"
+      return false
+    when 400
+      return false
+    when "rejected"
+      return false
+    else
+      return true
+    end
+  end
+
+  def payment_response(status)
+    status = status.to_s
+
+    case status
+    when "accredited"
+      return "Pagamento aprovado!"
+    when "pending_contingency"
+      return "Não se preocupe, em menos de 2 dias úteis informaremos por e-mail se foi creditado."
+    when "pending_review_manual"
+      return "Estamos processando seu pagamento. Não se preocupe, em menos de 2 dias úteis informaremos por e-mail se foi creditado ou se necessitamos de mais informação."
+    when "cc_rejected_bad_filled_card_number"
+      return "Revise o número do cartão."
+    when "cc_rejected_bad_filled_date"
+      return "Revise a data de vencimento."
+    when "cc_rejected_bad_filled_other"
+      return "Revise os dados."
+    when "cc_rejected_bad_filled_security_code"
+      return "Revise o código de segurança do cartão."
+    when "cc_rejected_blacklist"
+      return "Não pudemos processar seu pagamento."
+    when "cc_rejected_call_for_authorize"
+      return "Você deve autorizar à sua operadora do cartão o pagamento do valor solicitado pelo Mercado Pago."
+    when "cc_rejected_card_disabled"
+      return "Ligue para o à sua operadora do cartão para ativar seu cartão. O telefone está no verso do seu cartão."
+    when "cc_rejected_card_error"
+      return "Não conseguimos processar seu pagamento."
+    when "cc_rejected_duplicated_payment"
+      return "Você já efetuou um pagamento com esse valor. Caso precise pagar novamente, utilize outro cartão ou outra forma de pagamento."
+    when "cc_rejected_high_risk"
+      return "Seu pagamento foi recusado. Escolha outra forma de pagamento. Recomendamos meios de pagamento em dinheiro."
+    when "cc_rejected_insufficient_amount"
+      return "O cartão selecionado não possui saldo insuficiente."
+    when "cc_rejected_invalid_installments"
+      return "O cartão selecionado não processa pagamentos na quantidade de parcelas selecionadas."
+    when "cc_rejected_max_attempts"
+      return "Você atingiu o limite de tentativas permitido. Escolha outro cartão ou outra forma de pagamento."
+    when "cc_rejected_other_reason"
+      return "Sua operadora do cartão não processou o pagamento."
+    when "205"
+      return "Digite o número do seu cartão."
+    when "208"
+      return "Escolha um mês."
+    when "209"
+      return "Escolha um ano."
+    when "212"
+      return "Informe seu documento."
+    when "213"
+      return "Informe seu documento."
+    when "214"
+      return "Informe seu documento."
+    when "220"
+      return "Informe seu banco emissor."
+    when "221"
+      return "Digite o nome e sobrenome."
+    when "224"
+      return "Digite o código de segurança."
+    when "E301"
+      return "Há algo de errado com esse número. Digite novamente."
+    when "E302"
+      return "Confira o código de segurança."
+    when "316"
+      return "Por favor, digite um nome válido."
+    when "322"
+      return "Confira seu documento."
+    when "323"
+      return "Confira seu documento."
+    when "324"
+      return "Confira seu documento."
+    when "325"
+      return "Confira a data."
+    when "326"
+      return "Confira a data."
+    when "106"
+      return "Não pode efetuar pagamentos a usuários de outros países."
+    when "109"
+      return "A operadora do cartão não processa pagamentos parcelados."
+    when "126"
+      return "Escolha outro cartão ou outra forma de pagamento."
+    when "129"
+      return "Não conseguimos processar seu pagamento. Escolha outro cartão ou outra forma de pagamento."
+    when "145"
+      return "Uma das partes com a qual está tentando realizar o pagamento é um usuário de teste e a outra é um usuário real."
+    when "150"
+      return "Você não pode efetuar pagamentos."
+    when "151"
+      return "Você não pode efetuar pagamentos."
+    when "160"
+      return "Não conseguimos processar seu pagamento."
+    when "204"
+      return "A operadora do cartão não está disponível nesse momento. Escolha outro cartão ou outra forma de pagamento."
+    when "801"
+      return "Você realizou um pagamento similar há poucos instantes. Tente novamente em alguns minutos."
+    when "400"
+      return "Verifique seus dados pessoais e os dados de pagamento e tente novamente."
+    when "default"
+      return "Confira os dados."
+    else
+      return status
     end
   end
 end
