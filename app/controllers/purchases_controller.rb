@@ -17,18 +17,19 @@ class PurchasesController < ApplicationController
     @purchase = Purchase.new
 
     require 'mercadopago.rb'
-    mp = MercadoPago.new('TEST-3769858112953753-062819-ef1a98b54f75c032cb0fad84f25da429-226272139')
+    mp = MercadoPago.new('APP_USR-3769858112953753-062819-8795743aed7216c004ddec60d8b1ae41-226272139')
     @payment_methods = mp.get("/v1/payment_methods")
   end
 
   def proccess_payment
     require 'mercadopago.rb'
 
-    mp = MercadoPago.new('TEST-3769858112953753-062819-ef1a98b54f75c032cb0fad84f25da429-226272139')
+    mp = MercadoPago.new('APP_USR-3769858112953753-062819-8795743aed7216c004ddec60d8b1ae41-226272139')
 
     request = {
       "description" => params[:payment_description],
       "payment_method_id" => params[:payment_method_id],
+      "notification_url" => "https://multinivelmodas.baptistsoftware.com.br/payment_hooks",
       "payer" => {
         "email" => "#{current_user.email}",
         "first_name" => "#{current_user.name.split(" ").first}",
@@ -100,6 +101,30 @@ class PurchasesController < ApplicationController
     end
 
     @result = payment.to_json
+  end
+
+  def payment_hooks
+    return 200
+
+    require "net/http"
+    require "uri"
+
+    MercadoPagoHook.create(response: params)
+
+    uri = URI.parse("https://api.mercadopago.com/v1/payments/#{params['id']}")
+    params = {"access_token" => "APP_USR-3769858112953753-062819-8795743aed7216c004ddec60d8b1ae41-226272139"}
+
+    http = Net::HTTP.new(uri.host, uri.port)
+    request = Net::HTTP::Get.new(uri.request_uri)
+    request.set_form_data(params)
+    response = http.request(request)
+
+    MercadoPagoGet.create(response: response)
+
+    @purchase = Purchase.find(payment_id: params["response"]["id"]) if params["response"]["id"].present?
+    @purchase.status = response["response"]["status"] if response["response"]["status"].present?
+    @purchase.status_detail = response["response"]["status_detail"] if response["response"]["status_detail"].present?
+    @purchase.save if @purchase.present?
   end
 
   # GET /purchases/1/edit

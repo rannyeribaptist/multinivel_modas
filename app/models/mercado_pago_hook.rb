@@ -1,0 +1,2 @@
+class MercadoPagoHook < ApplicationRecord
+end
