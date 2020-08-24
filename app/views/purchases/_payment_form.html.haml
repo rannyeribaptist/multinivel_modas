@@ -13,7 +13,10 @@
       = f.input :payment_method, input_html: { value: "credit_card" }, as: :hidden
       %input#description{:name => "description", :type => "text", :value => "Pedido Multinível da moda", disabled: :disabled, style: "display: none"}
       - if @purchase.kind == "account_validation"
-        %input#transaction_amount{:name => "transaction_amount", :value => "#{set_plan_value(current_user.plan)}", disabled: :disabled, style: "display: none"}
+        - if current_user.plan == "kit start"
+          %input#transaction_amount{:name => "transaction_amount", disabled: :disabled, style: "display: none"}
+        - else
+          %input#transaction_amount{:name => "transaction_amount", :value => "#{set_plan_value(current_user.plan)}", disabled: :disabled, style: "display: none"}
       - else
         %input#transaction_amount{:name => "transaction_amount", :value => "#{sum_items(current_user.shopping_cart)}", disabled: :disabled, style: "display: none"}
       %p
@@ -64,7 +67,10 @@
       = f.input :payment_method, as: :hidden, input_html: { value: "ticket" }
       %input#description{:name => "payment_description", :type => "text", :value => "Pedido Multinível da moda", style: "display: none"}
       - if @purchase.kind == "account_validation"
-        %input#transaction_amount{:name => "transaction_amount", :value => "#{set_plan_value(current_user.plan)}", style: "display: none"}
+        - if current_user.plan == "kit start"
+          %input#transaction_amount{:name => "transaction_amount", disabled: :disabled, style: "display: none"}
+        - else
+          %input#transaction_amount{:name => "transaction_amount", :value => "#{set_plan_value(current_user.plan)}", disabled: :disabled, style: "display: none"}
       - else
         %input#transaction_amount{:name => "transaction_amount", :value => "#{sum_items(current_user.shopping_cart)}", style: "display: none"}
 
