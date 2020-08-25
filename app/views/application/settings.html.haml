@@ -72,7 +72,7 @@
 
     %br
 
-    = link_to new_product_path do
+    = link_to new_product_path, "data-turbolinks" => "false" do
       %button.button.button--blue{type: "button"} Adicionar produto do kit start
 
     .table
@@ -95,5 +95,5 @@
                   %img.destroy{src: "https://icongr.am/clarity/trash.svg?color=F20505", style: "max-width: 20px"}
     %br
 
-    = link_to new_starter_pack_url do
+    = link_to new_starter_pack_url, "data-turbolinks" => "false" do
       %button.button.button--green{type: "button"} Criar kit start
