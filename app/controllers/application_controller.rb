@@ -18,7 +18,11 @@ class ApplicationController < ActionController::Base
   def validate_activation_of_current_user
     if current_user.present?
       if current_user.completed_registration? and not current_user.activated?
-        redirect_to validate_plan_path if not request.path == "/concluir_assinatura"
+        if current_user.purchases.any?
+          redirect_to purchase_path(current_user.purchases.first) if not request.path.include? "/purchases"
+        else
+          redirect_to validate_plan_path if not request.path == "/concluir_assinatura"
+        end
       end
     end
   end
