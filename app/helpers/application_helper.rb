@@ -247,4 +247,17 @@ module ApplicationHelper
       return status
     end
   end
+
+  def translate_payment_method(method)
+    case method.downcase
+    when "credit_card"
+      return "Cartão de crédito"
+    when "ticket"
+      return "Boleto/Lotérica"
+    when "credit card"
+      return "Cartão de crédito"
+    else
+      return method
+    end
+  end
 end

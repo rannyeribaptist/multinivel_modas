@@ -1,27 +1,22 @@
-%h1 Listing purchases
+.section
+  .section__content
+    %h1.title Meus pedidos
 
-%table
-  %thead
-    %tr
-      %th User
-      %th Payment method
-      %th Value
-      %th Address
-      %th
-      %th
-      %th
+    %table.table
+      %thead
+        %tr
+          %th Forma de pagamento
+          %th Valor
+          %th Data
+          %th
 
-  %tbody
-    - @purchases.each do |purchase|
-      %tr
-        %td= purchase.user
-        %td= purchase.payment_method
-        %td= purchase.value
-        %td= purchase.address
-        %td= link_to 'Show', purchase
-        %td= link_to 'Edit', edit_purchase_path(purchase)
-        %td= link_to 'Destroy', purchase, method: :delete, data: { confirm: 'Are you sure?' }
-
-%br
-
-= link_to 'New Purchase', new_purchase_path
+      %tbody
+        - @purchases.each do |purchase|
+          %tr
+            %td= translate_payment_method(purchase.payment_method)
+            - if purchase.value.include? "R$"
+              %td= purchase.value
+            - else
+              %td= format_price(purchase.value)
+            %td= purchase.created_at.strftime("%d/%m/%Y")
+            %td= link_to 'Ver', purchase
