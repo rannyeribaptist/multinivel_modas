@@ -270,6 +270,10 @@ $(document).ready(function() {
 });
 
 $(document).ready(function() {
+  $('.money').mask("000.000,00", {reverse: true});
+});
+
+$(document).ready(function() {
   $('.add_to_cart').click(function() {
     var element = $(this);
 

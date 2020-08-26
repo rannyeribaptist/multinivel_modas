@@ -15,7 +15,8 @@
           = link_to edit_user_registration_path do
             %button.button.button--yellow Editar informações de login
 
-    - if not @user.role == "seller"
+    %small= "O ID do usuário é: " + @user.id.to_s
+    - if (not @user.role == "seller" and current_user == @user) or current_user.role == "admin"
       .card{style: "color: black"}
         .card__content
           %small= "Seu código de convite é: " + @user.invitation_token
@@ -25,7 +26,8 @@
           %small Na hora de realizar o cadastro, a pessoa para qual você enviou este código só precisa inseri-lo no último campo do formulário "Código de cadastro"
           %br
           %br
-          %a.button.button--pink{href: "whatsapp://send?text=https://multinivelmodas.baptistsoftware.com.br/link/#{@user.url_minifier.number}", "data-action" => "share/whatsapp/share"} Enviar pelo Whatsapp
+          - if @user.url_minifier.present?
+            %a.button.button--pink{href: "whatsapp://send?text=https://multinivelmodas.baptistsoftware.com.br/link/#{@user.url_minifier.number}", "data-action" => "share/whatsapp/share"} Enviar pelo Whatsapp
 
     %div{style: "text-align: left"}
       - if not @user.role == "seller"
@@ -35,6 +37,9 @@
       %p
         %b Telefone:
         = @user.phone
+      %p
+        %b E-mail:
+        = @user.email
       - if @user.social_security_number.present?
         %p
           %b CPF:

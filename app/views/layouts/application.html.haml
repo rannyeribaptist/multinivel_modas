@@ -69,7 +69,7 @@
             = image_tag(current_user.avatar.url)
             .profile-card__text
               %h3= current_user.name.present? ? current_user.name : "Bem vindo!"
-              %small Seu saldo: R$ 0,00
+              %small= "Seu saldo: R$ " + current_user.balance
               %br
               %small= link_to "Sair", destroy_user_session_path, method: :delete, style: "color: tomato"
 

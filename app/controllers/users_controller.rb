@@ -45,6 +45,7 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
   def update
+    params[:user][:invited_ids] = params[:user][:invited_ids].split(" ")
     respond_to do |format|
       if @user.update(user_params)
         @user.update_attribute(:completed_registration, true) if current_user.address.present?
@@ -112,7 +113,7 @@ class UsersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def user_params
-      params.require(:user).permit(:name, :role, :graduation, :level, :avatar, :phone,  :sales_volume, :social_security_number, :tax_number, :invitation_token, :invited_by_id, :invited_by_token, :plan, :activated, :completed_registration, :invited_ids => [],
+      params.require(:user).permit(:name, :role, :graduation, :level, :avatar, :phone,  :sales_volume, :social_security_number, :tax_number, :invitation_token, :invited_by_id, :invited_by_token, :plan, :activated, :completed_registration, :balance, :invited_by_id, :invited_ids, :invited_ids => [],
                                    :address_attributes => [:id, :street, :neightbohood, :city, :state, :number, :complement, :cep],
                                    :bank_account_information_attributes => [:id, :account_number, :owner_name, :operation, :account_type, :agency_number],
                                    :credit_information_attributes => [:id, :number, :name, :security_digit, :date],

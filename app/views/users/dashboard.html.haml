@@ -3,7 +3,7 @@
     - if not current_user.role == "seller"
       .card.card--blue{style: "background-image: url(https://icongr.am/feather/dollar-sign.svg?color=0b5d7d);background-repeat: no-repeat;background-size: 70px;background-position-y: 140%;"}
         .card__content
-          %p Seu saldo atual: R$ 0,00
+          %p= "Seu saldo atual: R$ " + current_user.balance
 
       .columns
         .column.column--2

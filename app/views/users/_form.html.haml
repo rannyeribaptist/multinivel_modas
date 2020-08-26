@@ -14,6 +14,12 @@
     = f.input :avatar, label: "Foto de perfil", input_html: { style: "margin-bottom: 0" }
     %small Máximo 15mb
 
+    - if current_user.role == "admin"
+      = f.input :balance, label: "Saldo", input_html: { class: "money" }
+      = f.input :sales_volume, label: "Volume", input_html: { class: "money" }
+      = f.input :invited_ids, label: "Usuários que convidou (ids separados por espaço):"
+      = f.input :invited_by_id, label: "Indicado por (id):"
+
     %br
     %br
 

@@ -38,7 +38,7 @@
                   = link_to user do
                     %img.destroy{src: "https://icongr.am/clarity/eye.svg?color=13B3F2", style: "max-width: 20px"}
                 %td
-                  = link_to edit_user_path(user) do
+                  = link_to edit_user_path(user), "data-turbolinks" => "false" do
                     %img.destroy{src: "https://icongr.am/clarity/pencil.svg?color=ffc406", style: "max-width: 20px"}
                 %td
                   = link_to user, method: :delete, data: { confirm: 'Tem certeza disso? Isso Não poderá ser desfeito!' } do

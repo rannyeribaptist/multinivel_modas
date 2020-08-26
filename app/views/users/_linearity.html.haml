@@ -2,16 +2,17 @@
   - resource.invited_ids.each do |id|
     - unless User.find_by_id(id).present? == false || User.find_by_id(id).deleted_at
       .network-card.element
-        = image_tag(User.find(id).avatar.thumb.url) if User.find(id).avatar.present?
-        - if not User.find(id).avatar.present?
-          %img{src: "http://via.placeholder.com/50x50"}
+        = link_to User.find_by_id(id) do
+          = image_tag(User.find(id).avatar.thumb.url) if User.find(id).avatar.present?
+          - if not User.find(id).avatar.present?
+            %img{src: "http://via.placeholder.com/50x50"}
         .network-card__content
           %text= User.find(id).name.split.first if User.find(id).name.present?
           %br
           %small= User.find(id).graduation
           %br
           %small= "Volume: R$ " + User.find(id).sales_volume
-        - if User.find(id).invited_ids.length > 0
-          %a{onclick: "$('.#{id}').toggle()"} [+]
+          - if User.find(id).invited_ids.length > 0
+            %a{onclick: "$('.#{id}').toggle()"} [+]
         = render partial: "deepness", locals: { resource: User.find(id), number: id }
         %br
