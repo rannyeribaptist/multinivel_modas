@@ -16,6 +16,7 @@
 
     - if current_user.role == "admin"
       = f.input :balance, label: "Saldo", input_html: { class: "money" }
+      = f.input :graduation, label: "Graduação", as: :select, collection: ["sênior", "bronze", "prata", "ouro", "diamante", "imperial"]
       = f.input :sales_volume, label: "Volume", input_html: { class: "money" }
       = f.input :invited_ids, label: "Usuários que convidou (ids separados por espaço):"
       = f.input :invited_by_id, label: "Indicado por (id):"
