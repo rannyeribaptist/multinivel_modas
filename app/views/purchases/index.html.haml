@@ -8,6 +8,7 @@
           %th Forma de pagamento
           %th Valor
           %th Data
+          %th Status
           %th
 
       %tbody
@@ -19,4 +20,5 @@
             - else
               %td= format_price(purchase.value)
             %td= purchase.created_at.strftime("%d/%m/%Y")
+            %td= t(purchase.status)
             %td= link_to 'Ver', purchase
