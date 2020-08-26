@@ -30,7 +30,7 @@
         = g.input :state, label: "Estado"
         = g.input :number, label: "Número"
         = g.input :complement, label: "complemento"
-        = g.input :cep, input_html: { 'data-mask': '00000-00' }, label: "CEP"
+        = g.input :cep, input_html: { 'data-mask': '00000-000' }, label: "CEP"
     - else
       = f.simple_fields_for :address, Address.new do |g|
         = g.input :street, label: "Rua"
