@@ -45,7 +45,7 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
   def update
-    params[:user][:invited_ids] = params[:user][:invited_ids].split(" ")
+    params[:user][:invited_ids] = params[:user][:invited_ids].split(" ") if params[:user][:invited_ids].present?
     respond_to do |format|
       if @user.update(user_params)
         @user.update_attribute(:completed_registration, true) if current_user.address.present?
