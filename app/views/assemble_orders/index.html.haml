@@ -1,25 +1,27 @@
-%h1 Listing assemble_orders
+.section
+  .section__content
+    %h1 Listing assemble_orders
 
-%table
-  %thead
-    %tr
-      %th Last assembler
-      %th Next assembler
-      %th Assembler list
-      %th
-      %th
-      %th
+    %table
+      %thead
+        %tr
+          %th Purchase
+          %th User
+          %th Status
+          %th
+          %th
+          %th
 
-  %tbody
-    - @assemble_orders.each do |assemble_order|
-      %tr
-        %td= assemble_order.last_assembler
-        %td= assemble_order.next_assembler
-        %td= assemble_order.assembler_list
-        %td= link_to 'Show', assemble_order
-        %td= link_to 'Edit', edit_assemble_order_path(assemble_order)
-        %td= link_to 'Destroy', assemble_order, method: :delete, data: { confirm: 'Are you sure?' }
+      %tbody
+        - @assemble_orders.each do |assemble_order|
+          %tr
+            %td= assemble_order.purchase
+            %td= assemble_order.user
+            %td= assemble_order.status
+            %td= link_to 'Show', assemble_order
+            %td= link_to 'Edit', edit_assemble_order_path(assemble_order)
+            %td= link_to 'Destroy', assemble_order, method: :delete, data: { confirm: 'Are you sure?' }
 
-%br
+    %br
 
-= link_to 'New Assemble order', new_assemble_order_path
+    = link_to 'New Assemble order', new_assemble_order_path

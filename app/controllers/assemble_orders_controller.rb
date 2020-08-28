@@ -69,6 +69,6 @@ class AssembleOrdersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def assemble_order_params
-      params.require(:assemble_order).permit(:last_assembler, :next_assembler, :assembler_list)
+      params.require(:assemble_order).permit(:purchase_id, :user_id, :status)
     end
 end

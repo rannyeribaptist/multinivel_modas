@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_26_030123) do
+ActiveRecord::Schema.define(version: 2020_08_28_205645) do
 
   create_table "addresses", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -26,22 +26,24 @@ ActiveRecord::Schema.define(version: 2020_08_26_030123) do
     t.index ["user_id"], name: "index_addresses_on_user_id"
   end
 
-  create_table "assemble_orders", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
-    t.integer "last_assembler"
-    t.integer "next_assembler"
-    t.string "assembler_list", default: "--- []\n"
+  create_table "assemble_order_items", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.bigint "purchase_item_id", null: false
+    t.bigint "assemble_order_id", null: false
+    t.string "status"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["assemble_order_id"], name: "index_assemble_order_items_on_assemble_order_id"
+    t.index ["purchase_item_id"], name: "index_assemble_order_items_on_purchase_item_id"
   end
 
-  create_table "assembles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+  create_table "assemble_orders", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.bigint "purchase_id", null: false
     t.bigint "user_id", null: false
     t.string "status"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "order_id", null: false
-    t.index ["order_id"], name: "index_assembles_on_order_id"
-    t.index ["user_id"], name: "index_assembles_on_user_id"
+    t.index ["purchase_id"], name: "index_assemble_orders_on_purchase_id"
+    t.index ["user_id"], name: "index_assemble_orders_on_user_id"
   end
 
   create_table "bank_account_informations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
@@ -86,33 +88,6 @@ ActiveRecord::Schema.define(version: 2020_08_26_030123) do
     t.text "response"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "order_addresses", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
-    t.string "street"
-    t.string "neighbohood"
-    t.string "city"
-    t.string "state"
-    t.string "number"
-    t.string "cep"
-    t.string "complement"
-    t.bigint "order_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["order_id"], name: "index_order_addresses_on_order_id"
-  end
-
-  create_table "order_items", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
-    t.string "item_option"
-    t.bigint "order_id", null: false
-    t.string "quantity"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.string "item_name"
-    t.string "status"
-    t.string "product_reference"
-    t.string "value"
-    t.index ["order_id"], name: "index_order_items_on_order_id"
   end
 
   create_table "orders", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
@@ -292,14 +267,14 @@ ActiveRecord::Schema.define(version: 2020_08_26_030123) do
   end
 
   add_foreign_key "addresses", "users"
-  add_foreign_key "assembles", "orders"
-  add_foreign_key "assembles", "users"
+  add_foreign_key "assemble_order_items", "assemble_orders"
+  add_foreign_key "assemble_order_items", "purchase_items"
+  add_foreign_key "assemble_orders", "purchases"
+  add_foreign_key "assemble_orders", "users"
   add_foreign_key "bank_account_informations", "users"
   add_foreign_key "cats", "product_categories"
   add_foreign_key "cats", "products"
   add_foreign_key "credit_informations", "users"
-  add_foreign_key "order_addresses", "orders"
-  add_foreign_key "order_items", "orders"
   add_foreign_key "product_pictures", "products"
   add_foreign_key "products", "users"
   add_foreign_key "purchase_items", "products"

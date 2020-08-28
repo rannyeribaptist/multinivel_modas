@@ -143,8 +143,6 @@ class PurchasesController < ApplicationController
       if @purchase.save
         format.html { redirect_to @purchase, notice: 'Purchase was successfully created.' }
         clear_shopping_cart(current_user.shopping_cart, @purchase)
-        # create_assemble(@purchase)
-        # create_purchase_order(@purchase)
         # format.json { render :show, status: :created, location: @purchase }
       else
         format.html { render :new }

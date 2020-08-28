@@ -1,10 +1,8 @@
 Rails.application.routes.draw do
+  resources :assemble_orders
   resources :starter_packs
   resources :user_starter_packs
   resources :purchase_orders
-  resources :assembles
-  resources :assemble_orders
-  resources :orders
   resources :purchases
   devise_for :users, controllers: { sessions: 'users/sessions', registrations: 'users/registrations' }
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html

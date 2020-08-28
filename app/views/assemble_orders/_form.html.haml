@@ -4,9 +4,9 @@
   = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
 
   .form-inputs
-    = f.input :last_assembler
-    = f.input :next_assembler
-    = f.input :assembler_list
+    = f.association :purchase
+    = f.association :user
+    = f.input :status
 
   .form-actions
     = f.button :submit

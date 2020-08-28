@@ -11,7 +11,6 @@ class User < ApplicationRecord
   has_one :credit_information, dependent: :destroy
   has_one :url_minifier, dependent: :destroy
   has_one :shopping_cart, dependent: :destroy
-  has_one :assemble, dependent: :destroy
   has_one :user_starter_pack, dependent: :destroy
   has_one :starter_pack, through: :user_starter_pack
 

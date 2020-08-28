@@ -3,9 +3,9 @@ require 'rails_helper'
 RSpec.describe "assemble_orders/new", type: :view do
   before(:each) do
     assign(:assemble_order, AssembleOrder.new(
-      :last_assembler => 1,
-      :next_assembler => 1,
-      :assembler_list => "MyString"
+      :purchase => nil,
+      :user => nil,
+      :status => "MyString"
     ))
   end
 
@@ -14,11 +14,11 @@ RSpec.describe "assemble_orders/new", type: :view do
 
     assert_select "form[action=?][method=?]", assemble_orders_path, "post" do
 
-      assert_select "input[name=?]", "assemble_order[last_assembler]"
+      assert_select "input[name=?]", "assemble_order[purchase_id]"
 
-      assert_select "input[name=?]", "assemble_order[next_assembler]"
+      assert_select "input[name=?]", "assemble_order[user_id]"
 
-      assert_select "input[name=?]", "assemble_order[assembler_list]"
+      assert_select "input[name=?]", "assemble_order[status]"
     end
   end
 end
