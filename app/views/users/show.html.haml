@@ -19,7 +19,7 @@
     - if (not @user.role == "seller" and current_user == @user) or current_user.role == "admin"
       .card{style: "color: black"}
         .card__content
-          %small= "Seu código de convite é: " + @user.invitation_token
+          %small= "Seu código de convite é: " + @user.invitation_token if @user.invitation_token.present?          
           %br
           %small Copie esse código e envie para alguém se cadastrar utilizando ele, ou clique no botão abaixo para compartilhar seu link com alguém
           %br
