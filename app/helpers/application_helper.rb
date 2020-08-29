@@ -235,6 +235,23 @@ module ApplicationHelper
     end
   end
 
+  def set_purchase_order_color(status)
+    case status
+    when "Nova Ordem de compra"
+      return "white"
+    when "Pendente pagamento"
+      return "#ec9898"
+    when "Pagamento realizado"
+      return "#ece298"
+    when "Coleta"
+      return "#98ddec"
+    when "Conferência"
+      return "#98ddec"
+    when "OK"
+      return "#98ec98"
+    end
+  end
+
   def human_boolean(value)
     if value
       return "Sim"

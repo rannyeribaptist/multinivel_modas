@@ -14,7 +14,7 @@
 
       %tbody
         - @purchase_orders.order("created_at desc").each do |purchase_order|
-          %tr
+          %tr{style: "background-color: #{set_purchase_order_color(purchase_order.status)}"}
             %td= image_tag(purchase_order.product.product_pictures.first.picture.thumb.url)
             %td= purchase_order.product.name
             %td= purchase_order.quantity

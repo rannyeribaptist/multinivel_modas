@@ -3,10 +3,10 @@
     - if @purchases.any?
       %h1.title Aprovar Pagamentos
 
-      - @purchases.each do |purchase|
+      - @purchases.order("created_at desc").each do |purchase|
         .purchase_card
           .purchase_card__actions
-          = image_tag(purchase.user.avatar.thumb.url, class: "purchase_card__picture")
+          = image_tag(purchase.user.avatar.thumb.url, style: "max-width: 40%")
           .purchase_card__content
             %h3{style: "margin-bottom: 0"}= purchase.user.name
             = "Total: " + format_price(purchase.value)

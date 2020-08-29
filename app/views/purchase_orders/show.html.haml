@@ -44,19 +44,26 @@
 
     %br
 
-    - if @purchase_order.status == "Nova Ordem de compra"
-      = simple_form_for @purchase_order do |f|
-        = f.input :status, input_html: { value: "Pendente pagamento" }, as: :hidden
-        %button.button.button--blue.button--full-width{type: "submit"} Enviar para o financeiro
-    - elsif @purchase_order.status == "Pagamento realizado"
-      = simple_form_for @purchase_order do |f|
-        = f.input :status, input_html: { value: "Coleta" }, as: :hidden
-        %button.button.button--blue.button--full-width{type: "submit"} Definir como "coleta"
-      %br      	
-      = simple_form_for @purchase_order do |f|
-        = f.input :status, input_html: { value: "Conferência" }, as: :hidden
-        %button.button.button--blue.button--full-width{type: "submit"} Definir como "conferência"
-    - elsif ["Coleta", "Conferência"].include? @purchase_order.status
-      = simple_form_for @purchase_order do |f|
-        = f.input :status, input_html: { value: "OK" }, as: :hidden
-        %button.button.button--green.button--full-width{type: "submit"} Finalizar ordem de compra
+    - if current_user.role == "aquisition"
+      - if @purchase_order.status == "Nova Ordem de compra"
+        = simple_form_for @purchase_order do |f|
+          = f.input :status, input_html: { value: "Pendente pagamento" }, as: :hidden
+          %button.button.button--blue.button--full-width{type: "submit"} Enviar para o financeiro
+      - elsif @purchase_order.status == "Pagamento realizado"
+        = simple_form_for @purchase_order do |f|
+          = f.input :status, input_html: { value: "Coleta" }, as: :hidden
+          %button.button.button--blue.button--full-width{type: "submit"} Definir como "coleta"
+        %br
+        = simple_form_for @purchase_order do |f|
+          = f.input :status, input_html: { value: "Conferência" }, as: :hidden
+          %button.button.button--blue.button--full-width{type: "submit"} Definir como "conferência"
+      - elsif ["Coleta", "Conferência"].include? @purchase_order.status
+        = simple_form_for @purchase_order do |f|
+          = f.input :status, input_html: { value: "OK" }, as: :hidden
+          %button.button.button--green.button--full-width{type: "submit"} Finalizar ordem de compra
+
+    - elsif current_user.role == "finance"
+      - if @purchase_order.status == "Pendente pagamento"
+        = simple_form_for @purchase_order do |f|
+          = f.input :status, input_html: { value: "Pagamento realizado" }, as: :hidden
+          %button.button.button--blue.button--full-width{type: "submit"} Definir como pago
