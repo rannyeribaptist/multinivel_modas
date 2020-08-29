@@ -86,6 +86,13 @@
                 %li
                   %img{src: "https://icongr.am/jam/box.svg"}
                   = link_to "Ordens de montagem", assembles_path
+              - when "aquisition"
+                %li
+                  %img{src: "https://icongr.am/jam/coin.svg"}
+                  = link_to "Ordens de compra", purchase_orders_path
+                %li
+                  %img{src: "https://icongr.am/jam/box.svg"}
+                  = link_to "Produtos", products_path
               - else
                 %li
                   %img{src: "https://icongr.am/jam/user-circle.svg"}

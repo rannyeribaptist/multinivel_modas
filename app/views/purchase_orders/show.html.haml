@@ -1,15 +1,62 @@
-%p#notice= notice
+.section
+  .section__content
+    %h1 Ordem de compra
+    %strong Número da ordem:
+    = @purchase_order.id
+    %strong Status atual:
+    = @purchase_order.status
 
-%p
-  %b Product:
-  = @purchase_order.product
-%p
-  %b Quantity:
-  = @purchase_order.quantity
-%p
-  %b Status:
-  = @purchase_order.status
+    %br
 
-= link_to 'Edit', edit_purchase_order_path(@purchase_order)
-\|
-= link_to 'Back', purchase_orders_path
+    %div{style: "text-align: left"}
+      %p
+        %b Fotos:
+        .image_carousel
+          - @purchase_order.product.product_pictures.each do |pic|
+            .product_image
+              %img{src: "#{pic.picture.url}"}
+
+    %br
+    %h3 Informações do produto
+
+    %p
+      %strong Nome:
+      = @purchase_order.product.name
+    %p
+      %strong Descrição:
+      = @purchase_order.product.description
+    %p
+      %strong Localização:
+      = @purchase_order.product.location
+    %p
+      %strong Referência:
+      = @purchase_order.product.reference
+
+
+    %h3 Informações do pedido
+
+    %p
+      %strong Quantidade:
+      = @purchase_order.quantity
+    %p
+      %strong Tamanho:
+      = @purchase_order.size
+
+    %br
+
+    - if @purchase_order.status == "Nova Ordem de compra"
+      = simple_form_for @purchase_order do |f|
+        = f.input :status, input_html: { value: "Pendente pagamento" }, as: :hidden
+        %button.button.button--blue.button--full-width{type: "submit"} Enviar para o financeiro
+    - elsif @purchase_order.status == "Pagamento realizado"
+      = simple_form_for @purchase_order do |f|
+        = f.input :status, input_html: { value: "Coleta" }, as: :hidden
+        %button.button.button--blue.button--full-width{type: "submit"} Definir como "coleta"
+      %br      	
+      = simple_form_for @purchase_order do |f|
+        = f.input :status, input_html: { value: "Conferência" }, as: :hidden
+        %button.button.button--blue.button--full-width{type: "submit"} Definir como "conferência"
+    - elsif ["Coleta", "Conferência"].include? @purchase_order.status
+      = simple_form_for @purchase_order do |f|
+        = f.input :status, input_html: { value: "OK" }, as: :hidden
+        %button.button.button--green.button--full-width{type: "submit"} Finalizar ordem de compra

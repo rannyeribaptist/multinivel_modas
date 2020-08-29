@@ -1,25 +1,23 @@
-%h1 Listing purchase_orders
+.section
+  .section__content
+    %h1 Ordens de compra
 
-%table
-  %thead
-    %tr
-      %th Product
-      %th Quantity
-      %th Status
-      %th
-      %th
-      %th
+    %table
+      %thead
+        %tr
+          %th #
+          %th Produto
+          %th Quantidade
+          %th Tamanho
+          %th Status
+          %th
 
-  %tbody
-    - @purchase_orders.each do |purchase_order|
-      %tr
-        %td= purchase_order.product
-        %td= purchase_order.quantity
-        %td= purchase_order.status
-        %td= link_to 'Show', purchase_order
-        %td= link_to 'Edit', edit_purchase_order_path(purchase_order)
-        %td= link_to 'Destroy', purchase_order, method: :delete, data: { confirm: 'Are you sure?' }
-
-%br
-
-= link_to 'New Purchase order', new_purchase_order_path
+      %tbody
+        - @purchase_orders.order("created_at desc").each do |purchase_order|
+          %tr
+            %td= image_tag(purchase_order.product.product_pictures.first.picture.thumb.url)
+            %td= purchase_order.product.name
+            %td= purchase_order.quantity
+            %td= purchase_order.size
+            %td= purchase_order.status
+            %td= link_to 'Ver Ordem', purchase_order

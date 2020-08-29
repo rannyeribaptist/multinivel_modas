@@ -20,6 +20,9 @@
             = format_price(product.price)
             %br
             = "Estoque: " + product.quantity + " Unidades"
+            - if ["aquisition", "admin"].include? current_user.role
+              %br              	
+              = "Aprovado? " + human_boolean(product.approved)
 
         %br
         %hr{style: "width: 100%;"}

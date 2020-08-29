@@ -5,7 +5,8 @@ class ProductsController < ApplicationController
   # GET /products
   # GET /products.json
   def index
-    @products = Product.where(:user => current_user).page(params[:page])
+    @products = Product.where(:user => current_user).page(params[:page]) if not ["aquisition", "admin"].include? current_user.role
+    @products = Product.all.page(params[:page]) if ["aquisition", "admin"].include? current_user.role
   end
 
   def store

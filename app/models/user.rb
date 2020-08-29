@@ -94,7 +94,7 @@ class User < ApplicationRecord
 
       user.save
     else
-      self.role = "seller"
+      self.role = "seller" unless ["aquisition", "assembler", "support", "finance"].include? current_user.role
       self.activated = true
 
       until self.valid?

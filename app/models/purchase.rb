@@ -21,7 +21,7 @@ class Purchase < ApplicationRecord
 
   def create_purchase_order
     self.purchase_items.each do |item|
-      PurchaseOrder.create(product_id: item.product_id, :quantity => item.quantity)
+      PurchaseOrder.create(product_id: item.product_id, :quantity => item.quantity, status: "Nova Ordem de compra", size: item.size)
     end
   end
 end

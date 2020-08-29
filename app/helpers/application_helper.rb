@@ -234,4 +234,12 @@ module ApplicationHelper
       return "#ec9898"
     end
   end
+
+  def human_boolean(value)
+    if value
+      return "Sim"
+    else
+      return "Não"
+    end
+  end
 end
