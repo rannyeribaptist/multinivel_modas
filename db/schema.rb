@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_28_205645) do
+ActiveRecord::Schema.define(version: 2020_08_29_174246) do
 
   create_table "addresses", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -44,6 +44,14 @@ ActiveRecord::Schema.define(version: 2020_08_28_205645) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["purchase_id"], name: "index_assemble_orders_on_purchase_id"
     t.index ["user_id"], name: "index_assemble_orders_on_user_id"
+  end
+
+  create_table "assemblers_lists", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.bigint "last_assembler_id"
+    t.bigint "next_assembler_id"
+    t.string "assemblers_list"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "bank_account_informations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|

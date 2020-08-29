@@ -4,7 +4,7 @@ class AssembleOrdersController < ApplicationController
   # GET /assemble_orders
   # GET /assemble_orders.json
   def index
-    @assemble_orders = AssembleOrder.all
+    @assemble_orders = AssembleOrder.where(user_id: current_user.id)
   end
 
   # GET /assemble_orders/1
@@ -69,6 +69,6 @@ class AssembleOrdersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def assemble_order_params
-      params.require(:assemble_order).permit(:purchase_id, :user_id, :status)
+      params.require(:assemble_order).permit(:purchase_id, :user_id, :status, :assemble_order_items_attributes => [:id, :status])
     end
 end

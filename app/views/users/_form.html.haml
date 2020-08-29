@@ -47,7 +47,7 @@
         = g.input :number, label: "Número"
         = g.input :complement, label: "complemento"
         = g.input :user_id, as: :hidden, input_html: { value: current_user.id }
-        = g.input :cep, input_html: { 'data-mask': '00000-00' }, label: "CEP"
+        = g.input :cep, input_html: { 'data-mask': '00000-000' }, label: "CEP"
 
     %button.button.button--full-width.button--blue.change-slide{type: "button", goTo: "3"} Próximo
     %br

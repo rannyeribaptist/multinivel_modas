@@ -1,27 +1,26 @@
 .section
   .section__content
-    %h1 Listing assemble_orders
+    %h1 Ordens de montagem
 
     %table
       %thead
         %tr
-          %th Purchase
-          %th User
+          %th #
+          %th Estado
           %th Status
-          %th
-          %th
           %th
 
       %tbody
-        - @assemble_orders.each do |assemble_order|
-          %tr
-            %td= assemble_order.purchase
-            %td= assemble_order.user
+        - @assemble_orders.order("created_at desc").each do |assemble_order|
+          %tr{style: "background-color: #{set_assemble_color(assemble_order.status)}"}
+            %td= assemble_order.id
+            %td= assemble_order.purchase.user.address.state
             %td= assemble_order.status
-            %td= link_to 'Show', assemble_order
-            %td= link_to 'Edit', edit_assemble_order_path(assemble_order)
-            %td= link_to 'Destroy', assemble_order, method: :delete, data: { confirm: 'Are you sure?' }
-
-    %br
-
-    = link_to 'New Assemble order', new_assemble_order_path
+            - if assemble_order.status == "Expedição"
+              %td= link_to 'Visualizar Pedido', assemble_order
+            - elsif assemble_order.status == "Estoque insuficiente"
+              %td= link_to 'Verificar Montagem', assemble_order
+            - elsif assemble_order.status == "Pendente revisão"
+              %td= link_to 'Revisar montagem', assemble_order
+            - else
+              %td= link_to 'Iniciar Montagem', assemble_order

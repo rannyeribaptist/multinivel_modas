@@ -78,7 +78,6 @@ class PurchasesController < ApplicationController
 
       if current_user.activated?
         @purchase.value = sum_items(current_user.shopping_cart)
-        clear_shopping_cart(current_user.shopping_cart, @purchase)
       else
         if current_user.plan == "kit start"
           @pack = current_user.user_starter_pack.starter_pack
@@ -92,9 +91,13 @@ class PurchasesController < ApplicationController
         current_user.update_attribute(:activated, true) if payment["response"]["status"] == "approved"
       end
 
-      @purchase.save
+      if @purchase.save
+        current_user.clear_shopping_cart(@purchase)
+        @purchase.create_assemble_order
+        @purchase.create_purchase_order
+      end
 
-      redirect_to @purchase #, flash: {success: "Compra realizada com sucesso!"}
+      redirect_to @purchase, flash: {success: "Compra realizada com sucesso! Aguarde pela atualização do status"}
     else
       redirect_back(fallback_location: root_path, flash: { notice: payment_response(payment["response"]["status_detail"]) }) if payment["response"]["status_detail"].present?
       redirect_back(fallback_location: root_path, flash: { notice: payment_response(payment["response"]["status"]) }) if not payment["response"]["status_detail"].present?
@@ -141,8 +144,10 @@ class PurchasesController < ApplicationController
 
     respond_to do |format|
       if @purchase.save
+        current_user.clear_shopping_cart(@purchase)
+        @purchase.create_assemble_order
+        @purchase.create_purchase_order
         format.html { redirect_to @purchase, notice: 'Purchase was successfully created.' }
-        clear_shopping_cart(current_user.shopping_cart, @purchase)
         # format.json { render :show, status: :created, location: @purchase }
       else
         format.html { render :new }

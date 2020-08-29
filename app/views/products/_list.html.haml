@@ -3,7 +3,7 @@
     .product
       .product__head
         = image_tag(User.find(product.user_id).avatar.url)
-        %h3= Product.name
+        %h3= product.name
         %img.more{src: "https://icongr.am/feather/more-vertical.svg"}
         .product__more
           💚

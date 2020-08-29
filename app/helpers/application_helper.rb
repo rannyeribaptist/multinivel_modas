@@ -68,30 +68,6 @@ module ApplicationHelper
     end
   end
 
-  def clear_shopping_cart(cart, purchase)
-    cart.shopping_cart_items.each do |item|
-      purchase.purchase_items.new(size: item.size, quantity: item.quantity, product_id: item.product_id, purchase_id: purchase.id)
-      item.destroy
-    end
-  end
-
-  # def create_purchase_order(order)
-  #   order.order_items.each do |item|
-  #     product = Product.find_by_location(item.product_reference)
-  #     PurchaseOrder.create(product_id: item.order_id, quantity: item.quantity, status: "Pendente Pagamento") if product.present?
-  #   end
-  # end
-  #
-  # def create_assemble(order)
-  #   assembler = set_assembler()
-  #
-  #   order.order_items.each do |item|
-  #     item.update_attribute(:status, "Em estoque")
-  #   end
-  #
-  #   assemble = Assemble.create(order_id: order.id, user_id: assembler, status: "Pendente montagem")
-  # end
-
   def update_products_quantity(order)
     order.order_items.each do |item|
       current_quantity = Product.find_by_location(item.product_reference).quantity
@@ -107,21 +83,6 @@ module ApplicationHelper
 
     Product.find_by_location(item.product_reference).update_attribute(:quantity, quantity)
   end
-
-  # def set_assembler
-  #   order = AssembleOrder.first
-  #
-  #   if (order.assembler_list.find_index(order.next_assembler)) == (order.assembler_list.length.to_i - 1)
-  #     next_assembler_index = order.assembler_list.first
-  #   else
-  #     next_assembler_index = order.assembler_list[find_index(order.next_assembler) + 1]
-  #   end
-  #
-  #   order.last_assembler = order.next_assembler
-  #   order.next_assembler = next_assembler_index
-  #
-  #   return order.next_assembler
-  # end
 
   def set_plan_value(plan)
     case plan
@@ -258,6 +219,19 @@ module ApplicationHelper
       return "Cartão de crédito"
     else
       return method
+    end
+  end
+
+  def set_assemble_color(status)
+    case status
+    when "Pendente montagem"
+      return "white"
+    when "Pendente revisão"
+      return "#98ddec"
+    when "Expedição"
+      return "#98ec98"
+    when "Estoque insuficiente"
+      return "#ec9898"
     end
   end
 end
