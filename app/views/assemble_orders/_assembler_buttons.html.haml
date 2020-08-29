@@ -1,0 +1,20 @@
+- if item.status == "Adicionado"
+  %td{colspan: "100%"}
+    %text{style: "color: #5ad34a"} Adicionado
+    %img{src: "https://icongr.am/feather/check-square.svg?size=16&color=5ad34a", style: "vertical-align: text-top"}
+- elsif item.status == "Em estoque"
+  %td
+    = simple_form_for @assemble_order, remote: true do |f|
+      = f.simple_fields_for :assemble_order_items, item do |g|
+        = g.input :status, input_html: { value: "Adicionado" }, as: :hidden
+      %button.button.button--full-width.button--blue{type: "submit"} Adicionar
+  %td
+    = simple_form_for @assemble_order, remote: true do |f|
+      = f.simple_fields_for :assemble_order_items, item do |g|
+        = g.input :status, input_html: { value: "Sem estoque" }, as: :hidden
+      %button.button.button--full-width.button--red{type: "submit"} Indisponível
+- else
+  %td{colspan: "100%", style: "text-align: center"}
+    %img{src: "https://icongr.am/feather/alert-triangle.svg?size=16&color=d34a4a", style: "vertical-align: text-top"}
+    %br
+    %text{style: "color: #d34a4a"} Sem estoque

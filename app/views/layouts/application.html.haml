@@ -100,6 +100,11 @@
                   %img{src: "https://icongr.am/jam/box.svg"}
                   = link_to "Produtos", products_path
 
+              - when "support"
+                %li
+                  %img{src: "https://icongr.am/jam/box.svg"}
+                  = link_to "Ordens de montagem", assemble_orders_path
+
               - else
                 %li
                   %img{src: "https://icongr.am/jam/user-circle.svg"}

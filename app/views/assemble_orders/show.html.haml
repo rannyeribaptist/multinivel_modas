@@ -34,38 +34,27 @@
               %td= item.purchase_item.size
               %td= item.purchase_item.product.quantity
               %td= item.purchase_item.product.location
-              - if item.status == "Adicionado"
-                %td{colspan: "100%"}
-                  %text{style: "color: #5ad34a"} Adicionado
-                  %img{src: "https://icongr.am/feather/check-square.svg?size=16&color=5ad34a", style: "vertical-align: text-top"}
-              - else
-                %td
-                  = simple_form_for @assemble_order, remote: true do |f|
-                    = f.simple_fields_for :assemble_order_items, item do |g|
-                      = g.input :status, input_html: { value: "Adicionado" }, as: :hidden
-                    %button.button.button--full-width.button--blue{type: "submit"} Adicionar
-                - if not item.status == "Sem estoque"
-                  %td
-                    = simple_form_for @assemble_order, remote: true do |f|
-                      = f.simple_fields_for :assemble_order_items, item do |g|
-                        = g.input :status, input_html: { value: "Sem estoque" }, as: :hidden
-                      %button.button.button--full-width.button--red{type: "submit"} Indisponível
-                - else
-                  %td{style: "text-align: center"}
-                    %img{src: "https://icongr.am/feather/alert-triangle.svg?size=16&color=d34a4a", style: "vertical-align: text-top"}
-                    %br
-                    %text{style: "color: #d34a4a"} Sem estoque
+
+              = render partial: "assembler_buttons", locals: { item: item } if current_user.role == "assembler"
+              = render partial: "support_buttons", locals: { item: item } if current_user.role == "support"
 
     %br
 
-    - if not @assemble_order.status == "Expedição"
-      - if @assemble_order.status != "Pendente montagem"
-        = simple_form_for @assemble_order, remote: true do |f|
-          = f.input :status, input_html: { value: "Expedição" }, as: :hidden
-          %button.button.button--full-width.button--green{type: "submit"} Finalizar montagem
+    - if current_user.role == "assembler"
+      - if not @assemble_order.status == "Expedição"
+        - if @assemble_order.status != "Pendente montagem"
+          = simple_form_for @assemble_order, remote: true do |f|
+            = f.input :status, input_html: { value: "Expedição" }, as: :hidden
+            %button.button.button--full-width.button--green{type: "submit"} Finalizar montagem
 
-        %br
+          %br
 
+          = simple_form_for @assemble_order, remote: true do |f|
+            = f.input :status, input_html: { value: "Estoque insuficiente" }, as: :hidden
+            %button.button.button--full-width.button--red{type: "submit"} Marcar como estoque insuficiente
+
+    - elsif current_user.role == "support"
+      - if @assemble_order.status == "Estoque insuficiente"
         = simple_form_for @assemble_order, remote: true do |f|
-          = f.input :status, input_html: { value: "Estoque insuficiente" }, as: :hidden
+          = f.input :status, input_html: { value: "Pendente revisão" }, as: :hidden
           %button.button.button--full-width.button--red{type: "submit"} Enviar para revisão
