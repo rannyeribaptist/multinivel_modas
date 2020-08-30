@@ -93,6 +93,9 @@ class PurchasesController < ApplicationController
 
       if @purchase.save
         current_user.clear_shopping_cart(@purchase)
+        current_user.generate_volume(@purchase)
+        current_user.generate_commission(@purchase)
+
         @purchase.create_assemble_order
         @purchase.create_purchase_order
       end
