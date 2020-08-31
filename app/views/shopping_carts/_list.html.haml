@@ -37,6 +37,9 @@
           %strong Total:
         %td#total
           = format_price(calc_total(@shopping_cart))
+          - if current_user.plan != "revendedor"
+            %em
+              %small 15% de desconto
         %td
 
 %br

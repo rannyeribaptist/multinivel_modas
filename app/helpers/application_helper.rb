@@ -288,6 +288,7 @@ module ApplicationHelper
     delivery = calc_delivery(cart)
     cart_total = sum_items(cart)
     total = delivery.to_f + cart_total.to_f
+    total = total - (total * 0.15) if current_user.plan != "revendedor"
 
     return total.round(2)
   end
