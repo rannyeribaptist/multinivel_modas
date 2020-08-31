@@ -305,7 +305,7 @@ $(document).ready(function() {
 
 // Mercado Pago
 $(document).ready(function() {
-  window.Mercadopago.setPublishableKey("TEST-225e5a8b-1de5-43c5-afea-1d23fcd759c6");
+  window.Mercadopago.setPublishableKey("APP_USR-2979ebe1-7870-43ba-a67c-74a08a30c96e");
   window.Mercadopago.getIdentificationTypes();
 
   document.getElementById('cardNumber').addEventListener('keyup', guessPaymentMethod);

@@ -17,14 +17,14 @@ class PurchasesController < ApplicationController
     @purchase = Purchase.new
 
     require 'mercadopago.rb'
-    mp = MercadoPago.new('APP_USR-3769858112953753-062819-8795743aed7216c004ddec60d8b1ae41-226272139')
+    mp = MercadoPago.new('APP_USR-521238935926107-070120-75ad94b2198ea15ee81f61b23f44a574-248081980')
     @payment_methods = mp.get("/v1/payment_methods")
   end
 
   def proccess_payment
     require 'mercadopago.rb'
 
-    mp = MercadoPago.new('APP_USR-3769858112953753-062819-8795743aed7216c004ddec60d8b1ae41-226272139')
+    mp = MercadoPago.new('APP_USR-521238935926107-070120-75ad94b2198ea15ee81f61b23f44a574-248081980')
 
     request = {
       "description" => params[:payment_description],
