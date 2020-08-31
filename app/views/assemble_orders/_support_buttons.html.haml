@@ -12,7 +12,23 @@
     = simple_form_for @assemble_order, remote: true do |f|
       = f.simple_fields_for :assemble_order_items, item do |g|
         = g.input :status, input_html: { value: "Em estoque" }, as: :hidden
-      %button.button.button--full-width.button--green{type: "submit"} Atualizar Disponibilidade
+      %button.button.button--green{type: "submit"} Atualizar Disponibilidade
+    %br
+    %button.button.button--yellow{type: "button", onclick: "$('#modal_#{item.id}').toggle();"} Criar ordem de compra
+    - content_for :modal do
+      .modal{id: "modal_#{item.id}"}
+        %img.modal__close{src: "https://icongr.am/feather/x.svg", onclick: "$('.modal').toggle()"}
+        .modal__content
+          .section
+            .section__content
+              %h1 Nova ordem de compra
+              = simple_form_for PurchaseOrder.new, html: { class: "fancy-form" } do |f|
+                = f.input :product_id, as: :hidden, input_html: {value: "#{item.id}"}
+                = f.input :quantity, label: "Quantidade"
+                = f.input :size, label: "Tamanho"
+
+                %button.button.button--green{type: "submit"} Gerar ordem de compra
+
 
 - else
   %td{colspan: "100%"}
