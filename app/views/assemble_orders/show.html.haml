@@ -7,6 +7,19 @@
     %br
     %br
 
+    - if current_user.role == "support"
+      %h3 Informações de contato do comprador:
+
+      %p
+        %strong Nome:
+        = @assemble_order.purchase.user.name
+      %p
+        %strong E-mail:
+        = @assemble_order.purchase.user.email
+      %p
+        %strong Telefone:
+        = @assemble_order.purchase.user.phone
+
     - if @assemble_order.status == "Pendente montagem"
       = simple_form_for @assemble_order, remote: true do |f|
         = f.input :status, input_html: { value: "Linha de montagem" }, as: :hidden
