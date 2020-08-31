@@ -259,4 +259,36 @@ module ApplicationHelper
       return "Não"
     end
   end
+
+  def calc_delivery(cart)
+    cart_value = sum_items(cart).to_f
+    total = 35.00
+
+    if cart_value < 100
+      return total.round(2)
+    else
+      check = true
+      total = 50.00
+      verifier = 100
+
+      while check
+        cart_value = cart_value - verifier
+
+        if cart_value.round.to_s.length < 3
+          check = false
+          return total.round(2)
+        else
+          total += 10
+        end
+      end
+    end
+  end
+
+  def calc_total(cart)
+    delivery = calc_delivery(cart)
+    cart_total = sum_items(cart)
+    total = delivery.to_f + cart_total.to_f
+
+    return total.round(2)
+  end
 end

@@ -27,13 +27,16 @@
             = link_to remove_item_path(:item_id => item.id), data: { confirm: 'Remover item?' }, remote: true, input_html: { id: "remove_#{item.id}" } do
               %img.destroy{src: "https://icongr.am/clarity/trash.svg?color=F20505", style: "max-width: 20px"}
       %tr
+        %td{colspan: "4", style: "text-align: right"}
+          %strong Frete:
+        %td#total
+          = format_price(calc_delivery(@shopping_cart))
         %td
-        %td
-        %td
-        %td
+      %tr
+        %td{colspan: "4", style: "text-align: right"}
           %strong Total:
         %td#total
-          = show_price(@shopping_cart)
+          = format_price(calc_total(@shopping_cart))
         %td
 
 %br

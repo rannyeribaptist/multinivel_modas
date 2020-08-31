@@ -50,7 +50,7 @@ class PurchasesController < ApplicationController
     }
 
     if current_user.activated?
-      request["transaction_amount"] = sum_items(current_user.shopping_cart)
+      request["transaction_amount"] = calc_total(current_user.shopping_cart)
     else
       request["transaction_amount"] = set_plan_value(current_user.plan).to_f
     end
@@ -77,7 +77,7 @@ class PurchasesController < ApplicationController
       )
 
       if current_user.activated?
-        @purchase.value = sum_items(current_user.shopping_cart)
+        @purchase.value = calc_total(current_user.shopping_cart)
       else
         if current_user.plan == "kit start"
           @pack = current_user.user_starter_pack.starter_pack
@@ -143,7 +143,7 @@ class PurchasesController < ApplicationController
     @purchase = Purchase.new(purchase_params)
     @purchase.user_id = current_user.id
     @purchase.address = current_user.address
-    @purchase.value = sum_items(current_user.shopping_cart)
+    @purchase.value = calc_total(current_user.shopping_cart)
 
     respond_to do |format|
       if @purchase.save
