@@ -1,5 +1,6 @@
 class PurchasesController < ApplicationController
   before_action :set_purchase, only: [:show, :edit, :update, :destroy, :authorize_payment]
+  skip_before_action :verify_authenticity_token, only: :payment_hooks
 
   # GET /purchases
   # GET /purchases.json
@@ -110,27 +111,38 @@ class PurchasesController < ApplicationController
   end
 
   def payment_hooks
-    return 200
-
     require "net/http"
     require "uri"
 
+    params = request.request_parameters
+
     MercadoPagoHook.create(response: params)
 
-    uri = URI.parse("https://api.mercadopago.com/v1/payments/#{params['id']}")
-    params = {"access_token" => "APP_USR-3769858112953753-062819-8795743aed7216c004ddec60d8b1ae41-226272139"}
+    uri = URI.parse("https://api.mercadopago.com/v1/payments/#{params[:id]}")
+    pms = {"access_token" => "APP_USR-3769858112953753-062819-8795743aed7216c004ddec60d8b1ae41-226272139"}
 
     http = Net::HTTP.new(uri.host, uri.port)
     request = Net::HTTP::Get.new(uri.request_uri)
-    request.set_form_data(params)
+    request.set_form_data(pms)
     response = http.request(request)
 
-    MercadoPagoGet.create(response: response)
+    MercadoPagoGet.create(response: response.inspect)
 
-    @purchase = Purchase.find(payment_id: params["response"]["id"]) if params["response"]["id"].present?
-    @purchase.status = response["response"]["status"] if response["response"]["status"].present?
-    @purchase.status_detail = response["response"]["status_detail"] if response["response"]["status_detail"].present?
-    @purchase.save if @purchase.present?
+    if params[:data][:id].present?
+      @purchase = Purchase.find_by(payment_id: params[:data][:id])
+      @purchase.status = params[:data][:status] if params[:data][:status].present?
+      @purchase.status_detail = params[:data][:status_detail] if params[:data][:status_detail].present?
+
+      if @purchase.present?
+        if @purchase.save
+          head 200
+        else
+          head 500
+        end
+      end
+    end
+
+    # response.status = 200
   end
 
   # GET /purchases/1/edit

@@ -43,5 +43,5 @@ Rails.application.routes.draw do
   end
 
   get "/link/:number", to: "url_minifiers#redirect_url", as: :share_registration_code
-  post "/payment_hooks/:resource", to: "purchases#payment_hooks"
+  post "/payment_hooks", to: "purchases#payment_hooks"
 end
