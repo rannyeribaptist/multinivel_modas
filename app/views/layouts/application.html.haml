@@ -105,6 +105,14 @@
                   %img{src: "https://icongr.am/jam/box.svg"}
                   = link_to "Ordens de montagem", assemble_orders_path
 
+              - when "seller"
+                %li
+                  %img{src: "https://icongr.am/jam/user-circle.svg"}
+                  = link_to "Meu perfil", user_path(current_user)
+                %li
+                  %img{src: "https://icongr.am/feather/box.svg"}
+                  = link_to "Meus produtos", products_path
+
               - else
                 %li
                   %img{src: "https://icongr.am/jam/user-circle.svg"}
@@ -112,12 +120,7 @@
                 - if not current_user.role == "seller"
                   %li
                     %img{src: "https://icongr.am/jam/shopping-cart.svg"}
-                    -# = link_to "Comprar", store_path
                     = link_to "Comprar", store_path
-                - if current_user.role == "seller" or current_user.role == "admin"
-                  %li
-                    %img{src: "https://icongr.am/feather/box.svg"}
-                    = link_to "Meus produtos", products_path
                 - if current_user.role == "consultant" or current_user.role == "client"
                   %li
                     %img{src: "https://icongr.am/feather/box.svg"}

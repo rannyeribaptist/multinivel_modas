@@ -7,7 +7,6 @@
       = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
 
       .slide.slide--active.animated.fadeIn#1
-        = f.input :user_id, input_html: { value: current_user.id }, as: :hidden
         = f.input :name, label: "Nome do produto"
 
         %button.button.button--full-width.button--pink.change-slide{type: "button", goTo: "2"} Próximo
@@ -67,6 +66,7 @@
         = f.input :quantity, label: "Quantidade disponível em estoque:"
         = f.input :location, label: "Localização:"
         = f.input :reference, label: "Referência:"
+        = f.input :user_id, label: "Vendedor:", as: :select, collection: User.where(role: "seller"), label_method: :name, value_method: :id
 
         %button.button.button--full-width.button--green.change-slide{type: "submit"} Concluir
         %br
