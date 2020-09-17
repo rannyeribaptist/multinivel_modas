@@ -57,8 +57,8 @@ class Product < ApplicationRecord
   end
 
   def set_product_value
-    if not (self.original_price.to_f * 1.74 == self.price.to_f)
-      self.price = (self.original_price.to_f * 1.74).to_s
+    if not (self.original_price.to_f * 1.90 == self.price.to_f)
+      self.price = (self.original_price.to_f * 1.90).to_s
       self.save
     end
   end

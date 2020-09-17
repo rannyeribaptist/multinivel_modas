@@ -40,7 +40,7 @@ module ApplicationHelper
     total = 0
 
     cart.shopping_cart_items.each do |item|
-      total += item.product.price.to_f * item.quantity
+      total += calc_discount(item.product.price.gsub(",", ".").to_f) * item.quantity
     end
 
     return total
@@ -287,9 +287,17 @@ module ApplicationHelper
   def calc_total(cart)
     delivery = calc_delivery(cart)
     cart_total = sum_items(cart)
-    total = delivery.to_f + cart_total.to_f
-    total = total - (total * 0.15) if current_user.plan != "revendedor"
+
+    total = cart_total + delivery.to_f
 
     return total.round(2)
+  end
+
+  def calc_discount(value)
+    if current_user.plan != "revendedor"
+      return value - (value * 0.15)
+    else
+      return value
+    end
   end
 end
