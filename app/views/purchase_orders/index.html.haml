@@ -1,23 +1,27 @@
 .section
   .section__content
-    %h1 Ordens de compra
+    %h1 Pedidos
 
-    %table
-      %thead
-        %tr
-          %th #
-          %th Produto
-          %th Quantidade
-          %th Tamanho
-          %th Status
-          %th
+    - @purchase_orders.order("created_at desc").each do |purchase_order|
+      .product_card
+        .product_card__actions
+          %button.button.button--yellow{style: "max-width: 130px; font-size: 12px"} Imprimir ficha de conferência
+          %br          	
+          %button.button.button--green{style: "max-width: 130px; font-size: 12px"} Entregue no ponto de apoio
 
-      %tbody
-        - @purchase_orders.order("created_at desc").each do |purchase_order|
-          %tr{style: "background-color: #{set_purchase_order_color(purchase_order.status)}"}
-            %td= image_tag(purchase_order.product.product_pictures.first.picture.thumb.url)
-            %td= purchase_order.product.name
-            %td= purchase_order.quantity
-            %td= purchase_order.size
-            %td= purchase_order.status
-            %td= link_to 'Ver Ordem', purchase_order
+        = image_tag(purchase_order.product.product_pictures.first.picture.url, class: "product_card__picture", style: "margin-right: 25px")
+
+        .product_card__content{style: "vertical-align: top"}
+          %h3{style: "margin: 0"}= purchase_order.product.name
+
+          %strong Total do pedido:
+          = format_price(purchase_order.value)
+
+          %br
+          - purchase_order.purchase_orders_items.each do |item|
+            %small= item.quantity.to_s + " unidades do tamanho " + item.size.to_s
+            %br
+
+      %br
+      %hr{style: "width: 100%;"}
+      %br
