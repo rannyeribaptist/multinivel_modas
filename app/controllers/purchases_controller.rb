@@ -27,6 +27,7 @@ class PurchasesController < ApplicationController
 
     mp = MercadoPago.new('APP_USR-521238935926107-070120-75ad94b2198ea15ee81f61b23f44a574-248081980')
 
+    # General information to be sent to mercado pago
     request = {
       "description" => params[:payment_description],
       "payment_method_id" => params[:payment_method_id],
@@ -50,20 +51,20 @@ class PurchasesController < ApplicationController
       }
     }
 
+    # set the value to be parsed depending on the operation (purchase or user activation)
     if current_user.activated?
       request["transaction_amount"] = calc_total(current_user.shopping_cart)
     else
       request["transaction_amount"] = set_plan_value(current_user.plan).to_f
     end
 
+    # Setting virtual credit card information if payment_type is credit
     if not params[:purchase][:payment_method] == "ticket"
       request["token"] = "#{params[:token]}"
       request["installments"] = params[:installments].to_i
     end
 
     payment = mp.post('/v1/payments', request)
-
-    puts payment
 
     if verify_payment_status(payment)
       @purchase = Purchase.new(

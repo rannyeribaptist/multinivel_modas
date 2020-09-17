@@ -56,7 +56,7 @@
     - @payment_methods["response"].each do |payment|
       - if payment["payment_type_id"] == "ticket"
         .column.column--sm-3
-          .starter_pack_card{onclick: "setPack('#{payment["id"]}', $(this))", style: "max-width: 100%"}
+          .starter_pack_card{onclick: "setCard($(this), '#{payment["id"]}')", style: "max-width: 100%"}
             .starter_pack_card__content.text-center
               = image_tag(payment["secure_thumbnail"], style: "width: auto")
               %br
@@ -81,7 +81,7 @@
 
       %input#email{:name => "email", :type => "email", :value => "#{current_user.email}", style: "display: none"}
 
-      %input#payment_method_id_ticket{:name => "payment_method_id", :type => "text", style: "display: none"}
+      %input#payment_method_id_ticket{:name => "payment_method_id", :type => "text", style: "display: none", value: "ticket"}
       %button.button.button--green.button--full-width{:type => "submit", :value => "Pagar"} Finalizar Pagamento
 
 
@@ -176,9 +176,8 @@
       $('#purchase_payment_method').attr("value", method);
     }
 
-    function setPack(val, card) {
+    function setCard(card, val) {
       $('#payment_method_id_ticket')[0].value = val;
       $('.starter_pack_card').removeClass('starter_pack_card--active');
-
       card.addClass('starter_pack_card--active');
     }

@@ -12,19 +12,18 @@
 
     %br
 
+    = simple_form_for @user, remote: true, format: :js do |f|
+      = f.simple_fields_for :user_starter_pack, current_user.build_user_starter_pack do |g|
+        = g.input :starter_pack_id, as: :hidden
     - if current_user.plan == "kit start"
-      = simple_form_for @user, remote: true, format: :js do |f|
-        = f.simple_fields_for :user_starter_pack, current_user.build_user_starter_pack do |g|
-          = g.input :starter_pack_id, as: :hidden
-
-    .slider
-      .slider__content
-        - StarterPack.all.each do |pack|
-          .starter_pack_card{onclick: "setPack('#{pack.id}', $(this), '#{pack.price}')"}
-            = image_tag(pack.product.product_pictures.first.picture.url)
-            .starter_pack_card__content
-              %p= pack.product.name
-              %small= "R$ " + pack.price
+      .slider
+        .slider__content
+          - StarterPack.all.each do |pack|
+            .starter_pack_card{onclick: "setPack('#{pack.id}', $(this), '#{pack.price}')"}
+              = image_tag(pack.product.product_pictures.first.picture.url)
+              .starter_pack_card__content
+                %p= pack.product.name
+                %small= "R$ " + pack.price
 
     = render "purchases/payment_form"
 
@@ -34,7 +33,10 @@
     function setPack(pack, card, price) {
       $('#user_user_starter_pack_attributes_starter_pack_id')[0].value = pack;
       $('#transaction_amount')[0].value = price;
+
+      // make the starter pack card green
       $('.starter_pack_card').removeClass('starter_pack_card--active');
       card.addClass('starter_pack_card--active');
-      $('#edit_user_46').submit();
+
+      $('form')[0].submit();
     }

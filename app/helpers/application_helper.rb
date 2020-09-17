@@ -295,9 +295,9 @@ module ApplicationHelper
 
   def calc_discount(value)
     if current_user.plan != "revendedor"
-      return value - (value * 0.15)
+      return (value - (value * 0.15)).round(2)
     else
-      return value
+      return value.round(2)
     end
   end
 end
