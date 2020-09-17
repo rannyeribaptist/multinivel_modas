@@ -21,7 +21,25 @@ class Purchase < ApplicationRecord
 
   def create_purchase_order
     self.purchase_items.each do |item|
-      PurchaseOrder.create(product_id: item.product_id, :quantity => item.quantity, status: "Nova Ordem de compra", size: item.size)
+      purchase_order = PurchaseOrder.find_by(product_id: item.product_id)
+
+      if purchase_order.present?
+        purchase_item = purchase_order.purchase_orders_items.where(size: item.size).first
+
+        if purchase_item.present?
+          purchase_item.update_attribute(:quantity, purchase_item.quantity.to_i + item.quantity.to_i)
+        else
+          purchase_order.purchase_orders_items.create(size: item.size, quantity: item.quantity)
+        end
+      else
+        purchase_order = PurchaseOrder.create(product_id: item.product_id, status: "Nova Ordem de compra")
+        purchase_order.purchase_orders_items.create(size: item.size, quantity: item.quantity)
+      end
+
+      value = item.product.original_price.gsub(",", ".").to_f * item.quantity.to_i
+      value = value.to_f + purchase_order.value.to_f
+      purchase_order.value = value
+      purchase_order.save
     end
   end
 end
