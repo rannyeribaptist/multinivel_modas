@@ -1,10 +1,12 @@
 .columns.columns--small
-  .column.column--3
+  .column.column--4
     .button.button--gray.method{"data-value" => "credit_card", onclick: "setPaymentMethod($(this))"} Cartão
-  .column.column--3
+  .column.column--4
     .button.button--gray{"data-value" => "billet", onclick: "setPaymentMethod($(this))", disabled: :disabled} Boleto
-  .column.column--3
+  .column.column--4
     .button.button--gray{"data-value" => "bank_transfer", onclick: "setPaymentMethod($(this))"} TED
+  .column.column--4
+    .button.button--gray{"data-value" => "balance", onclick: "setPaymentMethod($(this))"} Saldo
 %br
 
 #credit_card.payment_form.active
@@ -136,6 +138,19 @@
     = f.input :status, as: :hidden, input_html: { value: "Aguardando confirmação de pagamento" }
     = f.input :payment_method, as: :hidden, input_html: { value: "Depósito / Transferência" }
     %button.button.button--green.button--full-width#authorize{:type => "submit", disabled: 'disabled'} Solicitar confirmação
+
+#balance.payment_form
+  %h1 Fazer pagamento com saldo
+
+  - if current_user.balance.to_f >= calc_total(current_user.shopping_cart)
+    = simple_form_for @purchase, html: { class: "fancy-form" } do |f|
+      = f.input :status, as: :hidden, input_html: { value: "Pagamento aprovado" }
+      = f.input :payment_method, as: :hidden, input_html: { value: "Saldo" }
+      %button.button.button--green.button--full-width#authorize{:type => "submit", data_confirm: "Tem certeza que deseja utilizar seu saldo para realizar esta compra?"} Pagar!
+  - else
+    %h2 Infelizmente, seu saldo não é suficiente para realizar esta compra
+
+
 
 - content_for :head do
   %meta{:content => "reload", :name => "turbolinks-visit-control"}/

@@ -24,4 +24,10 @@ class Purchase < ApplicationRecord
       PurchaseOrder.create(product_id: item.product_id, :quantity => item.quantity, status: "Nova Ordem de compra", size: item.size)
     end
   end
+
+  def update_user_balance(user_id)
+    user = User.find(user_id)
+    balance = user.balance.gsub(",", ".").to_f - self.value.to_f
+    user.update_attribute(:balance, balance.round(2))
+  end
 end

@@ -162,6 +162,7 @@ class PurchasesController < ApplicationController
         current_user.clear_shopping_cart(@purchase)
         @purchase.create_assemble_order
         @purchase.create_purchase_order
+        @purchase.update_user_balance(current_user.id) if @purchase.payment_method == "Saldo"
         format.html { redirect_to @purchase, notice: 'Purchase was successfully created.' }
         # format.json { render :show, status: :created, location: @purchase }
       else
