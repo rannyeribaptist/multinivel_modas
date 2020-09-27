@@ -6,7 +6,8 @@ class PurchaseOrdersController < ApplicationController
   # GET /purchase_orders
   # GET /purchase_orders.json
   def index
-    @purchase_orders = PurchaseOrder.all
+    @purchase_orders = PurchaseOrder.all if current_user.role == "admin"
+    @purchase_orders = PurchaseOrder.all.select{ |a| a.product.user.id == current_user.id }
   end
 
   # GET /purchase_orders/1

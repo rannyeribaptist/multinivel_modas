@@ -9,6 +9,8 @@
     = @purchase_order.status
   .no-print
     %button.button.button--green{onclick: "window.print()"} Imprimir
+    = link_to :back do
+      %button.button.button--yellow Voltar
 
 %table
   %thead

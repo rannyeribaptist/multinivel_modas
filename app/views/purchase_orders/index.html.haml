@@ -2,27 +2,95 @@
   .section__content
     %h1 Pedidos
 
-    - @purchase_orders.order("created_at desc").each do |purchase_order|
-      .product_card
-        .product_card__actions
-          = link_to print_order_path(purchase_order) do
-            %button.button.button--yellow{style: "max-width: 130px; font-size: 12px"} Imprimir ficha de conferência
-          %br
-          %button.button.button--green{style: "max-width: 130px; font-size: 12px"} Entregue no ponto de apoio
+    %br
 
-        = image_tag(purchase_order.product.product_pictures.first.picture.url, class: "product_card__picture", style: "margin-right: 25px")
+    .columns.columns--small
+      .column.column--3
+        .button.button--gray.method{"data-value" => "new", onclick: "setPaymentMethod($(this))"} Novos pedidos
+      .column.column--3
+        .button.button--gray{"data-value" => "delivered", onclick: "setPaymentMethod($(this))"} No ponto de apoio
+      .column.column--3
+        .button.button--gray{"data-value" => "finished", onclick: "setPaymentMethod($(this))"} Finalizados
 
-        .product_card__content{style: "vertical-align: top"}
-          %h3{style: "margin: 0"}= purchase_order.product.name
+    %br
 
-          %strong Total do pedido:
-          = format_price(purchase_order.value)
-
-          %br
-          - purchase_order.purchase_orders_items.each do |item|
-            %small= item.quantity.to_s + " unidades do tamanho " + item.size.to_s
+    #new.payment_form.active
+      - @purchase_orders.filter{|order| order.status.downcase == "nova ordem de compra"}.reverse_each do |purchase_order|
+        .product_card
+          .product_card__actions
+            = link_to print_order_path(purchase_order) do
+              %button.button.button--yellow{style: "max-width: 130px; font-size: 12px"} Imprimir ficha de conferência
             %br
+            %button.button.button--green{style: "max-width: 130px; font-size: 12px"} Entregue no ponto de apoio
 
-      %br
-      %hr{style: "width: 100%;"}
-      %br
+          = image_tag(purchase_order.product.product_pictures.first.picture.url, class: "product_card__picture", style: "margin-right: 25px")
+
+          .product_card__content{style: "vertical-align: top"}
+            %h3{style: "margin: 0"}= purchase_order.product.name
+
+            %strong Total do pedido:
+            = format_price(purchase_order.value)
+
+            %br
+            - purchase_order.purchase_orders_items.each do |item|
+              %small= item.quantity.to_s + " unidades do tamanho " + item.size.to_s
+              %br
+
+        %br
+        %hr{style: "width: 100%;"}
+        %br
+
+    #delivered.payment_form
+      - @purchase_orders.filter{|order| order.status.downcase == "entregue no ponto de apoio"}.reverse_each do |purchase_order|
+        .product_card
+          .product_card__actions
+            = link_to print_order_path(purchase_order) do
+              %button.button.button--yellow{style: "max-width: 130px; font-size: 12px"} Imprimir ficha de conferência
+
+          = image_tag(purchase_order.product.product_pictures.first.picture.url, class: "product_card__picture", style: "margin-right: 25px")
+
+          .product_card__content{style: "vertical-align: top"}
+            %h3{style: "margin: 0"}= purchase_order.product.name
+
+            %strong Total do pedido:
+            = format_price(purchase_order.value)
+
+            %br
+            - purchase_order.purchase_orders_items.each do |item|
+              %small= item.quantity.to_s + " unidades do tamanho " + item.size.to_s
+              %br
+
+        %br
+        %hr{style: "width: 100%;"}
+        %br
+
+    #finished.payment_form
+      - @purchase_orders.filter{|order| order.status.downcase == "ordem finalizada"}.reverse_each do |purchase_order|
+        .product_card
+          = image_tag(purchase_order.product.product_pictures.first.picture.url, class: "product_card__picture", style: "margin-right: 25px")
+
+          .product_card__content{style: "vertical-align: top"}
+            %h3{style: "margin: 0"}= purchase_order.product.name
+
+            %strong Total do pedido:
+            = format_price(purchase_order.value)
+
+            %br
+            - purchase_order.purchase_orders_items.each do |item|
+              %small= item.quantity.to_s + " unidades do tamanho " + item.size.to_s
+              %br
+
+        %br
+        %hr{style: "width: 100%;"}
+        %br
+
+- content_for :javascript do
+  :javascript
+    function setPaymentMethod(element) {
+      var identifier = element.attr("data-value");
+      $('.payment_form').removeClass('active');
+      $('#' + identifier).addClass('active')
+
+      $('.method').removeClass('method');
+      element.addClass('method');
+    }
