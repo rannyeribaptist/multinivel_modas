@@ -5,8 +5,9 @@
     - @purchase_orders.order("created_at desc").each do |purchase_order|
       .product_card
         .product_card__actions
-          %button.button.button--yellow{style: "max-width: 130px; font-size: 12px"} Imprimir ficha de conferência
-          %br          	
+          = link_to print_order_path(purchase_order) do
+            %button.button.button--yellow{style: "max-width: 130px; font-size: 12px"} Imprimir ficha de conferência
+          %br
           %button.button.button--green{style: "max-width: 130px; font-size: 12px"} Entregue no ponto de apoio
 
         = image_tag(purchase_order.product.product_pictures.first.picture.url, class: "product_card__picture", style: "margin-right: 25px")

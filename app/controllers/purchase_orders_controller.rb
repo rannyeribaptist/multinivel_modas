@@ -1,5 +1,7 @@
 class PurchaseOrdersController < ApplicationController
-  before_action :set_purchase_order, only: [:show, :edit, :update, :destroy]
+  before_action :set_purchase_order, only: [:show, :edit, :update, :destroy, :print_order]
+
+  layout "print", only: :print_order
 
   # GET /purchase_orders
   # GET /purchase_orders.json
@@ -10,6 +12,9 @@ class PurchaseOrdersController < ApplicationController
   # GET /purchase_orders/1
   # GET /purchase_orders/1.json
   def show
+  end
+
+  def print_order
   end
 
   # GET /purchase_orders/new

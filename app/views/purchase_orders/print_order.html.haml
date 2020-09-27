@@ -1,0 +1,43 @@
+.text-center
+  = image_tag("logo-horizontal.png", style: "width: 10%; height: auto; margin: 0.5cm")
+  %h2 Ordem de compra
+  %p
+    %strong Número da ordem:
+    = @purchase_order.id
+  %p
+    %strong Status atual:
+    = @purchase_order.status
+  .no-print
+    %button.button.button--green{onclick: "window.print()"} Imprimir
+
+%table
+  %thead
+  %tbody
+    %td{style: "text-align: right; width: 50%; vertical-align: top;"}
+      %h2 Informações do produto
+
+      = image_tag(@purchase_order.product.product_pictures.first.picture.url, style: "width: 20%; height: auto")
+
+      %p
+        %strong Nome:
+        = @purchase_order.product.name
+      %p
+        %strong Descrição:
+        = @purchase_order.product.description
+      %p
+        %strong Localização:
+        = @purchase_order.product.location
+      %p
+        %strong Referência:
+        = @purchase_order.product.reference
+
+    %td{style: "text-align: left; width: 50%; vertical-align: top;"}
+      %h2 Informações do pedido
+
+      - @purchase_order.purchase_orders_items.each do |item|
+        %p
+          %strong Tamanho:
+          = item.size
+          %br
+          %strong Quantidade:
+          = item.quantity
