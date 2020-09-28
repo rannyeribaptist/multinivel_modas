@@ -21,7 +21,7 @@
             = link_to print_order_path(purchase_order) do
               %button.button.button--yellow{style: "max-width: 130px; font-size: 12px"} Imprimir ficha de conferência
             %br
-            %button.button.button--green{style: "max-width: 130px; font-size: 12px"} Entregue no ponto de apoio
+            %button.button.button--green{style: "max-width: 130px; font-size: 12px", onclick: "$('#edit_purchase_order_#{purchase_order.id}').submit()"} Entregue no ponto de apoio
 
           = image_tag(purchase_order.product.product_pictures.first.picture.url, class: "product_card__picture", style: "margin-right: 25px")
 
@@ -35,6 +35,10 @@
             - purchase_order.purchase_orders_items.each do |item|
               %small= item.quantity.to_s + " unidades do tamanho " + item.size.to_s
               %br
+
+        %div{style: "display: none"}
+          = simple_form_for purchase_order do |f|
+            = f.input :status, input_html: { value: "Entregue no ponto de apoio" }
 
         %br
         %hr{style: "width: 100%;"}

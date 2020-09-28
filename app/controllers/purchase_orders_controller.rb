@@ -48,7 +48,13 @@ class PurchaseOrdersController < ApplicationController
   def update
     respond_to do |format|
       if @purchase_order.update(purchase_order_params)
-        format.html { redirect_to @purchase_order, notice: 'Purchase order was successfully updated.' }
+        if @purchase_order.status == "Entregue no ponto de apoio"
+          @purchase_order.proccess_seller_balance
+          format.html { redirect_to print_order_path(@purchase_order), notice: 'Sucesso' }
+        else
+          format.html { redirect_to @purchase_order, notice: 'Sucesso' }
+        end
+
         format.json { render :show, status: :ok, location: @purchase_order }
       else
         format.html { render :edit }
