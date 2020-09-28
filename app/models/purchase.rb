@@ -42,4 +42,10 @@ class Purchase < ApplicationRecord
       purchase_order.save
     end
   end
+
+  def update_user_balance(user_id)
+    user = User.find(user_id)
+    balance = user.balance.gsub(",", ".").to_f - self.value.to_f
+    user.update_attribute(:balance, balance.round(2))
+  end
 end

@@ -9,22 +9,23 @@
     %br
     %br
 
-    - if @purchase.status == "Aguardando pagamento"
-      - if @purchase.payment_method == "boleto"
+    - if ["Aguardando pagamento", "pending"].include? @purchase.status
+      - if @purchase.payment_method == "ticket"
         %p Realize o pagamento do boleto clicando no link abaixo para aprovação do seu pedido.
+        %a{:href => "#{@purchase.external_resource_url}", target: "_blank"}
+          %button.button.button--green Clique aqui
       - if @purchase.payment_method == "transferência"
         %p Realize a transferência para a conta abaixo para aprovação do seu pedido.
-      - if @purchase.payment_method == "saldo"
-        %p Envie-nos uma mensagem mostrando seu saldo na antiga plataforma e envie uma imagem (captura de tela) do valor do seu pedido para que possamos realizar a aprovação do seu pagamento.
-
-      %small Quando você realizar o pagamento, é necessário que você anexe o comprovante de pagamento ao pedido para que possamos aprovar o seu pedido.
-      %br
-      %small Para anexar o comprovante, clique no campo de seleção de arquivo abaixo, selecione o arquivo em pdf, foto ou imagem do comprovante de pagamento, e depois clique em "Enviar comprovante"
-      %br
-      = simple_form_for @purchase, html: { class: "fancy-form" } do |f|
-        = f.input :comprovant, label: "Comprovante de pagamento"
-        = f.input :status, as: :hidden, input_html: { value: "Aguardando aprovação" }
-        %button.button.button--green{type: "submit"} Enviar comprovante
+        %small Quando você realizar o pagamento, é necessário que você anexe o comprovante de pagamento ao pedido para que possamos aprovar o seu pedido.
+        %br
+        %small Para anexar o comprovante, clique no campo de seleção de arquivo abaixo, selecione o arquivo em pdf, foto ou imagem do comprovante de pagamento, e depois clique em "Enviar comprovante"
+        %br
+        %strong caso você já tenha adicionado um comprovante, basta aguardar a confirmação do pagamento
+        %br
+        = simple_form_for @purchase, html: { class: "fancy-form" } do |f|
+          = f.input :comprovant, label: "Comprovante de pagamento"
+          = f.input :status, as: :hidden, input_html: { value: "Aguardando aprovação" }
+          %button.button.button--green{type: "submit"} Enviar comprovante
 
     .columns.columns--small
       .column.column--2{style: "text-align: left"}
