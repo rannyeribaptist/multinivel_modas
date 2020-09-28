@@ -1,25 +1,20 @@
-%h1 Listing withdraws
+.section
+  .section__content
+    %h1 Histórico de saques
 
-%table
-  %thead
-    %tr
-      %th Amount
-      %th User
-      %th Status
-      %th
-      %th
-      %th
+    = link_to new_withdraw_path do
+      %button.button.button--green Solicitar saque
 
-  %tbody
-    - @withdraws.each do |withdraw|
-      %tr
-        %td= withdraw.amount
-        %td= withdraw.user
-        %td= withdraw.status
-        %td= link_to 'Show', withdraw
-        %td= link_to 'Edit', edit_withdraw_path(withdraw)
-        %td= link_to 'Destroy', withdraw, method: :delete, data: { confirm: 'Are you sure?' }
+    %table
+      %thead
+        %tr
+          %th Data
+          %th Valor
+          %th Status
 
-%br
-
-= link_to 'New Withdraw', new_withdraw_path
+      %tbody
+        - @withdraws.each do |withdraw|
+          %tr
+            %td= withdraw.created_at.strftime("%d/%m/%Y")
+            %td= format_price(withdraw.amount)
+            %td= withdraw.status

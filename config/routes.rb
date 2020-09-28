@@ -1,10 +1,4 @@
 Rails.application.routes.draw do
-  resources :withdraws
-  resources :assemble_orders
-  resources :starter_packs
-  resources :user_starter_packs
-  resources :purchase_orders
-  resources :purchases
   devise_for :users, controllers: { sessions: 'users/sessions', registrations: 'users/registrations' }
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 
@@ -14,11 +8,19 @@ Rails.application.routes.draw do
     get "concluir_cadastro", to: "users#finish_registration", as: :finish_registration
     get "concluir_assinatura", to: "users#validate_plan", as: :validate_plan
 
+    resources :withdraws
+    resources :assemble_orders
+    resources :starter_packs
+    resources :user_starter_packs
+    resources :purchase_orders
+    resources :purchases
     resources :products
     resources :users
     resources :product_sizes
     resources :product_categories
     resources :shopping_carts
+
+    get "authorize_withdraws", to: "withdraws#authorize_withdraws", as: :authorize_withdraws
 
     get "meus_niveis", to: "users#user_levels", as: :user_levels
     get "store", to: "products#store", as: :store

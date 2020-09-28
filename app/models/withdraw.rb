@@ -2,7 +2,9 @@ class Withdraw < ApplicationRecord
   belongs_to :user
 
   validates_presence_of :user, :status, :amount
-  validate :verify_user_balance, :validate_minimum_amount
+  validate :verify_user_balance, :validate_minimum_amount, on: :create
+
+  after_create :compensate_user_balance
 
   private
 
@@ -24,5 +26,11 @@ class Withdraw < ApplicationRecord
       self.errors.add(:amount, "Você não possui saldo suficiente para solicitar este saque")
       return false
     end
+  end
+
+  def compensate_user_balance
+    balance = self.user.balance.to_f
+    updated_value = balance - self.amount
+    self.user.update_attribute(:balance, updated_value)
   end
 end

@@ -71,6 +71,8 @@
               %h3= current_user.name.present? ? current_user.name : "Bem vindo!"
               %small= "Seu saldo: R$ " + current_user.balance
               %br
+              %small= link_to "Saques", withdraws_path, style: "color: blue"
+              %br
               %small= link_to "Sair", destroy_user_session_path, method: :delete, style: "color: tomato"
 
           %ul.sidebar__list
@@ -134,6 +136,9 @@
                     %img{src: "https://icongr.am/jam/sitemap.svg"}
                     = link_to "Minha Rede", user_levels_path
                 - if current_user.role == "admin"
+                  %li
+                    %img{src: "https://icongr.am/feather/download.svg"}
+                    = link_to "Solicitações de saque", authorize_withdraws_path
                   %li
                     %img{src: "https://icongr.am/jam/box.svg"}
                     = link_to "Produtos", products_path

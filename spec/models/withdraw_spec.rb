@@ -44,4 +44,14 @@ RSpec.describe Withdraw, type: :model do
       expect(withdraw.save).to be_truthy
     end
   end
+
+  context "created" do
+    it "needs to compensate user balance" do
+      user = FactoryGirl.create(:user)
+      user.update_columns(:balance => 90.00)
+      withdraw = Withdraw.create(:status => "requested", :amount => 90.00, :user => user)
+
+      expect(user.balance.to_f).to eq(0.0)
+    end
+  end
 end

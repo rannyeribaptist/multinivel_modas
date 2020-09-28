@@ -16,6 +16,7 @@ class User < ApplicationRecord
 
   has_many :products
   has_many :purchases, dependent: :destroy
+  has_many :withdraws, dependent: :destroy
 
   mount_uploader :avatar, AvatarUploader
 

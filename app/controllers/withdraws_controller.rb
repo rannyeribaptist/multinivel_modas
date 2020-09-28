@@ -4,7 +4,7 @@ class WithdrawsController < ApplicationController
   # GET /withdraws
   # GET /withdraws.json
   def index
-    @withdraws = Withdraw.all
+    @withdraws = current_user.withdraws
   end
 
   # GET /withdraws/1
@@ -21,6 +21,10 @@ class WithdrawsController < ApplicationController
   def edit
   end
 
+  def authorize_withdraws
+    @withdraws = Withdraw.all if current_user.role == "admin"
+  end
+
   # POST /withdraws
   # POST /withdraws.json
   def create
@@ -28,7 +32,7 @@ class WithdrawsController < ApplicationController
 
     respond_to do |format|
       if @withdraw.save
-        format.html { redirect_to @withdraw, notice: 'Withdraw was successfully created.' }
+        format.html { redirect_to root_url, notice: 'Saldo solicitado. Em breve faremos seu depósito' }
         format.json { render :show, status: :created, location: @withdraw }
       else
         format.html { render :new }
@@ -42,7 +46,7 @@ class WithdrawsController < ApplicationController
   def update
     respond_to do |format|
       if @withdraw.update(withdraw_params)
-        format.html { redirect_to @withdraw, notice: 'Withdraw was successfully updated.' }
+        format.html { redirect_to authorize_withdraws_path, notice: 'Status atualizado com sucesso' }
         format.json { render :show, status: :ok, location: @withdraw }
       else
         format.html { render :edit }
