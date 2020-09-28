@@ -36,6 +36,8 @@ Rails.application.routes.draw do
     post "/authorize_payment/:id", to: "purchases#authorize_payment", as: :authorize_payment
 
     get "checkout_assemble/:id", to: "assembles#checkout_assemble", as: :checkout_assemble
+
+    get "purchase_orders/:id/print", to: "purchase_orders#print_order", as: :print_order
   end
 
   devise_scope :user do

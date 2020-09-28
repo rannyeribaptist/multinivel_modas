@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_29_212906) do
+ActiveRecord::Schema.define(version: 2020_09_15_200305) do
 
   create_table "addresses", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -166,12 +166,20 @@ ActiveRecord::Schema.define(version: 2020_08_29_212906) do
 
   create_table "purchase_orders", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.bigint "product_id", null: false
-    t.integer "quantity"
     t.string "status"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "size"
+    t.float "value"
     t.index ["product_id"], name: "index_purchase_orders_on_product_id"
+  end
+
+  create_table "purchase_orders_items", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.integer "quantity"
+    t.string "size"
+    t.bigint "purchase_order_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["purchase_order_id"], name: "index_purchase_orders_items_on_purchase_order_id"
   end
 
   create_table "purchases", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
@@ -289,6 +297,7 @@ ActiveRecord::Schema.define(version: 2020_08_29_212906) do
   add_foreign_key "purchase_items", "products"
   add_foreign_key "purchase_items", "purchases"
   add_foreign_key "purchase_orders", "products"
+  add_foreign_key "purchase_orders_items", "purchase_orders"
   add_foreign_key "purchases", "addresses"
   add_foreign_key "purchases", "users"
   add_foreign_key "shopping_cart_items", "shopping_carts"

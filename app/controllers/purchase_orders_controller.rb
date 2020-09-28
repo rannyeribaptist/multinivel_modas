@@ -1,15 +1,21 @@
 class PurchaseOrdersController < ApplicationController
-  before_action :set_purchase_order, only: [:show, :edit, :update, :destroy]
+  before_action :set_purchase_order, only: [:show, :edit, :update, :destroy, :print_order]
+
+  layout "print", only: :print_order
 
   # GET /purchase_orders
   # GET /purchase_orders.json
   def index
-    @purchase_orders = PurchaseOrder.all
+    @purchase_orders = PurchaseOrder.all if current_user.role == "admin"
+    @purchase_orders = PurchaseOrder.all.select{ |a| a.product.user.id == current_user.id }
   end
 
   # GET /purchase_orders/1
   # GET /purchase_orders/1.json
   def show
+  end
+
+  def print_order
   end
 
   # GET /purchase_orders/new
@@ -42,7 +48,13 @@ class PurchaseOrdersController < ApplicationController
   def update
     respond_to do |format|
       if @purchase_order.update(purchase_order_params)
-        format.html { redirect_to @purchase_order, notice: 'Purchase order was successfully updated.' }
+        if @purchase_order.status == "Entregue no ponto de apoio"
+          @purchase_order.proccess_seller_balance
+          format.html { redirect_to print_order_path(@purchase_order), notice: 'Sucesso' }
+        else
+          format.html { redirect_to @purchase_order, notice: 'Sucesso' }
+        end
+
         format.json { render :show, status: :ok, location: @purchase_order }
       else
         format.html { render :edit }
@@ -69,6 +81,7 @@ class PurchaseOrdersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def purchase_order_params
-      params.require(:purchase_order).permit(:product_id, :quantity, :status, :size)
+      params.require(:purchase_order).permit(:product_id, :status, :value,
+                                             :purchase_orders_items_attributes => [:size, :quantity])
     end
 end

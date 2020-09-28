@@ -18,14 +18,16 @@ class PurchasesController < ApplicationController
     @purchase = Purchase.new
 
     require 'mercadopago.rb'
-    mp = MercadoPago.new('APP_USR-521238935926107-070120-75ad94b2198ea15ee81f61b23f44a574-248081980')
+    # mp = MercadoPago.new('APP_USR-521238935926107-070120-75ad94b2198ea15ee81f61b23f44a574-248081980')
+    mp = MercadoPago.new('TEST-3769858112953753-062819-ef1a98b54f75c032cb0fad84f25da429-226272139')
     @payment_methods = mp.get("/v1/payment_methods")
   end
 
   def proccess_payment
     require 'mercadopago.rb'
 
-    mp = MercadoPago.new('APP_USR-521238935926107-070120-75ad94b2198ea15ee81f61b23f44a574-248081980')
+    # mp = MercadoPago.new('APP_USR-521238935926107-070120-75ad94b2198ea15ee81f61b23f44a574-248081980')
+    mp = MercadoPago.new('TEST-3769858112953753-062819-ef1a98b54f75c032cb0fad84f25da429-226272139')
 
     # General information to be sent to mercado pago
     request = {
@@ -95,11 +97,13 @@ class PurchasesController < ApplicationController
 
       if @purchase.save
         current_user.clear_shopping_cart(@purchase)
-        current_user.generate_volume(@purchase)
-        current_user.generate_commission(@purchase)
+        if ["approved", "accredited", "pagamento confirmado", "ok"].include? @purchase.status.downcase
+          @purchase.user.generate_volume(@purchase)
+          @purchase.user.generate_commission(@purchase)
 
-        @purchase.create_assemble_order
-        @purchase.create_purchase_order
+          @purchase.create_assemble_order
+          @purchase.create_purchase_order
+        end
       end
 
       redirect_to @purchase, flash: {success: "Compra realizada com sucesso! Aguarde pela atualização do status"}
@@ -137,6 +141,13 @@ class PurchasesController < ApplicationController
       if @purchase.present?
         if @purchase.save
           head 200
+          if ["approved", "accredited", "pagamento confirmado", "ok"].include? @purchase.status.downcase
+            @purchase.user.generate_volume(@purchase)
+            @purchase.user.generate_commission(@purchase)
+
+            @purchase.create_assemble_order
+            @purchase.create_purchase_order
+          end
         else
           head 500
         end
@@ -161,9 +172,14 @@ class PurchasesController < ApplicationController
     respond_to do |format|
       if @purchase.save
         current_user.clear_shopping_cart(@purchase)
-        @purchase.create_assemble_order
-        @purchase.create_purchase_order
         @purchase.update_user_balance(current_user.id) if @purchase.payment_method == "Saldo"
+        if ["approved", "accredited", "pagamento confirmado", "ok"].include? @purchase.status.downcase
+          @purchase.user.generate_volume(@purchase)
+          @purchase.user.generate_commission(@purchase)
+
+          @purchase.create_assemble_order
+          @purchase.create_purchase_order
+        end
         format.html { redirect_to @purchase, notice: 'Purchase was successfully created.' }
         # format.json { render :show, status: :created, location: @purchase }
       else
@@ -178,6 +194,13 @@ class PurchasesController < ApplicationController
   def update
     respond_to do |format|
       if @purchase.update(purchase_params)
+        if ["approved", "accredited", "pagamento confirmado", "ok"].include? @purchase.status.downcase
+          @purchase.user.generate_volume(@purchase)
+          @purchase.user.generate_commission(@purchase)
+
+          @purchase.create_assemble_order
+          @purchase.create_purchase_order
+        end
         format.html { redirect_to @purchase, notice: 'Purchase was successfully updated.' }
         # format.json { render :show, status: :ok, location: @purchase }
       else
@@ -204,6 +227,12 @@ class PurchasesController < ApplicationController
   def authorize_payment
     @purchase.update_attribute(:status, "Pagamento confirmado")
     respond_to do |format|
+      if ["approved", "accredited", "pagamento confirmado", "ok"].include? @purchase.status.downcase
+        @purchase.user.generate_volume(@purchase)
+        @purchase.user.generate_commission(@purchase)
+        @purchase.create_assemble_order
+        @purchase.create_purchase_order
+      end
       format.html { redirect_to unauthorized_payments_url, flash: {success: 'Aprovado com sucesso.'} }
       # format.json { head :no_content }
     end
