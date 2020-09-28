@@ -11,17 +11,16 @@
           %th
 
       %tbody
-        - @assemble_orders.order("created_at desc").each do |assemble_order|
-          - if ["accredited", "pagamento aprovado", "pagamento confirmado"].include? assemble_order.purchase.status.downcase
-            %tr{style: "background-color: #{set_assemble_color(assemble_order.status)}"}
-              %td= assemble_order.id
-              %td= assemble_order.purchase.user.address.state
-              %td= assemble_order.status
-              - if assemble_order.status == "Expedição"
-                %td= link_to 'Visualizar Pedido', assemble_order
-              - elsif assemble_order.status == "Estoque insuficiente"
-                %td= link_to 'Verificar Montagem', assemble_order
-              - elsif assemble_order.status == "Pendente revisão"
-                %td= link_to 'Revisar montagem', assemble_order
-              - else
-                %td= link_to 'Iniciar Montagem', assemble_order
+        - @assemble_orders.order("created_at desc").each do |assemble_order|          
+          %tr{style: "background-color: #{set_assemble_color(assemble_order.status)}"}
+            %td= assemble_order.id
+            %td= assemble_order.purchase.user.address.state
+            %td= assemble_order.status
+            - if assemble_order.status == "Expedição"
+              %td= link_to 'Visualizar Pedido', assemble_order
+            - elsif assemble_order.status == "Estoque insuficiente"
+              %td= link_to 'Verificar Montagem', assemble_order
+            - elsif assemble_order.status == "Pendente revisão"
+              %td= link_to 'Revisar montagem', assemble_order
+            - else
+              %td= link_to 'Iniciar Montagem', assemble_order

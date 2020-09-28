@@ -71,7 +71,7 @@ class User < ApplicationRecord
 
   def clear_shopping_cart(purchase)
     self.shopping_cart.shopping_cart_items.each do |item|
-      purchase.purchase_items.new(size: item.size, quantity: item.quantity, product_id: item.product_id, purchase_id: purchase.id)
+      purchase.purchase_items.create(size: item.size, quantity: item.quantity, product_id: item.product_id, purchase_id: purchase.id)
       item.destroy
     end
   end

@@ -21,9 +21,9 @@ class Purchase < ApplicationRecord
 
   def create_purchase_order
     self.purchase_items.each do |item|
-      purchase_order = PurchaseOrder.find_by(product_id: item.product_id)
+      purchase_order = PurchaseOrder.where(product_id: item.product_id).last
 
-      if purchase_order.present?
+      if purchase_order.present? and purchase_order.status.downcase == "nova ordem de compra"
         purchase_item = purchase_order.purchase_orders_items.where(size: item.size).first
 
         if purchase_item.present?
