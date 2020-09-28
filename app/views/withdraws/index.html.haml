@@ -1,0 +1,20 @@
+.section
+  .section__content
+    %h1 Histórico de saques
+
+    = link_to new_withdraw_path do
+      %button.button.button--green Solicitar saque
+
+    %table
+      %thead
+        %tr
+          %th Data
+          %th Valor
+          %th Status
+
+      %tbody
+        - @withdraws.each do |withdraw|
+          %tr
+            %td= withdraw.created_at.strftime("%d/%m/%Y")
+            %td= format_price(withdraw.amount)
+            %td= withdraw.status

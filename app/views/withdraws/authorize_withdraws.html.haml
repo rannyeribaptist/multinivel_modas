@@ -1,0 +1,29 @@
+.section
+  .section__content
+    %h1 Solicitações de saque
+
+    %table
+      %thead
+        %tr
+          %th Data
+          %th Valor
+          %th Usuário
+          %th Status
+          %th
+          %th
+
+      %tbody
+        - @withdraws.each do |withdraw|
+          = render partial: "forms", locals: { withdraw: withdraw }
+          %tr
+            %td= withdraw.created_at.strftime("%d/%m/%Y")
+            %td= format_price(withdraw.amount)
+            %td= withdraw.user.name
+            %td= withdraw.status
+            - if withdraw.status == "Saque solicitado"
+              %td
+                %button.button.button--green{onclick: "$('#authorize_#{withdraw.id}').submit()"} Autorizar
+              %td
+                %button.button.button--red{onclick: "$('#deny_#{withdraw.id}').submit()"} Negar
+            - else
+              %td{colspan: "2"}

@@ -4,7 +4,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
   :recoverable, :rememberable, :validatable
 
-  after_create :proccess_user_level, :generate_user_url, :create_shopping_cart
+  after_create :proccess_user_level, :generate_user_url, :create_shopping_cart unless Rails.env == "test"
 
   has_one :address, dependent: :destroy
   has_one :bank_account_information, dependent: :destroy
@@ -16,6 +16,7 @@ class User < ApplicationRecord
 
   has_many :products
   has_many :purchases, dependent: :destroy
+  has_many :withdraws, dependent: :destroy
 
   mount_uploader :avatar, AvatarUploader
 

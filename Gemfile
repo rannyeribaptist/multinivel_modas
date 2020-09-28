@@ -63,7 +63,6 @@ gem 'mercadopago-sdk', '~> 1.2'
 group :test do
   # for better unit tests
   gem 'shoulda-matchers', '4.0.0.rc1'
-  gem 'rails-controller-testing' # If you are using Rails 5.x
 end
 
 group :development, :test do
@@ -71,7 +70,9 @@ group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   # for unit tests
   gem 'rspec-rails', '~> 3.8'
-  gem 'database_cleaner'
+  gem 'database_cleaner-active_record'
+  gem 'factory_girl_rails'
+  gem 'faker', :git => 'https://github.com/faker-ruby/faker.git', :branch => 'master'
 end
 
 group :development do
