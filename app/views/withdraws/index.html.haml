@@ -1,0 +1,25 @@
+%h1 Listing withdraws
+
+%table
+  %thead
+    %tr
+      %th Amount
+      %th User
+      %th Status
+      %th
+      %th
+      %th
+
+  %tbody
+    - @withdraws.each do |withdraw|
+      %tr
+        %td= withdraw.amount
+        %td= withdraw.user
+        %td= withdraw.status
+        %td= link_to 'Show', withdraw
+        %td= link_to 'Edit', edit_withdraw_path(withdraw)
+        %td= link_to 'Destroy', withdraw, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Withdraw', new_withdraw_path
