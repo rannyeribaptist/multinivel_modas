@@ -122,6 +122,35 @@ class User < ApplicationRecord
     end
   end
 
+  def activate_account_with_balance(resource)
+    case resource.plan
+    when "consultor"
+      value = 10.00
+    when "revendedor"
+      value = 20.00
+    when "kit start"
+      value = resource.user_starter_pack.starter_pack.price.to_f
+    end
+
+    if not resource.activated
+      if self.balance.to_f >= value
+        resource.update_attribute(:activated, true)
+        self.update_attribute(:balance, self.balance.to_f - value)
+
+        if resource.plan == "kit start"
+          purchase = resource.purchases.last
+          purchase.update_attribute(:status, "pagamento confirmado")
+          purchase.user.generate_volume(purchase)
+          purchase.user.generate_commission(purchase)
+          purchase.create_assemble_order
+          purchase.create_purchase_order
+        end
+      end
+
+      ActivationRequest.where(:user_id => self.id, :requested_id => resource.id).first.destroy
+    end
+  end
+
   private
 
   def proccess_user_level

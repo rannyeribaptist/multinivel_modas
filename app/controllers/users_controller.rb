@@ -105,6 +105,10 @@ class UsersController < ApplicationController
   def user_levels
   end
 
+  def balance_user_activation
+    current_user.activate_account_with_balance(User.find(params[:user_id]))
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user

@@ -142,15 +142,29 @@
 #balance.payment_form
   %h1 Fazer pagamento com saldo
 
-  - if current_user.balance.to_f >= calc_total(current_user.shopping_cart)
-    = simple_form_for @purchase, html: { class: "fancy-form" } do |f|
-      = f.input :status, as: :hidden, input_html: { value: "Pagamento aprovado" }
-      = f.input :payment_method, as: :hidden, input_html: { value: "Saldo" }
-      %button.button.button--green.button--full-width#authorize{:type => "submit", data_confirm: "Tem certeza que deseja utilizar seu saldo para realizar esta compra?"} Pagar!
+  - if current_user.activated?
+    - if current_user.balance.to_f >= calc_total(current_user.shopping_cart)
+      = simple_form_for @purchase, html: { class: "fancy-form" } do |f|
+        = f.input :status, as: :hidden, input_html: { value: "Pagamento aprovado" }
+        = f.input :payment_method, as: :hidden, input_html: { value: "Saldo" }
+        %button.button.button--green.button--full-width#authorize{:type => "submit", data_confirm: "Tem certeza que deseja utilizar seu saldo para realizar esta compra?"} Pagar!
+    - else
+      %h2 Infelizmente, seu saldo não é suficiente para realizar esta compra
   - else
-    %h2 Infelizmente, seu saldo não é suficiente para realizar esta compra
+    %p Você poderá solicitar ao seu indicador que realize a ativação da sua conta através do saldo dele.
+    %p Para isso, basta você clicar no botão abaixo e uma solicitação será enviada para ele.
+    %p Caso você tenha escolhido o plano "Kit start", é preciso que você escolha seu kit antes de clicar no botão
+    %p
+      %strong É importante que você se comunique com seu indicador antes de fazer a solicitação para ter certeza que ele poderá realizar sua ativação
 
-
+    - if not ActivationRequest.find_by(requested_id: current_user.id).present?
+      = simple_form_for ActivationRequest.new do |f|
+        = f.input :user_id, as: :hidden, input_html: { value: current_user.invited_by_id }
+        = f.input :requested_id, as: :hidden, input_html: { value: current_user.id }
+        - if current_user.plan == "kit start"
+          %button.button.button--green#allow_request{type: "submit", disabled: 'disabled'} Realizar solicitação
+        - else
+          %button.button.button--green{type: "submit"} Realizar solicitação
 
 - content_for :head do
   %meta{:content => "reload", :name => "turbolinks-visit-control"}/

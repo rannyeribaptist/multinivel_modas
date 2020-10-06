@@ -135,6 +135,9 @@
                   %li
                     %img{src: "https://icongr.am/jam/sitemap.svg"}
                     = link_to "Minha Rede", user_levels_path
+                  %li
+                    %img{src: "https://icongr.am/jam/user.svg"}
+                    = link_to "Solicitações de ativação", activation_requests_path
                 - if current_user.role == "admin"
                   %li
                     %img{src: "https://icongr.am/feather/download.svg"}

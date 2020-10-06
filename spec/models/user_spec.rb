@@ -136,4 +136,59 @@ RSpec.describe User, type: :model do
   # end
 
   # missing sub models that need to be created automatically for the user (not valid without address for example)
+
+  context "activating user account with balance" do
+    user = FactoryGirl.build(:user)
+    user.balance = 10.0
+    user.invitation_token = "321"
+    user.social_security_number = "321"
+    user.save!
+
+    user2 = FactoryGirl.build(:user)
+    user2.invitation_token = 123
+    user2.social_security_number = 123
+    user2.save!
+
+    it "should not activate if balance is not enough" do
+      user2.update_columns(:plan => "revendedor")
+      user.activate_account_with_balance(user2)
+
+      expect(user2.activated).not_to eq(true)
+      expect(user.balance.to_f).to eq(10.0)
+    end
+
+    it "should set user account to active" do
+      user2.update_columns(:plan => "consultor")
+      user.activate_account_with_balance(user2)
+
+      expect(user2.activated).to eq(true)
+    end
+
+    it "should compensate on user's balance" do
+      user2.update_columns(:activated => false)
+      user2.update_columns(:plan => "consultor")
+
+      user.update_columns(:balance => 10.0)
+      user.activate_account_with_balance(user2)
+
+      expect(user.balance.to_f).to eq(0.0)
+    end
+
+    # context "starter_pack" do
+    #   product = FactoryGirl.create(:product)
+    #   starter_pack = FactoryGirl.build(:starter_pack)
+    #   starter_pack.product = product
+    #   starter_pack.save
+    #
+    #   user2.update_columns(:plan => "starter_pack")
+    #   user2.build_user_starter_pack
+    #   user2.user_starter_pack.starter_pack = starter_pack
+    #   user2.save
+    #
+    #   it "set pack as paid" do
+    #     user.activate_account_with_balance(user2)
+    #   end
+    # end
+  end
+
 end

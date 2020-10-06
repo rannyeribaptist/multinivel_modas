@@ -1,0 +1,21 @@
+.section
+  .section__content
+    %h1 Requisição de ativação de conta
+
+    %p
+      %strong Usuário:
+      = @requester.name
+    %p
+      %strong Plano:
+      = @requester.plan
+    %p
+      %strong Valor:
+      = @value
+
+    = link_to balance_user_activation_path(@requester.id), data: { confirm: 'Tem certeza que deseja aceitar esta solicitação?' } do
+      %button.button.button--green Aceitar ativação
+
+    %br
+
+    = link_to activation_request_url(@activation_request), method: :delete, data: { confirm: 'Tem certeza que deseja rejeitar esta solicitação?' } do
+      %button.button.button--red Rejeitar ativação

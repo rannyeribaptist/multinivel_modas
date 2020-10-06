@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :activation_requests
   devise_for :users, controllers: { sessions: 'users/sessions', registrations: 'users/registrations' }
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 
@@ -41,6 +42,7 @@ Rails.application.routes.draw do
     get "checkout_assemble/:id", to: "assembles#checkout_assemble", as: :checkout_assemble
 
     get "purchase_orders/:id/print", to: "purchase_orders#print_order", as: :print_order
+    get "activate_user/:user_id", to: "users#balance_user_activation", as: :balance_user_activation
   end
 
   devise_scope :user do
