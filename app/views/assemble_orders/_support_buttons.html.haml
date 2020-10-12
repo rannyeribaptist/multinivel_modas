@@ -14,8 +14,8 @@
         = g.input :status, input_html: { value: "Em estoque" }, as: :hidden
       %button.button.button--green{type: "submit"} Atualizar Disponibilidade
     %br
-    %button.button.button--yellow{type: "button", onclick: "$('#modal_#{item.id}').toggle();"} Criar ordem de compra
-    - content_for :modal do
+    -# %button.button.button--yellow{type: "button", onclick: "$('#modal_#{item.id}').toggle();"} Criar ordem de compra
+    -# - content_for :modal do
       .modal{id: "modal_#{item.id}"}
         %img.modal__close{src: "https://icongr.am/feather/x.svg", onclick: "$('.modal').toggle()"}
         .modal__content

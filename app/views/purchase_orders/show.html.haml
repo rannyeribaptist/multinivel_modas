@@ -35,35 +35,22 @@
 
     %h3 Informações do pedido
 
-    %p
-      %strong Quantidade:
-      = @purchase_order.quantity
-    %p
-      %strong Tamanho:
-      = @purchase_order.size
+    %strong Total do pedido:
+    = format_price(@purchase_order.value)
 
     %br
+    - @purchase_order.purchase_orders_items.each do |item|
+      %small= item.quantity.to_s + " unidades do tamanho " + item.size.to_s
+      %br
 
-    - if current_user.role == "aquisition"
-      - if @purchase_order.status == "Nova Ordem de compra"
-        = simple_form_for @purchase_order do |f|
-          = f.input :status, input_html: { value: "Pendente pagamento" }, as: :hidden
-          %button.button.button--blue.button--full-width{type: "submit"} Enviar para o financeiro
-      - elsif @purchase_order.status == "Pagamento realizado"
-        = simple_form_for @purchase_order do |f|
-          = f.input :status, input_html: { value: "Coleta" }, as: :hidden
-          %button.button.button--blue.button--full-width{type: "submit"} Definir como "coleta"
-        %br
-        = simple_form_for @purchase_order do |f|
-          = f.input :status, input_html: { value: "Conferência" }, as: :hidden
-          %button.button.button--blue.button--full-width{type: "submit"} Definir como "conferência"
-      - elsif ["Coleta", "Conferência"].include? @purchase_order.status
-        = simple_form_for @purchase_order do |f|
-          = f.input :status, input_html: { value: "OK" }, as: :hidden
-          %button.button.button--green.button--full-width{type: "submit"} Finalizar ordem de compra
+    %h3 Informações do vendedor
 
-    - elsif current_user.role == "finance"
-      - if @purchase_order.status == "Pendente pagamento"
-        = simple_form_for @purchase_order do |f|
-          = f.input :status, input_html: { value: "Pagamento realizado" }, as: :hidden
-          %button.button.button--blue.button--full-width{type: "submit"} Definir como pago
+    %p
+      %strong Nome:
+      = @purchase_order.product.user.name
+    %p
+      %strong E-mail:
+      = @purchase_order.product.user.email
+    %p
+      %strong Telefone:
+      = @purchase_order.product.user.phone

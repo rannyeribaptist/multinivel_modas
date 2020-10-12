@@ -18,10 +18,16 @@
       - @purchase_orders.filter{|order| order.status.downcase == "nova ordem de compra"}.reverse_each do |purchase_order|
         .product_card
           .product_card__actions
-            = link_to print_order_path(purchase_order) do
-              %button.button.button--yellow{style: "max-width: 130px; font-size: 12px"} Imprimir ficha de conferência
-            %br
-            %button.button.button--green{style: "max-width: 130px; font-size: 12px", onclick: "$('#edit_purchase_order_#{purchase_order.id}').submit()"} Entregue no ponto de apoio
+            - if current_user.role == "seller"
+              = link_to print_order_path(purchase_order) do
+                %button.button.button--yellow{style: "max-width: 130px; font-size: 12px"} Imprimir ficha de conferência
+              %br
+              %button.button.button--green{style: "max-width: 130px; font-size: 12px", onclick: "$('#edit_purchase_order_#{purchase_order.id}').submit()"} Entregue no ponto de apoio
+            - else
+              = link_to purchase_order_path(purchase_order), method: :delete, data: { confirm: "Tem certeza que deseja excluir essa ordem?" } do
+                %button.button.button--red Excluir
+              = link_to purchase_order_path(purchase_order) do
+                %button.button.button--blue Ver detalhes
 
           = image_tag(purchase_order.product.product_pictures.first.picture.url, class: "product_card__picture", style: "margin-right: 25px")
 
@@ -48,8 +54,9 @@
       - @purchase_orders.filter{|order| order.status.downcase == "entregue no ponto de apoio"}.reverse_each do |purchase_order|
         .product_card
           .product_card__actions
-            = link_to print_order_path(purchase_order) do
-              %button.button.button--yellow{style: "max-width: 130px; font-size: 12px"} Imprimir ficha de conferência
+            - if current_user.role == "seller"
+              = link_to print_order_path(purchase_order) do
+                %button.button.button--yellow{style: "max-width: 130px; font-size: 12px"} Imprimir ficha de conferência
 
           = image_tag(purchase_order.product.product_pictures.first.picture.url, class: "product_card__picture", style: "margin-right: 25px")
 

@@ -26,4 +26,9 @@
   = f.input :reference, label: "Referência:"
   = f.input :user_id, label: "Vendedor:", as: :select, collection: User.where(role: "seller"), label_method: :name, value_method: :id
 
+  - if not current_user.role == "seller"
+    %h3 Ocultar produto da loja
+
+    = f.input :hidden, as: :boolean, label: "Oculto"
+
   %button.button.button--green.button--full-width{type: "submit"} Salvar
