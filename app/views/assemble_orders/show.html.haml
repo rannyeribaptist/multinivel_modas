@@ -23,7 +23,7 @@
     - if @assemble_order.status == "Pendente montagem"
       = simple_form_for @assemble_order, remote: true do |f|
         = f.input :status, input_html: { value: "Linha de montagem" }, as: :hidden
-        %button.button.button--full-width.button--blue{type: "submit"} Iniciar montagem
+        %button.button.button--full-width.button--green{type: "submit"} Iniciar montagem
 
     %h3 Itens do pedido
 
