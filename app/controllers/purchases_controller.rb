@@ -173,7 +173,7 @@ class PurchasesController < ApplicationController
       if @purchase.save
         current_user.clear_shopping_cart(@purchase)
         @purchase.update_user_balance(current_user.id) if @purchase.payment_method == "Saldo"
-        if ["approved", "accredited", "pagamento confirmado", "ok"].include? @purchase.status.downcase
+        if ["approved", "accredited", "pagamento confirmado", "ok", "pagamento aprovado"].include? @purchase.status.downcase
           @purchase.user.generate_volume(@purchase)
           @purchase.user.generate_commission(@purchase)
 

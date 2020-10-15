@@ -46,6 +46,7 @@ class AssembleOrdersController < ApplicationController
         @assemble_order.purchase.update_attribute(:status, "Na linha de montagem") if @assemble_order.status.downcase == "linha de montagem"
         @assemble_order.purchase.update_attribute(:status, "Revisão (algum item está em falta)") if @assemble_order.status.downcase == "estoque insuficiente"
         @assemble_order.purchase.update_attribute(:status, "Expedição") if @assemble_order.status.downcase == "expedição"
+        @assemble_order.purchase.update_attribute(:status, "Na linha de montagem") if @assemble_order.status.downcase == "pendente revisão"
 
         format.html { redirect_to @assemble_order, notice: 'Assemble order was successfully updated.' }
         format.json { render :show, status: :ok, location: @assemble_order }

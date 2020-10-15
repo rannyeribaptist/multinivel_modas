@@ -24,11 +24,14 @@
   = f.input :quantity, label: "Quantidade disponível em estoque:"
   = f.input :location, label: "Localização:"
   = f.input :reference, label: "Referência:"
-  = f.input :user_id, label: "Vendedor:", as: :select, collection: User.where(role: "seller"), label_method: :name, value_method: :id
 
   - if not current_user.role == "seller"
+    = f.input :user_id, label: "Vendedor:", as: :select, collection: User.where(role: "seller"), label_method: :name, value_method: :id
+
     %h3 Ocultar produto da loja
 
     = f.input :hidden, as: :boolean, label: "Oculto"
+  - else
+    = f.input :user_id, as: :hidden, input_html: { value: current_user.id }
 
   %button.button.button--green.button--full-width{type: "submit"} Salvar

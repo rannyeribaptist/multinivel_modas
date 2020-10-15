@@ -102,7 +102,9 @@ class ProductsController < ApplicationController
   end
 
   def approve_products
-    @products = Product.where(approved: false).page(params[:page]) if current_user.role == "admin"
+    if current_user.role == "admin" or current_user.role == "support"
+      @products = Product.where(approved: false).page(params[:page])
+    end
   end
 
   def approve_product

@@ -2,23 +2,29 @@
   .section__content
     %h1.title Meus pedidos
 
-    %table.table
-      %thead
-        %tr
-          %th Forma de pagamento
-          %th Valor
-          %th Data
-          %th Status
-          %th
-
-      %tbody
-        - @purchases.each do |purchase|
+    .table
+      %table
+        %thead
           %tr
-            %td= translate_payment_method(purchase.payment_method)
-            - if purchase.value.include? "R$"
-              %td= purchase.value
-            - else
-              %td= format_price(purchase.value)
-            %td= purchase.created_at.strftime("%d/%m/%Y")
-            %td= t(purchase.status)
-            %td= link_to 'Ver', purchase
+            %th
+            %th Forma de pagamento
+            %th Valor
+            %th Data
+            %th Status
+            %th
+
+        %tbody
+          - @purchases.order("created_at desc").each do |purchase|
+            %tr
+              %td
+                = image_tag(Product.find(purchase.purchase_items.first.product_id).product_pictures.first.picture.thumb.url) if purchase.purchase_items.any?
+              %td= translate_payment_method(purchase.payment_method)
+              - if purchase.value.include? "R$"
+                %td= purchase.value
+              - else
+                %td= format_price(purchase.value)
+              %td= purchase.created_at.strftime("%d/%m/%Y")
+              %td= t(purchase.status)
+              %td
+                = link_to purchase do
+                  %img{src: "https://icongr.am/clarity/eye.svg?color=13B3F2&size=20px"}

@@ -4,6 +4,9 @@
 
     %h2 Status do pedido:
     = @purchase.status
+    - if @purchase.status.downcase == "revisão (algum item está em falta)"
+      %p
+        %small Não se preocupe, muito em breve entraremos em contato para você decidir como você deseja prosseguir a partir daqui
 
     %br
     %br

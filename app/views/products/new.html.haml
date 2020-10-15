@@ -66,7 +66,11 @@
         = f.input :quantity, label: "Quantidade disponível em estoque:"
         = f.input :location, label: "Localização:"
         = f.input :reference, label: "Referência:"
-        = f.input :user_id, label: "Vendedor:", as: :select, collection: User.where(role: "seller"), label_method: :name, value_method: :id
+
+        - if current_user.role == "seller"
+          = f.input :user_id, as: :hidden, input_html: { value: current_user.id }
+        - else
+          = f.input :user_id, label: "Vendedor:", as: :select, collection: User.where(role: "seller"), label_method: :name, value_method: :id
 
         %button.button.button--full-width.button--green.change-slide{type: "submit"} Concluir
         %br
