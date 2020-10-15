@@ -22,7 +22,7 @@ class WithdrawsController < ApplicationController
   end
 
   def authorize_withdraws
-    @withdraws = Withdraw.all if current_user.role == "admin"
+    @withdraws = Withdraw.all if current_user.role == "finance"
   end
 
   # POST /withdraws

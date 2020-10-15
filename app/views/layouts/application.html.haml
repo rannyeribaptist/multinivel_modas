@@ -88,11 +88,14 @@
 
               - when "finance"
                 %li
-                  %img{src: "https://icongr.am/jam/coin.svg"}
-                  = link_to "Ordens de compra", purchase_orders_path
+                  %img{src: "https://icongr.am/feather/download.svg"}
+                  = link_to "Solicitações de saque", authorize_withdraws_path
                 %li
                   %img{src: "https://icongr.am/jam/check.svg"}
                   = link_to "Aprovar Pedidos", unauthorized_payments_path
+                %li
+                  %img{src: "https://icongr.am/jam/user.svg"}
+                  = link_to "Solicitações de ativação", activation_requests_path
 
               - when "aquisition"
                 %li
@@ -132,25 +135,15 @@
                 - if current_user.role == "consultant" or current_user.role == "client"
                   %li
                     %img{src: "https://icongr.am/feather/box.svg"}
-                    -# = link_to "Meus pedidos", user_path(current_user)
                     = link_to "Meus pedidos", purchases_path
                 - if current_user.role == "consultant" or current_user.role == "admin"
                   %li
                     %img{src: "https://icongr.am/jam/sitemap.svg"}
                     = link_to "Minha Rede", user_levels_path
-                  %li
-                    %img{src: "https://icongr.am/jam/user.svg"}
-                    = link_to "Solicitações de ativação", activation_requests_path
                 - if current_user.role == "admin"
-                  %li
-                    %img{src: "https://icongr.am/feather/download.svg"}
-                    = link_to "Solicitações de saque", authorize_withdraws_path
                   %li
                     %img{src: "https://icongr.am/jam/box.svg"}
                     = link_to "Produtos", products_path
-                  %li
-                    %img{src: "https://icongr.am/jam/check.svg"}
-                    = link_to "Aprovar Pedidos", unauthorized_payments_path
                   %li
                     %img{src: "https://icongr.am/jam/user.svg"}
                     = link_to "Usuários", users_path
