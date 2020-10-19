@@ -1,5 +1,5 @@
 #filterrific_results.limiter
-  - products.each do |product|
+  - products.select{ |product| product.quantity.to_i > 0 }.each do |product|
     .product
       .product__head
         = image_tag(User.find(product.user_id).avatar.url)

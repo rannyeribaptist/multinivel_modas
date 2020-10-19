@@ -73,6 +73,8 @@ class User < ApplicationRecord
   def clear_shopping_cart(purchase)
     self.shopping_cart.shopping_cart_items.each do |item|
       purchase.purchase_items.create(size: item.size, quantity: item.quantity, product_id: item.product_id, purchase_id: purchase.id)
+      new_quantity = item.product.quantity.to_i - item.quantity
+      item.product.update_attribute(:quantity, new_quantity)
       item.destroy
     end
   end
