@@ -21,7 +21,8 @@
           %td
             = simple_form_for shopping_cart, html: { class: "fancy-form", id: "edit_item_#{item.id}" }, remote: true, method: :patch do |f|
               = f.simple_fields_for :shopping_cart_items, item do |g|
-                = g.input :quantity, label: false, input_html: { style: "max-width: 35px; border: 0.5px solid grey", "data-toggle" => "#{item.id}", id: "item_#{item.id}", onkeypress: "changeQuantity($(this))", onchange: "changeQuantity($(this))" }
+                %small{style: "font-size: 10px"}= "Estoque: " + item.product.quantity
+                = g.input :quantity, label: false, input_html: { style: "max-width: 35px; border: 0.5px solid grey", "data-toggle" => "#{item.id}", id: "item_#{item.id}", onkeypress: "changeQuantity($(this))", onchange: "changeQuantity($(this))", min: "1", max: item.product.quantity }
               = f.submit "submit", id: "submit_quantity_#{item.id}", style: "display: none"
           %td= format_price(item.product.price)
           %td

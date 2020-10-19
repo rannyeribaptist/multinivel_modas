@@ -3,3 +3,6 @@
   render(partial: 'shopping_carts/list', locals: { shopping_cart: @shopping_cart })
 ) %>
 $("#results").html("<%= js %>");
+<% if flash.present? %>
+  alert("<%= flash[:notice] %>");
+<% end %>

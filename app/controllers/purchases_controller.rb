@@ -95,7 +95,7 @@ class PurchasesController < ApplicationController
         current_user.update_attribute(:activated, true) if payment["response"]["status"] == "approved"
       end
 
-      if @purchase.save
+      if current_user.check_selected_products_quantity and @purchase.save
         current_user.clear_shopping_cart(@purchase)
         if ["approved", "accredited", "pagamento confirmado", "ok"].include? @purchase.status.downcase
           @purchase.user.generate_volume(@purchase)
@@ -103,6 +103,10 @@ class PurchasesController < ApplicationController
 
           @purchase.create_assemble_order
           @purchase.create_purchase_order
+        end
+      else
+        respond_to do
+          format.html { redirect_back :fallback_location => root_path, notice: "um ou mais itens não estão disponíveis em estoque nas quantidades selecionadas" }
         end
       end
 
@@ -170,7 +174,7 @@ class PurchasesController < ApplicationController
     @purchase.value = calc_total(current_user.shopping_cart)
 
     respond_to do |format|
-      if @purchase.save
+      if current_user.check_selected_products_quantity and @purchase.save
         current_user.clear_shopping_cart(@purchase)
         @purchase.update_user_balance(current_user.id) if @purchase.payment_method == "Saldo"
         if ["approved", "accredited", "pagamento confirmado", "ok", "pagamento aprovado"].include? @purchase.status.downcase
@@ -183,7 +187,7 @@ class PurchasesController < ApplicationController
         format.html { redirect_to @purchase, notice: 'Purchase was successfully created.' }
         # format.json { render :show, status: :created, location: @purchase }
       else
-        format.html { render :new }
+        format.html { redirect_back :fallback_location => root_path, notice: "um ou mais itens não estão disponíveis em estoque nas quantidades selecionadas" }
         # format.json { render json: @purchase.errors, status: :unprocessable_entity }
       end
     end

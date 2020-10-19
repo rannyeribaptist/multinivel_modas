@@ -43,8 +43,16 @@ class ShoppingCartsController < ApplicationController
   # POST /shopping_carts
   # POST /shopping_carts.json
   def update
-    respond_to do |format|
-      if @shopping_cart.update(shopping_cart_params)
+    item = ShoppingCartItem.find(params[:shopping_cart][:shopping_cart_items_attributes]["0"][:id])
+    if params[:shopping_cart][:shopping_cart_items_attributes]["0"]["quantity"].to_i <= item.product.quantity.to_i
+      respond_to do |format|
+        if @shopping_cart.update(shopping_cart_params)
+          format.js
+        end
+      end
+    else
+      respond_to do |format|
+        flash[:notice] = "Quantidade maior do que há disponível em estoque"
         format.js
       end
     end

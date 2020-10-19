@@ -153,6 +153,18 @@ class User < ApplicationRecord
     end
   end
 
+  def check_selected_products_quantity
+    check = true
+
+    self.shopping_cart.shopping_cart_items.each do |item|
+      if item.product.quantity.to_i < item.quantity
+        check = false
+      end
+    end
+
+    return false
+  end
+
   private
 
   def proccess_user_level
