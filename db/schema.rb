@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_06_125651) do
+ActiveRecord::Schema.define(version: 2020_10_21_035936) do
 
   create_table "activation_requests", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -287,6 +287,9 @@ ActiveRecord::Schema.define(version: 2020_10_06_125651) do
     t.boolean "activated", default: false
     t.boolean "completed_registration", default: false
     t.string "balance", default: "0,00"
+    t.string "numero"
+    t.string "patrocinador"
+    t.string "indicador"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

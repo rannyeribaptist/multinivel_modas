@@ -162,7 +162,7 @@ class User < ApplicationRecord
       end
     end
 
-    return false
+    return check
   end
 
   private
