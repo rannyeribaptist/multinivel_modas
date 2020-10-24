@@ -5,12 +5,15 @@ class PurchasesController < ApplicationController
   # GET /purchases
   # GET /purchases.json
   def index
-    @purchases = Purchase.all
+    @purchases = Purchase.where(:user => current_user)
   end
 
   # GET /purchases/1
   # GET /purchases/1.json
   def show
+    if @purchase.user != current_user
+      redirect_to "/"
+    end
   end
 
   # GET /purchases/new
@@ -198,6 +201,7 @@ class PurchasesController < ApplicationController
   def update
     respond_to do |format|
       if @purchase.update(purchase_params)
+        PurchaseMailer.with(:user => @purchase.user, :purchase => @purchase).notify_change.deliver
         if ["approved", "accredited", "pagamento confirmado", "ok"].include? @purchase.status.downcase
           @purchase.user.generate_volume(@purchase)
           @purchase.user.generate_commission(@purchase)

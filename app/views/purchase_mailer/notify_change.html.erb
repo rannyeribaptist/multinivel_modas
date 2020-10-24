@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Olá <%= @user.name %></h1>
+    <p>
+      O seu pedido de número <%= @purchase.id %> teve uma alteração no seu status.
+      <br>
+      O status atual do seu pedido é <strong><%= @purchase.status %></strong>.
+    </p>
+    <p>
+      Para acompanhar seu pedido basta acessar <a href="https://multinivelmodas.baptistsoftware.com.br/purchases/#{@purchase.id}" target="_blank">este link</a>.
+    </p>
+    <p>Obrigado pela preferência!</p>
+  </body>
+</html>
