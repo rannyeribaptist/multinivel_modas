@@ -23,12 +23,11 @@
         %b Disponível para vendas (visível)?:
         = translate_boolean(@product.hidden)
       %p
-        %b Quantidade em estoque:
-        = @product.quantity
-      %p
-        %b Tamanhos:
-        - @product.sizes.each do |id|
-          = ProductSize.find(id).size if id.present?
+        %b Tamanhos e quantidades
+        %br
+        - @product.sizes.each do |size|
+          %b= size.name + ":"          
+          = size.quantity
       %p
         %b Categorias (palavras chave):
         - @product.categories.each do |id|

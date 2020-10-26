@@ -1,0 +1,10 @@
+.nested-fields
+  .split
+    .split__content{style: "padding: unset"}
+      = f.input :name, label: "Tamanho"
+    .split__content{style: "padding: unset"}
+      = f.input :quantity, label: "Quantidade disponível"
+
+  = link_to_remove_association " - ", f, class: "remove-association-button"
+
+  %br

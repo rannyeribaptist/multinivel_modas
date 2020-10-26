@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_21_035936) do
+ActiveRecord::Schema.define(version: 2020_10_26_180601) do
 
   create_table "activation_requests", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -136,27 +136,20 @@ ActiveRecord::Schema.define(version: 2020_10_21_035936) do
     t.index ["product_id"], name: "index_product_pictures_on_product_id"
   end
 
-  create_table "product_sizes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
-    t.string "size"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
   create_table "products", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "name"
     t.string "description"
     t.string "price"
     t.boolean "hidden"
-    t.string "quantity"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "categories", default: "--- []\n"
-    t.string "sizes", default: "--- []\n"
     t.string "original_price"
     t.boolean "approved", default: false
     t.string "location"
     t.string "reference"
+    t.float "graduation_value"
     t.index ["user_id"], name: "index_products_on_user_id"
   end
 
@@ -226,6 +219,15 @@ ActiveRecord::Schema.define(version: 2020_10_21_035936) do
     t.index ["user_id"], name: "index_shopping_carts_on_user_id"
   end
 
+  create_table "sizes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.bigint "product_id", null: false
+    t.string "name"
+    t.integer "quantity"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["product_id"], name: "index_sizes_on_product_id"
+  end
+
   create_table "starter_packs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.bigint "product_id", null: false
     t.string "price"
@@ -290,6 +292,7 @@ ActiveRecord::Schema.define(version: 2020_10_21_035936) do
     t.string "numero"
     t.string "patrocinador"
     t.string "indicador"
+    t.bigint "graduation_points"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
@@ -323,6 +326,7 @@ ActiveRecord::Schema.define(version: 2020_10_21_035936) do
   add_foreign_key "purchases", "users"
   add_foreign_key "shopping_cart_items", "shopping_carts"
   add_foreign_key "shopping_carts", "users"
+  add_foreign_key "sizes", "products"
   add_foreign_key "starter_packs", "products"
   add_foreign_key "support_tickets", "purchases"
   add_foreign_key "url_minifiers", "users"

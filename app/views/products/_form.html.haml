@@ -18,10 +18,15 @@
   %br
 
   = f.input :categories, label: "Categorias do produto", as: :select, collection: ProductCategory.all, label_method: lambda { |category| "#{category.name}" }, input_html: { multiple: true, style: "min-height: 250px" }
-  = f.input :sizes, label: "Tamanhos disponíveis do produto", as: :select, collection: ProductSize.all, label_method: ProductSize.name, label_method: lambda { |size| "#{size.size}" }, input_html: { multiple: true, style: "min-height: 250px" }
+
+  #sizes
+    = f.simple_fields_for :sizes do |size|
+      = render 'size_fields', f: size
+    .links
+      = link_to_add_association ' + ', f, :sizes, class: "add-association-button"
+  %br
 
   = f.input :hidden, as: :hidden
-  = f.input :quantity, label: "Quantidade disponível em estoque:"
   = f.input :location, label: "Localização:"
   = f.input :reference, label: "Referência:"
 

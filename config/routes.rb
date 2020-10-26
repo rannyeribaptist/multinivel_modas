@@ -17,8 +17,7 @@ Rails.application.routes.draw do
     resources :purchases
     resources :products
     resources :users
-    resources :product_sizes
-    resources :product_categories
+      resources :product_categories
     resources :shopping_carts
 
     get "authorize_withdraws", to: "withdraws#authorize_withdraws", as: :authorize_withdraws
