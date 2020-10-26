@@ -70,6 +70,20 @@ class User < ApplicationRecord
     !deleted_at ? super : :deleted_account
   end
 
+  def add_graduation_points
+    total_points = 0
+    self.shopping_cart.shopping_cart_items.each do |item|
+      total_points += (item.product.graduation_value / 100) * item.product.price.to_f.round(2)
+    end
+
+    if self.graduation_points.present?
+      points = self.graduation_points + total_points.to_i
+    else
+      points = total_points.to_i
+    end
+    self.update_attribute(:graduation_points, points)
+  end
+
   def clear_shopping_cart(purchase)
     self.shopping_cart.shopping_cart_items.each do |item|
       purchase.purchase_items.create(size: item.size, quantity: item.quantity, product_id: item.product_id, purchase_id: purchase.id)
