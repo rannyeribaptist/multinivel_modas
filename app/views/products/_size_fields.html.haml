@@ -1,7 +1,7 @@
 .nested-fields
   .split
     .split__content{style: "padding: unset"}
-      = f.input :name, label: "Tamanho"
+      = f.input :name, label: "Tamanho", input_html: { style: "padding-right: 0" }
     .split__content{style: "padding: unset"}
       = f.input :quantity, label: "Quantidade disponível"
 
