@@ -73,7 +73,7 @@ class User < ApplicationRecord
   def add_graduation_points
     total_points = 0
     self.shopping_cart.shopping_cart_items.each do |item|
-      total_points += (item.product.graduation_value / 100) * item.product.price.to_f.round(2)
+      total_points += (item.product.graduation_value / 100) * item.product.price.to_f.round(2) if item.product.graduation_value.present?
     end
 
     if self.graduation_points.present?

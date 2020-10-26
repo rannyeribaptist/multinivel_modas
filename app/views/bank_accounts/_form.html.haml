@@ -1,0 +1,16 @@
+-# frozen_string_literal: true
+= simple_form_for(@bank_account, html: { class: "fancy-form" }) do |f|
+  = f.error_notification
+  = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
+
+  .form-inputs
+    = f.input :bank, label: "Banco"
+    = f.input :agency, label: "Agência"
+    = f.input :account_number, label: "Conta"
+    = f.input :kind, label: "Tipo"
+    = f.input :owner, label: "Titular"
+    = f.input :registration_number, label: "Número do documento"
+    = f.input :aditional_description, label: "Descrição adicional"
+
+  .form-actions
+    %button.button.button--green{type: 'submit'} Salvar
