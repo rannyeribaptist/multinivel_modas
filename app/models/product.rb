@@ -1,18 +1,20 @@
 class Product < ApplicationRecord
   belongs_to :user
 
-  validates_presence_of :name, :description, :original_price, :location unless Rails.env == "test"
+  validates_presence_of :name, :description, :original_price
 
   has_many :product_pictures, dependent: :destroy
   has_many :cats, dependent: :destroy
+  has_many :sizes, dependent: :destroy
   accepts_nested_attributes_for :product_pictures, allow_destroy: :true, reject_if: :all_blank
+  accepts_nested_attributes_for :sizes, allow_destroy: :true, reject_if: :all_blank
 
-  validate :product_pictures_presence unless Rails.env == "test"
+  validate :product_pictures_presence
+  validate :sizes_presence
 
   validates_uniqueness_of :location
 
   serialize :categories, Array
-  serialize :sizes, Array
 
   # after_save :set_product_value
 
@@ -48,11 +50,27 @@ class Product < ApplicationRecord
     ]
   end
 
+  def calculate_stock
+    total = 0
+
+    self.sizes.each do |size|
+      total += size.quantity
+    end
+
+    return total
+  end
+
   private
 
   def product_pictures_presence
     if not self.product_pictures.any?
       errors.add(:product_picture, "O produto deve ter pelo menos uma imagem")
+    end
+  end
+
+  def sizes_presence
+    if not self.sizes.any?
+      errors.add(:sizes, "O produto deve ter pelo menos um tamanho")
     end
   end
 

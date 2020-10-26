@@ -51,7 +51,7 @@
           %a{:href => "/", style: "margin-top: 10px"}
             = image_tag("logo-horizontal.png", style: "max-width: 100px")
           #cart{style: "position: relative"}
-            - if not (current_user.role == "admin" or current_user.role == "seller")
+            - unless ["admin", "seller"].include? current_user.role
               - if current_user.shopping_cart.shopping_cart_items.any?
                 %span.blob
               - if ("products").include?(params[:controller])

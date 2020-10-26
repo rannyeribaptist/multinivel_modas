@@ -1,34 +1,5 @@
 .section
   .section__content
-    %h3 Tamanhos dos produtos
-
-    .table
-      %table.table
-        %thead
-          %tr
-            %th Tamanho
-            %th
-
-        %tbody
-          - @sizes.each do |size|
-            %tr
-              %td= size.size
-              %td
-                = link_to size, method: :delete, data: { confirm: 'Tem certeza que deseja excluir este tamanho?' } do
-                  %img.destroy{src: "https://icongr.am/clarity/trash.svg?color=F20505", style: "max-width: 20px"}
-
-    %br
-
-    %strong Adicionar novo
-
-    = simple_form_for ProductSize.new, html: { class: "fancy-form" } do |f|
-      = f.input :size, label: "Tamanho"
-      %button.button.button--green{type: "submit"} Adicionar
-
-    %br
-    %hr{style: "width: 100%"}
-    %br
-
     %h3 Categorias dos produtos
 
     .table
@@ -97,3 +68,12 @@
 
     = link_to new_starter_pack_url, "data-turbolinks" => "false" do
       %button.button.button--green{type: "button"} Criar kit start
+
+    %br
+    %hr{style: "width: 100%"}
+    %br
+
+    %h3 Contas bancárias
+
+    = link_to bank_accounts_path do
+      %button.button.button--blue Gerenciar contas bancárias

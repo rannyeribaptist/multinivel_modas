@@ -44,7 +44,7 @@ class ShoppingCartsController < ApplicationController
   # POST /shopping_carts.json
   def update
     item = ShoppingCartItem.find(params[:shopping_cart][:shopping_cart_items_attributes]["0"][:id])
-    if params[:shopping_cart][:shopping_cart_items_attributes]["0"]["quantity"].to_i <= item.product.quantity.to_i
+    if params[:shopping_cart][:shopping_cart_items_attributes]["0"]["quantity"].to_i <= item.product.sizes.where(name: item.size).first.quantity
       respond_to do |format|
         if @shopping_cart.update(shopping_cart_params)
           format.js

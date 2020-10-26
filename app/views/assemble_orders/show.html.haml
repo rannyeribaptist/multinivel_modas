@@ -45,7 +45,7 @@
                 = image_tag(Product.find(item.purchase_item.product.id).product_pictures.first.picture.thumb.url)
               %td= item.purchase_item.product.name
               %td= item.purchase_item.size
-              %td= item.purchase_item.product.quantity
+              %td= item.purchase_item.quantity
               %td= item.purchase_item.product.location
 
               = render partial: "assembler_buttons", locals: { item: item } if current_user.role == "assembler"

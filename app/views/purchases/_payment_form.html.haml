@@ -89,47 +89,24 @@
   %h2.title Você pode pagar através de Transferência ou depósito em uma das contas listadas abaixo:
   %h3 Ao realizar o pagamento ou transferência, anexe o comprovante no campo no final desta página para que possamos verificar seu pagamento e autorizar o seu pedido
 
-  .box
-    %p
-      %strong Caixa Econômica
-    %p Agência: 0051 Conta: 220423-1 Tipo: poupança-013
-    %p Titular: Carter leiser da Silva 010.715.864-75
-    %p Transferência, DOC e depósito
-  .box
-    %p
-      %strong BRADESCO
-    %p Agência: 3211 Conta: 59582-9 Tipo: corrente
-    %p Titular: Carter Leiser da Silva 010.715.864-75
-  .box
-    %p
-      %strong BANCO DO BRASIL
-    %p Agência: 4380-X Conta: 25853-9 Tipo: 051-POUPANÇA
-    %p Titular: Elina de Alencar Rodrigues 43402831856
-  .box
-    %p
-      %strong ITAÚ
-    %p Agência: 0453 Conta: 23130-0 Tipo: CORRENTE
-    %p Titular: Elina de A. Rodrigues 26.391.872/0001-11
-  .box
-    %p
-      %strong Nubank
-    %p Agência: 260 - Nu pagamentos Conta: 44159358-4
-    %p Titular: Elina de Alencar Rodrigues
-  .box
-    %p
-      %strong CAIXA
-    %p Agência: 1958 Conta: 2353-8 Tipo: 003
-    %p Titular: Paulo Zito de Sousa 22.741.382/0001-47
-  .box
-    %p
-      %strong 323 Mercado Pago
-    %p Agência: 0001 Conta: 1641714604-7 Tipo: conta de pagamento
-    %p Titular: Carter Leiser da Silva 01071586475
-  .box
-    %p
-      %strong Banco Digio S.A.
-    %p Agência: 0001 Conta: 000216008-0 Tipo: corrente
-    %p Titular: Elina de Alencar Rodrigues 43402831856
+  - BankAccount.all.each do |account|
+    .box
+      %p
+        %strong= account.bank
+      %p
+        Agência:
+        = account.agency
+        Conta:
+        = account.account_number
+        Tipo:
+        = account.kind
+      %p
+        Titular:
+        = account.owner
+        = account.registration_number
+      %p
+        Descrição:
+        = account.aditional_description
 
   %h3 Anexe o comprovante do seu pagamento abaixo e clique no botão "Solicitar confirmação"
 

@@ -19,9 +19,9 @@
             %h3{style: "margin-bottom: 0"}= product.name
             = format_price(product.price)
             %br
-            = "Estoque: " + product.quantity + " Unidades"
+            = "Estoque total: " + product.calculate_stock.to_s
             - if ["aquisition", "admin"].include? current_user.role
-              %br              	
+              %br
               = "Aprovado? " + human_boolean(product.approved)
 
         %br

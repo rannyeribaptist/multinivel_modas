@@ -6,8 +6,9 @@
   = f.input :description, label: "descrição do produto", as: :text, input_html: {style: "min-height: 200px"}
   = f.input :original_price, label: "Preço do produto", input_html: { id: "money" }
   = f.input :price, as: :hidden, input_html: { id: "price_input" }
-  %small
-    %em#price
+  - unless current_user.role == "seller"
+    %small
+      %em#price
   %br
 
   #pictures
@@ -18,15 +19,23 @@
   %br
 
   = f.input :categories, label: "Categorias do produto", as: :select, collection: ProductCategory.all, label_method: lambda { |category| "#{category.name}" }, input_html: { multiple: true, style: "min-height: 250px" }
-  = f.input :sizes, label: "Tamanhos disponíveis do produto", as: :select, collection: ProductSize.all, label_method: ProductSize.name, label_method: lambda { |size| "#{size.size}" }, input_html: { multiple: true, style: "min-height: 250px" }
 
-  = f.input :hidden, as: :hidden
-  = f.input :quantity, label: "Quantidade disponível em estoque:"
-  = f.input :location, label: "Localização:"
-  = f.input :reference, label: "Referência:"
+  %h3 Tamanhos e quantidades
+
+  #sizes
+    = f.simple_fields_for :sizes do |size|
+      = render 'size_fields', f: size
+    .links
+      = link_to_add_association ' + ', f, :sizes, class: "add-association-button"
+  %br
 
   - if not current_user.role == "seller"
     = f.input :user_id, label: "Vendedor:", as: :select, collection: User.where(role: "seller"), label_method: :name, value_method: :id
+    = f.input :graduation_value, label: "Porcentagem para graduação (%)", input_html: { value: f.object.graduation_value || 75, min: 0, max: 100 }
+    = f.input :hidden, as: :hidden
+    = f.input :location, label: "Localização:"
+    = f.input :reference, label: "Referência:"
+    = f.input :free_shipping, label: ("Definir como Frete Grátis? <br>").html_safe, as: :radio_buttons
 
     %h3 Ocultar produto da loja
 

@@ -22,8 +22,9 @@
       .slide.animated.fadeIn#3
         = f.input :original_price, label: "Preço do produto", input_html: { id: "money" }
         = f.input :price, as: :hidden, input_html: { id: "price_input" }
-        %small
-          %em#price
+        - unless current_user.role == "seller"
+          %small
+            %em#price
         %br
 
         %button.button.button--full-width.button--pink.change-slide{type: "button", goTo: "4"} Próximo
@@ -54,7 +55,13 @@
         %button.button.button--full-width.button--yellow.change-slide{type: "button", goTo: "4"} Voltar
 
       .slide.animated.fadeIn#6
-        = f.input :sizes, label: "Tamanhos disponíveis do produto", as: :select, collection: ProductSize.all, label_method: ProductSize.name, label_method: lambda { |size| "#{size.size}" }, input_html: { multiple: true, style: "min-height: 250px" }
+        %small Pelo menos um tamanho deve ser cadastrado
+        #sizes
+          = f.simple_fields_for :sizes do |size|
+            = render 'size_fields', f: size
+          .links
+            = link_to_add_association ' + ', f, :sizes, class: "add-association-button"
+        %br
 
         %button.button.button--full-width.button--pink.change-slide{type: "button", goTo: "7"} Próximo
         %br
@@ -62,14 +69,12 @@
         %button.button.button--full-width.button--yellow.change-slide{type: "button", goTo: "5"} Voltar
 
       .slide.animated.fadeIn#7
-        = f.input :hidden, as: :hidden
-        = f.input :quantity, label: "Quantidade disponível em estoque:"
-        = f.input :location, label: "Localização:"
-        = f.input :reference, label: "Referência:"
-
         - if current_user.role == "seller"
           = f.input :user_id, as: :hidden, input_html: { value: current_user.id }
         - else
+          = f.input :hidden, as: :hidden
+          = f.input :location, label: "Localização:"
+          = f.input :reference, label: "Referência:"
           = f.input :user_id, label: "Vendedor:", as: :select, collection: User.where(role: "seller"), label_method: :name, value_method: :id
 
         %button.button.button--full-width.button--green.change-slide{type: "submit"} Concluir

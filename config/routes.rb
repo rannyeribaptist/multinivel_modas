@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :bank_accounts
   resources :activation_requests
   devise_for :users, controllers: { sessions: 'users/sessions', registrations: 'users/registrations' }
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
@@ -17,8 +18,7 @@ Rails.application.routes.draw do
     resources :purchases
     resources :products
     resources :users
-    resources :product_sizes
-    resources :product_categories
+      resources :product_categories
     resources :shopping_carts
 
     get "authorize_withdraws", to: "withdraws#authorize_withdraws", as: :authorize_withdraws

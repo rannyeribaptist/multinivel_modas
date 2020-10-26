@@ -2,8 +2,7 @@ class ApplicationController < ActionController::Base
   include ApplicationHelper
 
   def settings
-    @categories = ProductCategory.all
-    @sizes = ProductSize.all
+    @categories = ProductCategory.all    
     @starter_packs = StarterPack.all
   end
 
