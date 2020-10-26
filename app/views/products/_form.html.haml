@@ -19,6 +19,8 @@
 
   = f.input :categories, label: "Categorias do produto", as: :select, collection: ProductCategory.all, label_method: lambda { |category| "#{category.name}" }, input_html: { multiple: true, style: "min-height: 250px" }
 
+  %h3 Tamanhos e quantidades
+
   #sizes
     = f.simple_fields_for :sizes do |size|
       = render 'size_fields', f: size
@@ -29,6 +31,7 @@
   = f.input :hidden, as: :hidden
   = f.input :location, label: "Localização:"
   = f.input :reference, label: "Referência:"
+  = f.input :free_shipping, label: ("Definir como Frete Grátis? <br>").html_safe, as: :radio_buttons
 
   - if not current_user.role == "seller"
     = f.input :user_id, label: "Vendedor:", as: :select, collection: User.where(role: "seller"), label_method: :name, value_method: :id

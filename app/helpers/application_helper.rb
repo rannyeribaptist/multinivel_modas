@@ -29,11 +29,7 @@ module ApplicationHelper
   end
 
   def translate_boolean(bool)
-    if bool.present?
-      bool == true ? "Sim" : "Não"
-    else
-      return "Sim"
-    end
+    bool ? "Sim" : "Não"
   end
 
   def sum_items(cart)
@@ -41,6 +37,16 @@ module ApplicationHelper
 
     cart.shopping_cart_items.each do |item|
       total += calc_discount(item.product.price.gsub(",", ".").to_f) * item.quantity
+    end
+
+    return total
+  end
+
+  def sum_non_free_shipping_items(cart)
+    total = 0
+
+    cart.shopping_cart_items.each do |item|
+      total += calc_discount(item.product.price.gsub(",", ".").to_f) * item.quantity unless item.product.free_shipping
     end
 
     return total
@@ -261,7 +267,9 @@ module ApplicationHelper
   end
 
   def calc_delivery(cart)
-    cart_value = sum_items(cart).to_f
+    return 0 unless cart.shopping_cart_items.select{ |item| !item.product.free_shipping? }.any?
+
+    cart_value = sum_non_free_shipping_items(cart).to_f
     total = 35.00
 
     if cart_value < 100

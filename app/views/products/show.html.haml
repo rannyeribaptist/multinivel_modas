@@ -20,13 +20,16 @@
         %b Preço:
         = format_price(@product.price)
       %p
-        %b Disponível para vendas (visível)?:
+        %b Oculto da loja? (não disponível para venda):
         = translate_boolean(@product.hidden)
+      %p
+        %b Frete grátis?:
+        = translate_boolean(@product.free_shipping)
       %p
         %b Tamanhos e quantidades
         %br
         - @product.sizes.each do |size|
-          %b= size.name + ":"          
+          %b= size.name + ":"
           = size.quantity
       %p
         %b Categorias (palavras chave):

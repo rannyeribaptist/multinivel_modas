@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_26_180601) do
+ActiveRecord::Schema.define(version: 2020_10_26_190742) do
 
   create_table "activation_requests", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -150,6 +150,7 @@ ActiveRecord::Schema.define(version: 2020_10_26_180601) do
     t.string "location"
     t.string "reference"
     t.float "graduation_value"
+    t.boolean "free_shipping", default: false
     t.index ["user_id"], name: "index_products_on_user_id"
   end
 
