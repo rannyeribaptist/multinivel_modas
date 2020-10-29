@@ -22,6 +22,8 @@ class User < ApplicationRecord
 
   serialize :invited_ids, Array
 
+  self.per_page = 50
+
   validates :role, acceptance: { accept: ["seller", "consultant", "admin", "client", "franchise", "assembler", "finances", "support", "aquisition"] }
   validates :graduation, acceptance: { accept: ["sênior", "bronze", "prata", "ouro", "diamante", "imperial"] }
   validates :plan, acceptance: { accept: ["consultor", "revendedor", "kit start"] }
@@ -34,6 +36,45 @@ class User < ApplicationRecord
   accepts_nested_attributes_for :bank_account_information, allow_destroy: :false, reject_if: :all_blank
   accepts_nested_attributes_for :credit_information, allow_destroy: :false, reject_if: :all_blank
   accepts_nested_attributes_for :user_starter_pack, allow_destroy: false, reject_if: :all_blank
+
+  filterrific(
+    default_filter_params: { sorted_by: "created_at_desc" },
+    available_filters: [
+      :sorted_by,
+      :with_name,
+      :with_email,
+      :with_tax_number,
+      :with_social_security_number,
+      :with_phone_number
+    ],
+  )
+
+  scope :with_name, lambda { |query| User.where('name LIKE ?', "#{query}") }
+  scope :with_email, lambda { |query| User.where('email LIKE ?', "#{query}") }
+  scope :with_tax_number, lambda { |query| User.where('tax_number LIKE ?', "#{query}") }
+  scope :with_social_security_number, lambda { |query| User.where('social_security_number LIKE ?', "#{query}") }
+  scope :with_phone_number, lambda { |query| User.where('phone LIKE ?', "#{query}") }
+
+  scope :sorted_by, lambda { |sort_option|
+    direction = (sort_option =~ /desc$/) ? 'desc' : 'asc'
+
+    case sort_option.to_s
+    when /^created_at/
+      order("LOWER(users.created_at) #{ direction }")
+    when /^name/
+      order("LOWER(users.name) #{ direction }")
+    else
+      raise(ArgumentError, "Opção inválida: #{ sort_option.inspect }")
+    end
+  }
+
+  def self.options_for_sorted_by
+    [
+      ["Nome (a-z)", "name_asc"],
+      ["Data de registro (novos primeiro)", "created_at_desc"],
+      ["Data de registro (antigos primeiro)", "created_at_asc"],
+    ]
+  end
 
   def social_id(user)
     return false if not user.social_security_number.present? and not user.tax_number.present?

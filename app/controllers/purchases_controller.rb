@@ -21,16 +21,14 @@ class PurchasesController < ApplicationController
     @purchase = Purchase.new
 
     require 'mercadopago.rb'
-    # mp = MercadoPago.new('APP_USR-521238935926107-070120-75ad94b2198ea15ee81f61b23f44a574-248081980')
-    mp = MercadoPago.new('TEST-3769858112953753-062819-ef1a98b54f75c032cb0fad84f25da429-226272139')
+    mp = MercadoPago.new('APP_USR-521238935926107-070120-75ad94b2198ea15ee81f61b23f44a574-248081980')
     @payment_methods = mp.get("/v1/payment_methods")
   end
 
   def proccess_payment
     require 'mercadopago.rb'
 
-    # mp = MercadoPago.new('APP_USR-521238935926107-070120-75ad94b2198ea15ee81f61b23f44a574-248081980')
-    mp = MercadoPago.new('TEST-3769858112953753-062819-ef1a98b54f75c032cb0fad84f25da429-226272139')
+    mp = MercadoPago.new('APP_USR-521238935926107-070120-75ad94b2198ea15ee81f61b23f44a574-248081980')
 
     # General information to be sent to mercado pago
     request = {
