@@ -4,7 +4,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
   :recoverable, :rememberable, :validatable
 
-  after_create :proccess_user_level, :generate_user_url, :create_shopping_cart unless Rails.env == "test"
+  after_create :proccess_user_level, :generate_user_url, :create_shopping_cart
 
   has_one :address, dependent: :destroy
   has_one :bank_account_information, dependent: :destroy
@@ -183,6 +183,42 @@ class User < ApplicationRecord
 
   def proccess_user_level
     require 'securerandom'
+
+    # data.each do |d|
+    #   if not d["email"].to_s.include? "EXCLUIDO"
+    #     email = d["email"].to_s.gsub(" ", "")
+    #     email = email + "@gmail.com" if !email.include? "@"
+    #     if User.where(numero: d["indicador"]).any?
+    #       if not User.where(numero: d["numero"]).any?
+    #         puts d["email"]
+    #         user = User.new(email: email, password: "123123", password_confirmation: "123123", activated: true, name: d["name"], numero: d["numero"], indicador: d["indicador"], patrocinador: d["patrocinador"], role: "consultant")
+    #         user.social_security_number = d["cpf"]
+    #         user.tax_number = d["cnpj"]
+    #         user.save!
+    #       end
+    #     end
+    #   end
+    # end
+    #
+    # User.all.each do |user|
+    #   unless user.id == User.first.id
+    #     inviter = User.where(numero: user.indicador).first
+    #     token = SecureRandom.urlsafe_base64(5)
+    #     unless user.invitation_token.present?
+    #       user.update(:invitation_token => token)
+    #     end
+    #     if not user.invited_by_id == inviter.id
+    #       user.update(:invited_by_id => inviter.id)
+    #       ids = inviter.invited_ids
+    #       if ids.length > 0
+    #         ids[ids.length] = user.id if not ids.include? user.id
+    #       else
+    #         ids[0] = user.id if not ids.include? user.id
+    #       end
+    #       inviter.update(invited_ids: ids)
+    #     end
+    #   end
+    # end
 
     if self.invited_by_token.present?
       user = User.find_by(invitation_token: self.invited_by_token)

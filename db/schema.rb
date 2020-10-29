@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_26_223112) do
+ActiveRecord::Schema.define(version: 2020_10_28_172733) do
 
   create_table "activation_requests", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -116,21 +116,6 @@ ActiveRecord::Schema.define(version: 2020_10_26_223112) do
     t.text "response"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "orders", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
-    t.text "xml_file"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.string "order_identification"
-    t.string "client_name"
-    t.string "client_email"
-    t.string "client_id"
-    t.string "client_phone"
-    t.string "date"
-    t.string "status"
-    t.text "data_converted"
-    t.string "value"
   end
 
   create_table "product_categories", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
@@ -249,15 +234,6 @@ ActiveRecord::Schema.define(version: 2020_10_26_223112) do
     t.index ["product_id"], name: "index_starter_packs_on_product_id"
   end
 
-  create_table "support_tickets", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
-    t.string "ticket"
-    t.string "filled_by"
-    t.bigint "purchase_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["purchase_id"], name: "index_support_tickets_on_purchase_id"
-  end
-
   create_table "url_minifiers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "code"
@@ -295,7 +271,7 @@ ActiveRecord::Schema.define(version: 2020_10_26_223112) do
     t.string "invitation_token"
     t.string "invited_by_id"
     t.string "invited_by_token"
-    t.string "invited_ids", default: "--- []\n"
+    t.text "invited_ids", size: :long, default: "'--- []\\n'"
     t.string "sales_volume", default: "0,00"
     t.datetime "deleted_at"
     t.string "plan"
@@ -341,7 +317,6 @@ ActiveRecord::Schema.define(version: 2020_10_26_223112) do
   add_foreign_key "shopping_carts", "users"
   add_foreign_key "sizes", "products"
   add_foreign_key "starter_packs", "products"
-  add_foreign_key "support_tickets", "purchases"
   add_foreign_key "url_minifiers", "users"
   add_foreign_key "user_starter_packs", "starter_packs"
   add_foreign_key "user_starter_packs", "users"
