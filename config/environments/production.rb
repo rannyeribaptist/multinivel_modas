@@ -111,7 +111,7 @@ Rails.application.configure do
   # config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session
 
   ActionMailer::Base.smtp_settings = {
-    :user_name => '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',
+    :user_name => 'apikey',
     :password => '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',
     :domain => 'baptistsoftware.com.br',
     :address => 'smtp.sendgrid.net',
