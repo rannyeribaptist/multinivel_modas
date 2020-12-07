@@ -4,7 +4,7 @@
   .column.column--4
     .button.button--gray{"data-value" => "billet", onclick: "setPaymentMethod($(this))", disabled: :disabled} Boleto
   .column.column--4
-    .button.button--gray{"data-value" => "bank_transfer", onclick: "setPaymentMethod($(this))"} TED
+    .button.button--gray{"data-value" => "bank_transfer", onclick: "setPaymentMethod($(this))", disabled: :disabled} TED
   .column.column--4
     .button.button--gray{"data-value" => "balance", onclick: "setPaymentMethod($(this))"} Saldo
 %br
@@ -49,7 +49,7 @@
       %input#payment_method_id{:name => "payment_method_id", :type => "hidden"}
       %button.button.button--green.button--full-width{:type => "submit", :value => "Pagar"} Finalizar Pagamento
 
-#billet.payment_form
+-# #billet.payment_form
   %h3 Pagamento via boleto bancário
 
   .columns.columns--small
@@ -85,7 +85,7 @@
       %button.button.button--green.button--full-width{:type => "submit", :value => "Pagar"} Finalizar Pagamento
 
 
-#bank_transfer.payment_form
+-# #bank_transfer.payment_form
   %h2.title Você pode pagar através de Transferência ou depósito em uma das contas listadas abaixo:
   %h3 Ao realizar o pagamento ou transferência, anexe o comprovante no campo no final desta página para que possamos verificar seu pagamento e autorizar o seu pedido
 

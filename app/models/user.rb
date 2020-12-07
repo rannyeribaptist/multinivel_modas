@@ -157,25 +157,29 @@ class User < ApplicationRecord
   def generate_commission(purchase)
     if self.invited_by_id.present?
       user = User.find(self.invited_by_id)
-      check = true
+      commission = purchase.value.to_f * 0.05
+      user_balance = user.balance.to_f
+      user.balance = (user_balance + commission).round(2).to_s
+      user.save
+      # check = true
 
-      6.times do |index|
-        if check
-          commission = purchase.value.to_f * 0.05 if index == 0
-          commission = purchase.value.to_f * 0.006 if index > 0
-
-          user_balance = user.balance.to_f
-
-          user.balance = (user_balance + commission).round(2).to_s
-          user.save
-
-          if user.invited_by_id.present?
-            user = User.find(user.invited_by_id)
-          else
-            check = false
-          end
-        end
-      end
+      # 6.times do |index|
+      #   if check
+      #     commission = purchase.value.to_f * 0.05 if index == 0
+      #     commission = purchase.value.to_f * 0.006 if index > 0
+      #
+      #     user_balance = user.balance.to_f
+      #
+      #     user.balance = (user_balance + commission).round(2).to_s
+      #     user.save
+      #
+      #     if user.invited_by_id.present?
+      #       user = User.find(user.invited_by_id)
+      #     else
+      #       check = false
+      #     end
+      #   end
+      # end
     end
   end
 

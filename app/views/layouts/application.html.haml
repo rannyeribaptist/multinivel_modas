@@ -85,33 +85,42 @@
                 %li
                   %img{src: "https://icongr.am/jam/box.svg"}
                   = link_to "Ordens de montagem", assemble_orders_path
+                %li
+                  %img{src: "https://icongr.am/jam/coin.svg"}
+                  = link_to "Ordens de compra", purchase_orders_path
+                %li
+                  %img{src: "https://icongr.am/jam/check.svg"}
+                  = link_to "Aprovar Produtos", approve_products_path
+                %li
+                  %img{src: "https://icongr.am/jam/box.svg"}
+                  = link_to "Produtos", products_path
 
               - when "finance"
                 %li
                   %img{src: "https://icongr.am/feather/download.svg"}
                   = link_to "Solicitações de saque", authorize_withdraws_path
                 %li
-                  %img{src: "https://icongr.am/jam/check.svg"}
-                  = link_to "Aprovar Pedidos", unauthorized_payments_path
-                %li
-                  %img{src: "https://icongr.am/jam/user.svg"}
-                  = link_to "Solicitações de ativação", activation_requests_path
-
-              - when "aquisition"
-                %li
-                  %img{src: "https://icongr.am/jam/coin.svg"}
-                  = link_to "Ordens de compra", purchase_orders_path
-                %li
                   %img{src: "https://icongr.am/jam/box.svg"}
                   = link_to "Produtos", products_path
+                %li
+                  %img{src: "https://icongr.am/jam/user.svg"}
+                  = link_to "Usuários", users_path
+                %li
+                  %img{src: "https://icongr.am/jam/cog.svg"}
+                  = link_to "Configurações", settings_path
+                -# %li
+                -#   %img{src: "https://icongr.am/jam/check.svg"}
+                -#   = link_to "Aprovar Pedidos", unauthorized_payments_path
+                -# %li
+                -#   %img{src: "https://icongr.am/jam/user.svg"}
+                -#   = link_to "Solicitações de ativação", activation_requests_path
 
-              - when "support"
-                %li
-                  %img{src: "https://icongr.am/jam/box.svg"}
-                  = link_to "Ordens de montagem", assemble_orders_path
-                %li
-                  %img{src: "https://icongr.am/jam/check.svg"}
-                  = link_to "Aprovar Produtos", approve_products_path
+              -# - when "aquisition"
+
+              -# - when "support"
+              -#   %li
+              -#     %img{src: "https://icongr.am/jam/box.svg"}
+              -#     = link_to "Ordens de montagem", assemble_orders_path
 
               - when "seller"
                 %li
