@@ -4,8 +4,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
   :recoverable, :rememberable, :validatable
 
-  # before_create :generate_invitation_token
-  after_create :set_parent, :set_activated, :generate_user_url, :create_shopping_cart, :generate_invitation_token
+  after_create :set_parent, :set_activated, :set_role, :generate_user_url, :create_shopping_cart, :generate_invitation_token
 
   has_one :address, dependent: :destroy
   has_one :bank_account_information, dependent: :destroy
@@ -25,7 +24,7 @@ class User < ApplicationRecord
 
   self.per_page = 50
 
-  validates :role, acceptance: { accept: ["seller", "consultant", "admin", "client", "franchise", "assembler", "finances", "support", "aquisition"] }
+  validates :role, acceptance: { accept: ["consultant", "seller", "admin", "manager", "employee"] }
   validates :graduation, acceptance: { accept: ["sênior", "bronze", "prata", "ouro", "diamante", "imperial"] }
   validates :plan, acceptance: { accept: ["consultor", "revendedor", "kit start"] }
 
@@ -222,19 +221,22 @@ class User < ApplicationRecord
   end
 
   def set_parent
-    if self.invited_by_token.present?
-      user = User.find_by(invitation_token: self.invited_by_token)
-      user.invited_ids += [self.id]
+    user = User.find_by(invitation_token: self.invited_by_token)
+    user.invited_ids += [self.id]
 
-      self.invited_by_id = user.id
-      self.invitation_token = nil
+    self.invited_by_id = user.id
+    self.invitation_token = nil
 
-      user.save
-    else
-      self.role = "seller" unless ["aquisition", "assembler", "support", "finance", "admin"].include? self.role
-    end
-
+    user.save
     self.save
+  end
+
+  def set_role
+    if self.invited_by_token.present?
+      self.update(role: "consultant")
+    else
+      self.update(role: "seller") unless ["admin", "manager", "employee"].include? self.role
+    end
   end
 
   def create_shopping_cart

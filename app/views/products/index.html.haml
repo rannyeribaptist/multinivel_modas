@@ -20,7 +20,7 @@
             = format_price(product.price)
             %br
             = "Estoque total: " + product.calculate_stock.to_s
-            - if ["aquisition", "admin"].include? current_user.role
+            - if ["manager", "admin"].include? current_user.role
               %br
               = "Aprovado? " + human_boolean(product.approved)
 

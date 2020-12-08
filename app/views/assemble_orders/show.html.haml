@@ -7,18 +7,17 @@
     %br
     %br
 
-    - if current_user.role == "support"
-      %h3 Informações de contato do comprador:
+    %h3 Informações de contato do comprador:
 
-      %p
-        %strong Nome:
-        = @assemble_order.purchase.user.name
-      %p
-        %strong E-mail:
-        = @assemble_order.purchase.user.email
-      %p
-        %strong Telefone:
-        = @assemble_order.purchase.user.phone
+    %p
+      %strong Nome:
+      = @assemble_order.purchase.user.name
+    %p
+      %strong E-mail:
+      = @assemble_order.purchase.user.email
+    %p
+      %strong Telefone:
+      = @assemble_order.purchase.user.phone
 
     - if @assemble_order.status == "Pendente montagem"
       = simple_form_for @assemble_order, remote: true do |f|
@@ -48,26 +47,18 @@
               %td= item.purchase_item.quantity
               %td= item.purchase_item.product.location
 
-              = render partial: "assembler_buttons", locals: { item: item } if current_user.role == "assembler"
-              = render partial: "support_buttons", locals: { item: item } if current_user.role == "support"
+              = render partial: "assembler_buttons", locals: { item: item }
 
     %br
 
-    - if current_user.role == "assembler"
-      - if not @assemble_order.status == "Expedição"
-        - if @assemble_order.status != "Pendente montagem"
-          = simple_form_for @assemble_order, remote: true do |f|
-            = f.input :status, input_html: { value: "Expedição" }, as: :hidden
-            %button.button.button--full-width.button--green{type: "submit"} Finalizar montagem
-
-          %br
-
-          = simple_form_for @assemble_order, remote: true do |f|
-            = f.input :status, input_html: { value: "Estoque insuficiente" }, as: :hidden
-            %button.button.button--full-width.button--red{type: "submit"} Marcar como estoque insuficiente
-
-    - elsif current_user.role == "support"
-      - if @assemble_order.status == "Estoque insuficiente"
+    - if not @assemble_order.status == "Expedição"
+      - if @assemble_order.status != "Pendente montagem"
         = simple_form_for @assemble_order, remote: true do |f|
-          = f.input :status, input_html: { value: "Pendente revisão" }, as: :hidden
-          %button.button.button--full-width.button--red{type: "submit"} Enviar para revisão
+          = f.input :status, input_html: { value: "Expedição" }, as: :hidden
+          %button.button.button--full-width.button--green{type: "submit"} Finalizar montagem
+
+        %br
+
+        = simple_form_for @assemble_order, remote: true do |f|
+          = f.input :status, input_html: { value: "Estoque insuficiente" }, as: :hidden
+          %button.button.button--full-width.button--red{type: "submit"} Marcar como estoque insuficiente

@@ -4,8 +4,7 @@ class AssembleOrdersController < ApplicationController
   # GET /assemble_orders
   # GET /assemble_orders.json
   def index
-    @assemble_orders = AssembleOrder.where(user_id: current_user.id) if current_user.role == "assembler"
-    @assemble_orders = AssembleOrder.where(status: "Estoque insuficiente") if current_user.role == "support"
+    @assemble_orders = AssembleOrder.all
   end
 
   # GET /assemble_orders/1

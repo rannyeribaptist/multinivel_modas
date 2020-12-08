@@ -6,7 +6,7 @@
     %h2 Pessoal
     = f.input :name, label: "Nome completo"
     - if not current_user.role.present?
-      = f.input :role, label: "Eu sou:", as: :select, collection: [["Vendedor", "seller"], ["Consultor", "consultant"], ["Comprador", "client"], ["Franquiado", "franchise"]]
+      = f.input :role, label: "Eu sou:", as: :select, collection: [["Vendedor", "seller"], ["Consultor", "consultant"]]
     = f.input :graduation, input_html: { value: "bronze" }, as: :hidden
     = f.input :phone, input_html: { 'data-mask': '(00) 00000-0000' }, label: "Telefone"
     = f.input :social_security_number, input_html: { 'data-mask': '000.000.000-00' }, label: "CPF" if @user.social_security_number.present?
@@ -14,7 +14,7 @@
     = f.input :avatar, label: "Foto de perfil", input_html: { style: "margin-bottom: 0" }
     %small Máximo 15mb
 
-    - if current_user.role == "admin"
+    - if ["admin", "manager"].include? current_user.role
       = f.input :balance, label: "Saldo", input_html: { class: "money" }
       = f.input :graduation, label: "Graduação", as: :select, collection: ["sênior", "bronze", "prata", "ouro", "diamante", "imperial"]
       = f.input :sales_volume, label: "Volume", input_html: { class: "money" }

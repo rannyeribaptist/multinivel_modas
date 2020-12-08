@@ -13,16 +13,16 @@ module ApplicationHelper
 
   def translate_role(role)
     case role
-    when "seller"
-      return "Fornecedor"
-    when "consultant"
-      return "Consultor"
+    when "manager"
+      return "Gerente"
+    when "empolyee"
+      return "Funcionário"
     when "admin"
       return "Administrador"
-    when "client"
-      return "Cliente"
-    when "franchise"
-      return "Franquiado"
+    when "consultant"
+      return "Consultor"
+    when "seller"
+      return "Fornecedor"
     else
       return "Permissão indefinida"
     end

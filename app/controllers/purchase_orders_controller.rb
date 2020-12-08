@@ -6,7 +6,7 @@ class PurchaseOrdersController < ApplicationController
   # GET /purchase_orders
   # GET /purchase_orders.json
   def index
-    if (current_user.role == "admin" or current_user.role == "aquisition")
+    if ["admin", "manager"].include? current_user.role
       @purchase_orders = PurchaseOrder.all
     else
       @purchase_orders = PurchaseOrder.all.select{ |a| a.product.user.id == current_user.id }
