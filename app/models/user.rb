@@ -4,7 +4,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
   :recoverable, :rememberable, :validatable
 
-  after_create :proccess_user_level, :generate_user_url, :create_shopping_cart
+  # before_create :generate_invitation_token
+  after_create :set_parent, :set_activated, :generate_user_url, :create_shopping_cart, :generate_invitation_token
 
   has_one :address, dependent: :destroy
   has_one :bank_account_information, dependent: :destroy
@@ -28,7 +29,9 @@ class User < ApplicationRecord
   validates :graduation, acceptance: { accept: ["sênior", "bronze", "prata", "ouro", "diamante", "imperial"] }
   validates :plan, acceptance: { accept: ["consultor", "revendedor", "kit start"] }
 
+  validates_presence_of :invitation_token, only: :update
   validates_uniqueness_of :invitation_token, only: :update
+
   validates_uniqueness_of :social_security_number, only: :update, :unless => lambda { self.tax_number.present? }
   validates_uniqueness_of :tax_number, only: :update, :unless => lambda { self.social_security_number.present? }
 
@@ -161,25 +164,6 @@ class User < ApplicationRecord
       user_balance = user.balance.to_f
       user.balance = (user_balance + commission).round(2).to_s
       user.save
-      # check = true
-
-      # 6.times do |index|
-      #   if check
-      #     commission = purchase.value.to_f * 0.05 if index == 0
-      #     commission = purchase.value.to_f * 0.006 if index > 0
-      #
-      #     user_balance = user.balance.to_f
-      #
-      #     user.balance = (user_balance + commission).round(2).to_s
-      #     user.save
-      #
-      #     if user.invited_by_id.present?
-      #       user = User.find(user.invited_by_id)
-      #     else
-      #       check = false
-      #     end
-      #   end
-      # end
     end
   end
 
@@ -226,45 +210,18 @@ class User < ApplicationRecord
 
   private
 
-  def proccess_user_level
+  def generate_invitation_token
     require 'securerandom'
+    self.invitation_token = SecureRandom.urlsafe_base64(5)
+    self.save
+    # self.valid? ? return : self.generate_invitation_token
+  end
 
-    # data.each do |d|
-    #   if not d["email"].to_s.include? "EXCLUIDO"
-    #     email = d["email"].to_s.gsub(" ", "")
-    #     email = email + "@gmail.com" if !email.include? "@"
-    #     if User.where(numero: d["indicador"]).any?
-    #       if not User.where(numero: d["numero"]).any?
-    #         puts d["email"]
-    #         user = User.new(email: email, password: "123123", password_confirmation: "123123", activated: true, name: d["name"], numero: d["numero"], indicador: d["indicador"], patrocinador: d["patrocinador"], role: "consultant")
-    #         user.social_security_number = d["cpf"]
-    #         user.tax_number = d["cnpj"]
-    #         user.save!
-    #       end
-    #     end
-    #   end
-    # end
-    #
-    # User.all.each do |user|
-    #   unless user.id == User.first.id
-    #     inviter = User.where(numero: user.indicador).first
-    #     token = SecureRandom.urlsafe_base64(5)
-    #     unless user.invitation_token.present?
-    #       user.update(:invitation_token => token)
-    #     end
-    #     if not user.invited_by_id == inviter.id
-    #       user.update(:invited_by_id => inviter.id)
-    #       ids = inviter.invited_ids
-    #       if ids.length > 0
-    #         ids[ids.length] = user.id if not ids.include? user.id
-    #       else
-    #         ids[0] = user.id if not ids.include? user.id
-    #       end
-    #       inviter.update(invited_ids: ids)
-    #     end
-    #   end
-    # end
+  def set_activated
+    self.update(activated: true)
+  end
 
+  def set_parent
     if self.invited_by_token.present?
       user = User.find_by(invitation_token: self.invited_by_token)
       user.invited_ids += [self.id]
@@ -272,18 +229,9 @@ class User < ApplicationRecord
       self.invited_by_id = user.id
       self.invitation_token = nil
 
-      until self.valid?
-        self.invitation_token = SecureRandom.urlsafe_base64(5)
-      end
-
       user.save
     else
-      self.role = "seller" unless ["aquisition", "assembler", "support", "finance"].include? current_user.role
-      self.activated = true
-
-      until self.valid?
-        self.invitation_token = SecureRandom.urlsafe_base64(5)
-      end
+      self.role = "seller" unless ["aquisition", "assembler", "support", "finance", "admin"].include? self.role
     end
 
     self.save

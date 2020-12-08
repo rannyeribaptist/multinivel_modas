@@ -271,7 +271,7 @@ ActiveRecord::Schema.define(version: 2020_10_28_172733) do
     t.string "invitation_token"
     t.string "invited_by_id"
     t.string "invited_by_token"
-    t.text "invited_ids", size: :long, default: "'--- []\\n'"
+    t.string "invited_ids", default: "--- []\n"
     t.string "sales_volume", default: "0,00"
     t.datetime "deleted_at"
     t.string "plan"
