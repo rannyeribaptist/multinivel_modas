@@ -4,7 +4,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
   :recoverable, :rememberable, :validatable
 
-  after_create :set_parent, :set_activated, :set_role, :generate_user_url, :create_shopping_cart, :generate_invitation_token
+  after_create :set_role, :set_parent, :set_activated, :generate_user_url, :create_shopping_cart, :generate_invitation_token
 
   has_one :address, dependent: :destroy
   has_one :bank_account_information, dependent: :destroy
@@ -27,9 +27,10 @@ class User < ApplicationRecord
   validates :role, acceptance: { accept: ["consultant", "seller", "admin", "manager", "employee"] }
   validates :graduation, acceptance: { accept: ["sênior", "bronze", "prata", "ouro", "diamante", "imperial"] }
   validates :plan, acceptance: { accept: ["consultor", "revendedor", "kit start"] }
+  validate :validate_token, on: :create
 
-  validates_presence_of :invitation_token, only: :update
-  validates_uniqueness_of :invitation_token, only: :update
+  # validates_presence_of :invitation_token, only: :update
+  # validates_uniqueness_of :invitation_token, only: :update
 
   validates_uniqueness_of :social_security_number, only: :update, :unless => lambda { self.tax_number.present? }
   validates_uniqueness_of :tax_number, only: :update, :unless => lambda { self.social_security_number.present? }
@@ -209,6 +210,13 @@ class User < ApplicationRecord
 
   private
 
+  def validate_token
+    return true if !self.invited_by_token.present?
+
+    user = User.find_by(invitation_token: self.invited_by_token)
+    user.present? ? return : self.errors.add(:invited_by_token, "Código de cadastro incorreto")
+  end
+
   def generate_invitation_token
     require 'securerandom'
     self.invitation_token = SecureRandom.urlsafe_base64(5)
@@ -221,14 +229,13 @@ class User < ApplicationRecord
   end
 
   def set_parent
+    return if ["manager", "employee", "admin", "seller"].include? self.role || self.invitation_token.empty?
+
     user = User.find_by(invitation_token: self.invited_by_token)
     user.invited_ids += [self.id]
-
-    self.invited_by_id = user.id
-    self.invitation_token = nil
-
     user.save
-    self.save
+
+    self.update(invited_by_id: user.id)
   end
 
   def set_role
@@ -240,11 +247,15 @@ class User < ApplicationRecord
   end
 
   def create_shopping_cart
+    return if ["manager", "employee", "admin", "seller"].include? self.role || self.invitation_token.empty?
+
     self.build_shopping_cart
     self.save
   end
 
   def generate_user_url
+    return if ["manager", "employee", "seller"].include? self.role || self.invitation_token.empty?
+
     url = UrlMinifier.new(user_id: self.id, code: self.invitation_token)
     url.number = rand(100000..999999)
 
